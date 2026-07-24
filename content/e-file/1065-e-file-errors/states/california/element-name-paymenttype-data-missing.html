@@ -1,0 +1,11 @@
+<div class="topic topic reference" id="_37ad6a93-68ba-4afb-b2cd-f4dc9ec81d9a">
+<h1 class="title" id="e-file-error-element-name-paymenttype"><div style="display: inline;">E-file error: element name PaymentType data missing</div></h1>
+<div style="display: inline;">
+<pre class="pre msgblock"><div style="display: inline;">Form: CA-Payment[1][@documentId='Payment] PaymentType[1]
+Requirement: Defines CA LLC payment types
+Error: The field 'PaymentType' with value '0', data is missing.</div></pre>
+<div class="shortdesc"><div style="display: inline;">This happens when the PaymentType field data is missing.</div></div>
+</div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">Common State </div></b><b class="ph uicontrol"><div style="display: inline;">General Information</div></b><b class="ph uicontrol"><div style="display: inline;">Bank Information</div></b><b class="ph uicontrol"><div style="display: inline;">Direct Debit </div></b></div></span> tab, then California LLC.</div></li><li class="li"><div style="display: inline;">Enter information for California LLC since <b class="ph uicontrol"><div style="display: inline;">Authorization to debit funds</div></b> is selected. Make sure to include Date and Amount to be Debited.</div></li><li class="li"><div style="display: inline;">If not payment is due then clear the <b class="ph uicontrol"><div style="display: inline;">Authorization to debit funds</div></b> checkbox.</div></li><li class="li"><div style="display: inline;">Do a full recompute and recreate the e-file.</div></li></div></ol></div></section></div>
+</div>

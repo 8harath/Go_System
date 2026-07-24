@@ -1,0 +1,14 @@
+<div class="topic topic reference" id="_2acd1740-0e0a-4d04-8d7a-906dcfad170a">
+<h1 class="title" id="e-file-error-39subtotal39-data-format"><div style="display: inline;">E-file error: 'Subtotal' data format is not correct</div></h1>
+<div style="display: inline;">
+<pre class="pre msgblock"><div style="display: inline;">Form: FormPTE1[1] SubTotalEntityTax[1]
+FormNumber: FormPTE1
+LineNumber: 24
+Description: Subtotal. Add lines 22 and 23.
+Requirement: Type for a U.S. non-negative amount field with dollars and cents
+Error: The field 'SubTotalEntityTax' with value '-XXXX' data format is not correct.</div></pre>
+<div class="shortdesc"><div style="display: inline;">This happens when there is a negative amount in the subtotal field.</div></div>
+</div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">In <b class="ph uicontrol"><div style="display: inline;">Tax Forms</div></b>, select <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">New Mexico</div></b><b class="ph uicontrol"><div style="display: inline;">PTE line 4</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">This amount cannot be negative since it is a total line.</div></li><li class="li"><div style="display: inline;">Subtract line 3 from the sum of line 1and 2.</div></li><li class="li"><div style="display: inline;">Do a full re-compute and re-create the e-file.</div></li></div></ol></div></section></div>
+</div>

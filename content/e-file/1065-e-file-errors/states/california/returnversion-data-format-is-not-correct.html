@@ -1,0 +1,17 @@
+<div class="topic topic reference" id="GUID-938c7f02-27b1-4248-8da3-4e29a5c84d91-enHYPHENus">
+<h1 class="title" id="error-the-attribute-39returnversion39-data"><div style="display: inline;">Error: The attribute 'returnVersion' data format is not correct</div></h1>
+<div class="shortdesc"><div style="display: inline;">This validation error occurs when the <b class="ph uicontrol"><div style="display: inline;">returnVersion</div></b> attribute doesn't match the supported schema versions.</div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">Validation failed on [FILE_ID]:
+
+Requirement: CA 568 Return - wraps around CA-Return Header 56X and CA-Return Data 568
+Error: The attribute 'returnVersion' with value '2025v4.3', data format is not correct.
+
+Element Name: CA-Return
+XPath: /CA-Return[1]
+XML Fragment: Field Key: 0,0,0,0,0,0,0,0,0
+Error Code: [CODE]
+Error Reason: '2025v4.3' violates enumeration constraint of '2025v4.0 2025v4.1'.
+The attribute 'returnVersion' with value '2025v4.3' failed to parse.</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<div class="p"><div style="display: inline;">Reset the California e-file setting to regenerate the return with a valid version.</div></div><ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">State E-file</div></b><b class="ph uicontrol"><div style="display: inline;">Enable/Create Returns</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Unmark the <b class="ph uicontrol"><div style="display: inline;">Enable</div></b> checkbox for California.</div></li><li class="li"><div style="display: inline;">Do a full recompute.</div></li><li class="li"><div style="display: inline;">Go back to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">State E-file</div></b><b class="ph uicontrol"><div style="display: inline;">Enable/Create Returns</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Remark the <b class="ph uicontrol"><div style="display: inline;">Enable</div></b> checkbox for California.</div></li><li class="li"><div style="display: inline;">Do a full recompute and recreate the e-file.</div></li></div></ol></div></section></div>
+</div>

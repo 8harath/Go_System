@@ -1,0 +1,19 @@
+<div class="topic topic reference" id="GUID-a6344a22-e593-4822-8174-7ac2e70fdb7b-enHYPHENus">
+<h1 class="title" id="error-field-39qualifedemployeesprior39-is-unexpected"><div style="display: inline;">Error: Field 'QualifedEmployeesPrior' is unexpected</div></h1>
+<div class="shortdesc"><div style="display: inline;">This error occurs on a Maryland Partnership Return when Schedule K-1 contains "NONE" entries in the One Maryland Economic Development Credit prior year fields. Clearing these entries resolves the validation error. Applies to: OneSource Income Tax, GoSystem Tax RS, and Income Tax Express RS.</div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">Validation failed on [FILE_ID]:
+
+Requirement: Expecting RefundableCreditPrior, NonrefundableCreditPrior, QualifiedEmployeesPrior, Employees5YearsPrior, ProjectIncomePrior, NonProjectIncomePrior, EmployeeCostsPrior, RequiredWithholdingTaxPrior, TotalProjectCostsPrior, TotalStartUpCostsPrior
+Error: Field 'QualifedEmployeesPrior' is unexpected
+There is an issue with the Maryland Partnership Return e-file. Please contact Thomson Reuters Support for this issue.
+
+Element Name: QualifedEmployeesPrior
+XPath: //ScheduleK1[@documentId='ScheduleK1']/Credits[1]/OneMDEconomicDevelopCrPr[1]/QualifedEmployeesPrior[1]
+XML Fragment: 0
+Field Key: 155,443,137,0,1,0,0,0,0
+Error Code: c00ce014
+Error Reason: Element '{http://www.irs.gov/efile}QualifedEmployeesPrior' is unexpected according to content model of parent element '{http://www.irs.gov/efile}OneMDEconomicDevelopCrPr'.
+Expecting: {http://www.irs.gov/efile}RefundableCreditPrior, {http://www.irs.gov/efile}NonrefundableCreditPrior, {http://www.irs.gov/efile}QualifiedEmployeesPrior, {http://www.irs.gov/efile}Employees5YearsPrior, {http://www.irs.gov/efile}ProjectIncomePrior, {http://www.irs.gov/efile}NonProjectIncomePrior, {http://www.irs.gov/efile}EmployeeCostsPrior, {http://www.irs.gov/efile}RequiredWithholdingTaxPrior, {http://www.irs.gov/efile}TotalProjectCostsPrior, {http://www.irs.gov/efile}TotalStartUpCostsPrior.</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Tax Forms</div></b><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">Maryland</div></b><b class="ph uicontrol"><div style="display: inline;">Sch K-1</div></b><b class="ph uicontrol"><div style="display: inline;">Sch K-1, Page 2</div></b></div></span> for all partners.</div></li><li class="li"><div style="display: inline;">Remove the NONE from <b class="ph uicontrol"><div style="display: inline;">Line 33a</div></b> and <b class="ph uicontrol"><div style="display: inline;">Line 36</div></b> for each partner so that the fields are blank.</div></li><li class="li"><div style="display: inline;">Run a full recompute and recreate the e-file.</div></li></div></ol></div></section></div>
+</div>

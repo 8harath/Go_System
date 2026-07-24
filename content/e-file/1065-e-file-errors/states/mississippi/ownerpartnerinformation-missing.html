@@ -1,0 +1,11 @@
+<div class="topic topic reference" id="_d017bb01-edc6-4634-b32e-5744f53f54aa">
+<h1 class="title" id="e-file-error-field-ownerpartnerinformation-missing"><div style="display: inline;">E-file error: Field OwnerPartnerInformation missing</div></h1>
+<div style="display: inline;">
+<pre class="pre msgblock"><div style="display: inline;">Form: Form84131[1] OwnerPartnerInformation[1]
+Requirement: Expecting PassThroughEntityElection, Status
+Error: Field 'OwnerPartnerInformation' is unexpected</div></pre>
+<div class="shortdesc"><div style="display: inline;">This happens when line 5 is empty.</div></div>
+</div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to Tax Forms.</div></li><li class="li"><div style="display: inline;">Select <b class="ph uicontrol"><div style="display: inline;">States</div></b>, then <b class="ph uicontrol"><div style="display: inline;">Mississippi</div></b>.</div></li><li class="li"><div style="display: inline;">Select <b class="ph uicontrol"><div style="display: inline;">84-131 (Sch K)</div></b>, then line 5.</div></li><li class="li"><div style="display: inline;">The state does not accept a blank line 5. It triggers a diagnostic.</div></li><li class="li"><div style="display: inline;">Enter <b class="ph uicontrol"><div style="display: inline;">NONE</div></b> or enter the information.</div></li><li class="li"><div style="display: inline;">Do a full recompute and recreate the e-file </div></li></div></ol></div></section></div>
+</div>

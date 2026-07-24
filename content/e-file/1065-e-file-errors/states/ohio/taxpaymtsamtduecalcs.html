@@ -1,0 +1,11 @@
+<div class="topic topic reference" id="_249b34fc-1c8e-48a6-a249-61f087fddd38">
+<h1 class="title" id="e-file-error-element-name-taxpaymtsamtduecalcs"><div style="display: inline;">E-file error: Element name TaxPaymtsAmtDueCalcs</div></h1>
+<div style="display: inline;">
+<pre class="pre msgblock"><div style="display: inline;">Form: FormIT4708[1][@documentId='FormIT4708] FormDetail[1]/TaxPaymtsAmtDueCalcs[1]
+Requirement: Expecting IntPenOnUnderpdEstimPymts, TaxableYear4708UPCPymts, Transferred1140And4738UPCPymts, PymtsTransfTo1140AndOverPymts, CurrYrTotalNetEstimPymts, VerifiedEstPayments, PriorYearCreditCarryOver, TotalRefundableBusCredits, TotalPymtsAndCredits, Overpaid, Underpaid
+Error: Content for field 'TaxPaymtsAmtDueCalcs' is incomplete</div></pre>
+<div class="shortdesc"><div style="display: inline;">You get this error when the TaxPaymtsAmtDueCalcs is incomplete.</div></div>
+</div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <b class="ph uicontrol"><div style="display: inline;">Organizer </div></b> and select <b class="ph uicontrol"><div style="display: inline;">States</div></b>.</div></li><li class="li"><div style="display: inline;">Select <b class="ph uicontrol"><div style="display: inline;">Ohio</div></b>, then <b class="ph uicontrol"><div style="display: inline;">IT 4708</div></b>. </div></li><li class="li"><div style="display: inline;">Select <b class="ph uicontrol"><div style="display: inline;">Taxable Income and Deductions</div></b> and in the <b class="ph uicontrol"><div style="display: inline;">Tax, Payments and Net Tax Calculation</div></b> section, enter <span class="ph userinput"><div style="display: inline;">NONE</div></span> for  <b class="ph uicontrol"><div style="display: inline;">Net Tax Due (Override)</div></b> and <b class="ph uicontrol"><div style="display: inline;">Overpayment (Override)</div></b> since there is no tax due or enter any overpayment amount. </div></li><li class="li"><div style="display: inline;">Perform a Full Recompute then recreate the XML.</div></li></div></ol></div></section></div>
+</div>

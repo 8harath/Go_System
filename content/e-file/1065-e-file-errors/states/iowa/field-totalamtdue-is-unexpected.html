@@ -1,0 +1,21 @@
+<div class="topic topic reference" id="GUID-b9895382-2020-4e16-8a6a-2fb8a3715c74-enHYPHENus">
+<h1 class="title" id="error-field-39totalamtdue39-is-unexpected"><div style="display: inline;">Error: Field 'TotalAmtDue' is unexpected</div></h1>
+<div class="shortdesc"><div style="display: inline;">This error occurs when Lines 11, 12, and 13 on Iowa PTE-C Page 2 are blank. The state schema requires these fields to contain a value.</div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">1. Validation failed on [FILE_ID]:
+
+Form: FormIAPTEC[1][@documentId='FormIAPTEC] TotalAmtDue[1]
+Description: TOTAL AMOUNT DUE
+LineNumber: 14
+Requirement: Expecting RefundsCarryforwards, TotalLessRefundsCarryfwds, Overpayment, TaxOwed
+Error: Field 'TotalAmtDue' is unexpected
+
+Element Name: TotalAmtDue
+XPath: //FormIAPTEC[@documentId='FormIAPTEC']/TotalAmtDue[1]
+XML Fragment: 0.0
+Field Key: 130,364,18,0,0,0,0,0,0
+Error Code: c00ce014
+Error Reason: Element '{http://www.irs.gov/efile}TotalAmtDue' is unexpected according to content model of parent element '{http://www.irs.gov/efile}FormIAPTEC'.
+Expecting: {http://www.irs.gov/efile}RefundsCarryforwards, {http://www.irs.gov/efile}TotalLessRefundsCarryfwds, {http://www.irs.gov/efile}Overpayment, {http://www.irs.gov/efile}TaxOwed.</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Tax Forms</div></b><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">Iowa</div></b><b class="ph uicontrol"><div style="display: inline;">PTE-C</div></b><b class="ph uicontrol"><div style="display: inline;">PTE-C Page 2</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Enter <b class="ph uicontrol"><div style="display: inline;">NONE</div></b> in Lines 11, 12, and 13. These lines can't be blank.</div></li><li class="li"><div style="display: inline;">Do a full recompute and recreate the e-file.</div></li></div></ol></div></section></div>
+</div>

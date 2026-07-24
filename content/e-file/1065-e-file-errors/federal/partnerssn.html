@@ -1,0 +1,14 @@
+<div class="topic topic reference" id="_2d534509-8aea-4d48-9927-9179b61a00a4">
+<h1 class="title" id="e-file-error-partnerssn"><div style="display: inline;">E-file error: PartnerSSN</div></h1>
+<div style="display: inline;">
+<pre class="pre msgblock"><div style="display: inline;">Form: IRS1065ScheduleK1[12][@documentId='IRS1065ScheduleK1N11] PartnerSSN[1]
+Description: Partner's SSN
+LineNumber: Schedule K-1 Part II Line E
+Requirement: Type for Social Security No. - 9 digits
+Error: The field 'PartnerSSN' with value 'XXXXXXXXX', data format is not correct.</div></pre>
+<div class="shortdesc"><div style="display: inline;">You can get this error when the SSN or EIN isn't properly formatted.</div></div>
+</div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <b class="ph uicontrol"><div style="display: inline;">Organizer</div></b> and select <b class="ph uicontrol"><div style="display: inline;">Partner Information</div></b>, then <b class="ph uicontrol"><div style="display: inline;">Partner by Partner Data</div></b>.</div></li><li class="li"><div style="display: inline;">Select the partner's name that is causing the error. You can tell what partner it is from the error. Their SSN  or EIN is in the "Error: The field 'PartnerSSN' with value 'XXXXXXXXX', data format is not correct." portion of the error.</div></li><li class="li"><div style="display: inline;">Select <b class="ph uicontrol"><div style="display: inline;">Partner Information</div></b>.</div></li><li class="li"><div style="display: inline;">In the <span class="keyword wintitle"><div style="display: inline;">SSN \ EIN</div></span> section, review what is selected in the <span class="keyword wintitle"><div style="display: inline;">Options</div></span> area.
+          <ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">If <b class="ph uicontrol"><div style="display: inline;">SSN \ EIN (Default)</div></b> is selected, make sure the <b class="ph uicontrol"><div style="display: inline;">SSN \ EIN (No other entry allowed)</div></b> field has a 9 digit number that isn't all 9s or 0s, and the hyphens are in the correct place.</div></li><li class="li"><div style="display: inline;">If <b class="ph uicontrol"><div style="display: inline;">Applied for</div></b> or <b class="ph uicontrol"><div style="display: inline;">Foreign US Partner</div></b> is selected, then <b class="ph uicontrol"><div style="display: inline;">SSN \ EIN (No other entry allowed)</div></b> should be empty.</div></li></div></ol></div></li><li class="li"><div style="display: inline;">Do a full re-compute and re-create the e-file.</div></li></div></ol></div></section></div>
+</div>

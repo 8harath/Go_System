@@ -1,0 +1,10 @@
+<div class="topic topic concept" id="fpymt-096-e-file-error" lang="en-US">
+<h1 class="title" id="fpymt-096-e-file-error"><div style="display: inline;">FPYMT-096 e-file error </div></h1>
+<div style="display: inline;">
+<pre class="pre msgblock"><div style="display: inline;">If the timestamp (in the GTX key or Response to Send Submissions Request) is after the due date of the return (three and one half months after the Tax Period End Dt in the Return Header if the month in the Tax Period End Dt does not equal June), then the Requested Payment Dt in the "IRS Payment" [IRS Payment] must not be later than the date the return was received and must not be prior to five days before the date the return was received by the IRS
+ </div></pre>
+<div class="shortdesc"><div style="display: inline;">This happens when the Date to be debited entered is more than 5 days prior the submission or in the future date when the return was submitted.</div></div>
+</div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">In Organizer, select <b class="ph uicontrol"><div style="display: inline;">General Information</div></b>, then <b class="ph uicontrol"><div style="display: inline;">Bank Information</div></b> and return tab.</div></li><li class="li"><div style="display: inline;">In the <b class="ph uicontrol"><div style="display: inline;">Direct Debit (Electronic Funds Withdrawal)</div></b> section, enter the date to be debited.</div></li><li class="li"><div style="display: inline;">Make sure the date need to be the day you submit the return or up to 5 days prior, but can't be in the future.</div></li><li class="li"><div style="display: inline;">Once done, full recompute and recreate the e-file</div></li></div></ol></div></section></div>
+</div>

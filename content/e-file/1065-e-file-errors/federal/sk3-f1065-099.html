@@ -1,0 +1,17 @@
+<div class="topic topic reference" id="reference_9abe4012-b809-4d3f-b5c0-e99b36ba3394">
+<h1 class="title" id="sk3-f1065-099-e-file-error"><div style="display: inline;">SK3-F1065-099 e-file error</div></h1>
+<div class="shortdesc"><div style="display: inline;">You'll get this error if Schedule K-3 isn't correctly referenced in the return. </div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">Federal  
+  Severity: Reject
+  Form No: SK3-F1065
+  Record Name: NA
+  Form Occurrence No: 0
+  Field Seq No: 0
+  Page No: 1
+  Reject Code: SK3-F1065-099
+  Rule Number: SK3-F1065-099
+  XML Path: //efile:IRS1065ScheduleK3[./@documentId = IRS1065ScheduleK3A1 ]
+  Error Message: If Schedule K-3 (Form 1065) is present in the return, then it must be referenced from one and only one Schedule K-1 (Form 1065).</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">Partner Information</div></b><b class="ph uicontrol"><div style="display: inline;">Common Partner Data</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">In the <b class="ph uicontrol"><div style="display: inline;">Defaults for All Partners</div></b> section, go to the <b class="ph uicontrol"><div style="display: inline;">Attach Schedule K-3 to Schedule K-1 (Override)</div></b> subsection.</div></li><li class="li"><div style="display: inline;">Select an option other than <b class="ph uicontrol"><div style="display: inline;">None Selected</div></b>.</div></li><li class="li"><div style="display: inline;">Do a full recompute, recreate the e-file, and resubmit the return.</div></li><li class="li"><div style="display: inline;">Verify each Schedule K-1 with a Schedule K-3 has Line 16 marked. If you're using Direct K-1, verify this under the <b class="ph uicontrol"><div style="display: inline;">DK1</div></b> folder in <b class="ph uicontrol"><div style="display: inline;">Tax Forms</div></b>.</div></li><li class="li"><div style="display: inline;">Verify there's a Schedule K-3 outputting in the XML for each Schedule K-1 that's marked.</div></li><li class="li"><div style="display: inline;">Verify that Schedule K-3 is aligned with each Schedule K-1, especially if you're using Direct K-1.</div></li></div></ol></div></section></div>
+</div>
