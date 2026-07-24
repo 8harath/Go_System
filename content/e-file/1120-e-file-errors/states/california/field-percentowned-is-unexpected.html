@@ -1,0 +1,22 @@
+<div class="topic topic reference" id="GUID-e9184f32-c325-4cc8-ace4-7831ca2e5ce4-enHYPHENus">
+<h1 class="title" id="error-field-39percentowned39-is-unexpected"><div style="display: inline;">Error: Field 'PercentOwned' is unexpected</div></h1>
+<div class="shortdesc"><div style="display: inline;">This error occurs when the Ownership % field contains an invalid value on the California Ownership Control Statement. The percentage must be entered as a decimal (for example, 1 instead of 100).</div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">Validation failed on [FILE_ID]:
+
+Form: CA-OwnershipControlStatement[1][@documentId='OwnCtrlStmtK100012YC1] StatementOfOwnership[1]/OwnerInformation[1]/PercentOwned[1]
+Description: Owner percent owned
+Requirement: Expecting SSN, FEIN, ITIN, MissingIdReason
+Error: Field 'PercentOwned' is unexpected
+
+Element Name: PercentOwned
+XPath: //CA-OwnershipControlStatement[@documentId='OwnCtrlStmtK100012YC1']/StatementOfOwnership[1]/OwnerInformation[1]/PercentOwned[1]
+XML Fragment: 0.0100
+Field Key: 105,1608,143,0,0,0,0,0,0
+Error Code: c00ce014
+Error Reason: Element '{http://www.ftb.ca.gov/efile}PercentOwned' is unexpected according to content model of parent element '{http://www.ftb.ca.gov/efile}OwnerInformation'.
+Expecting: {http://www.ftb.ca.gov/efile}SSN, {http://www.ftb.ca.gov/efile}FEIN, {http://www.ftb.ca.gov/efile}ITIN, {http://www.ftb.ca.gov/efile}MissingIdReason.
+
+Form 100/100W, Question K, Ownership Control Statement ID Number: If the ID type chosen is FEIN, SSN, or ITIN, the ID number must be entered. Otherwise, choose a "Not Applicable" option. There are reject diagnostics in the parent and/or subsidiary returns. Double click on this diagnostic, then subview on the field to see which members contain errors. Clear these diagnostics then reconsolidate.</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">California</div></b><b class="ph uicontrol"><div style="display: inline;">General Information</div></b><b class="ph uicontrol"><div style="display: inline;">Ownership Information Part 1 or Part 2</div></b><b class="ph uicontrol"><div style="display: inline;">(NAME)</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Under the <b class="ph uicontrol"><div style="display: inline;">Foreign Address</div></b> section, locate the <b class="ph uicontrol"><div style="display: inline;">Ownership %</div></b> field.</div></li><li class="li"><div style="display: inline;">Enter the ownership percentage as a decimal.</div></li><li class="li"><div style="display: inline;">Reconsolidate and recreate the e-file.</div></li></div></ol><div class="note" data-label="NOTE"><span class="headerTitle" style="text-transform: capitalize;">note</span><div style="display: inline;">The Ownership % value can't be greater than 1.0. For example, enter 1 for 100% ownership or 0.5 for 50% ownership.</div></div></div></section></div>
+</div>

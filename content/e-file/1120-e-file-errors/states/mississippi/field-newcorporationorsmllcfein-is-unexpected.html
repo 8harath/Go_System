@@ -1,0 +1,22 @@
+<div class="topic topic reference" id="GUID-365b5954-52cb-4ac6-b7b0-f8d489a1daef-enHYPHENus">
+<h1 class="title" id="error-field-newcorporationorsmllcfein-is-unexpected"><div style="display: inline;">Error: Field “NewCorporationOrSMLLCFEIN” is unexpected</div></h1>
+<div class="shortdesc"><div style="display: inline;">This error occurs when e-filing MS Form 83105 with a final return status (sold, merged, or converted to SMLLC). The schema requires the new corporation/SMLLC owner's address before accepting the FEIN.</div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">1. Validation failed on [FILE_ID]:
+
+Form: Form83105[1] Status[1]/FinalReturn[1]/SoldMerged[1]/NewCorporationOrSMLLCFEIN[1]
+LineNumber: Page 2, Part I, Line 3
+Description: If the Corporation has been Sold, Merged or Converted to a Single-Member LLC (SMLLC), Enter the FEIN of the New Existing Corporation or Owner of the SMLLC
+ReferenceNumber: 41
+Requirement: Expecting NewCorporationOrSMLLCAddress
+Error: Field 'NewCorporationOrSMLLCFEIN' is unexpected
+
+Element Name: NewCorporationOrSMLLCFEIN
+XPath: /ReturnState[1]/ReturnDataState[1]/Form83105[1]/Status[1]/FinalReturn[1]/SoldMerged[1]/NewCorporationOrSMLLCFEIN[1]
+XML Fragment: ******
+Field Key: 127,446,9,0,0,0,0,0,0
+Error Code: c00ce014
+Error Reason: Element '{http://www.irs.gov/efile}NewCorporationOrSMLLCFEIN' is unexpected according to content model of parent element '{http://www.irs.gov/efile}SoldMerged'.
+Expecting: {http://www.irs.gov/efile}NewCorporationOrSMLLCAddress.</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">Mississippi</div></b><b class="ph uicontrol"><div style="display: inline;">E-file</div></b><b class="ph uicontrol"><div style="display: inline;">New Existing Co.</div></b></div></span> and fill out the US or foreign address completely.</div></li><li class="li"><div style="display: inline;">Do a full recompute, then print.</div></li></div></ol></div></section></div>
+</div>

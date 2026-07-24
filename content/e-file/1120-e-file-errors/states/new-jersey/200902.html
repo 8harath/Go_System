@@ -1,0 +1,19 @@
+<div class="topic topic concept" id="GUID-23f92e75-3efe-43dc-9885-53c3320a48fc" lang="en-US">
+<h1 class="title" id="section-200902-e-file-error"><div style="display: inline;">200902 e-file error</div></h1>
+<div class="shortdesc"><div style="display: inline;">New Jersey counts tax periods by month. This reject happens when the tax period end date is missing, invalid, or exceeds 12 months. Fiscal year filers and 52/53 week filers often get this error when dates don't align with New Jersey's requirements.</div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">State NJ
+Severity REJECT
+State Record
+Record Name NA
+Form Occurrence No 0
+Field Seq No 0
+Page No 1
+Reject Code 200902
+Rule Number 200902
+XML Path /ReturnState/ReturnHeaderState/TaxPeriodEndDate
+Error Message Header Return Period End Date Missing/Invalid[/STYLE]</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+      Complete these steps to resolve the reject:
+      <ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">General Information</div></b><b class="ph uicontrol"><div style="display: inline;">Basic Return Information</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Find the <b class="ph uicontrol"><div style="display: inline;">Dates</div></b> section. </div></li><li class="li"><div style="display: inline;">Review the <b class="ph uicontrol"><div style="display: inline;">Fiscal year beginning</div></b> and <b class="ph uicontrol"><div style="display: inline;">Fiscal year ending</div></b> dates. The period can't exceed 12 months.
+          <div class="note important" data-label="IMPORTANT"><span class="headerTitle" style="text-transform: capitalize;">important</span><div style="display: inline;"> New Jersey doesn't have a 52/53 week filer option. For federal 52/53 week returns, override the dates to match the 12-month return dates used for the federal return.</div></div></div></li><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">Common State</div></b><b class="ph uicontrol"><div style="display: inline;">General Information</div></b><b class="ph uicontrol"><div style="display: inline;">State Dates</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Locate the <b class="ph uicontrol"><div style="display: inline;">Fiscal Year Date Overrides</div></b> section.</div></li><li class="li"><div style="display: inline;">Enter the deemed 12-month return dates used for the federal return.</div></li><li class="li"><div style="display: inline;">If the return still gets rejected, contact the New Jersey Division of Taxation to double check the correct dates.</div></li></div></ol></div></section></div>
+</div>

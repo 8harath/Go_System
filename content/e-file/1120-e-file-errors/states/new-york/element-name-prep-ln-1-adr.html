@@ -1,0 +1,22 @@
+<div class="topic topic reference" id="GUID-17bad7c1-9096-438d-a10c-69b424f569f7-enHYPHENus">
+<h1 class="title" id="element-name-prep_ln_1_adr-e-file-error"><div style="display: inline;">Element name: PREP_LN_1_ADR e-file error</div></h1>
+<div style="display: inline;">
+<pre class="pre msgblock"><div style="display: inline;">
+Validation failed on CXXXXXX4.xny:
+
+Form: processBO[1] composition[1]/forms[1]/CT3ABC[1]/PREP_LN_1_ADR[1]
+Requirement: Expecting AUTH_OFCR_SGN_DT
+Error: Field 'PREP_LN_1_ADR' is unexpected
+
+Element Name: PREP_LN_1_ADR
+XPath: /ReturnState[1]/ReturnDataState[1]/processBO[1]/composition[1]/forms[1]/CT3ABC[1]/PREP_LN_1_ADR[1]
+XML Fragment:
+Field Key: 167,304,25,0,0,0,0,0,0
+Error Code: c00ce014
+Error Reason: Element '{http://www.irs.gov/efile}PREP_LN_1_ADR' is unexpected according to content model of parent element '{http://www.irs.gov/efile}CT3ABC'.
+Expecting: {http://www.irs.gov/efile}AUTH_OFCR_SGN_DT.</div></pre>
+<div class="shortdesc"><div style="display: inline;">This generally occurs when the tax office has already transmitted this return and the reject is simply a duplicate filing. It also occurs when the preparer is attempting to amend the Form <b class="ph b"><div style="display: inline;">1120</div></b> and has failed to mark the return as an amended return.</div></div>
+</div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">In Organizer, select <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">States</div></b><b class="ph uicontrol"><div style="display: inline;">Common State</div></b><b class="ph uicontrol"><div style="display: inline;">Basic Return Information</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Open the <b class="ph uicontrol"><div style="display: inline;">Signature Information</div></b> tab.</div></li><li class="li"><div style="display: inline;">Go to the row for <b class="ph uicontrol"><div style="display: inline;">New York</div></b>, Column L and enter the <b class="ph uicontrol"><div style="display: inline;">Signature Date</div></b> for all members.</div></li><li class="li"><div style="display: inline;">If this is a consolidation then select <b class="ph uicontrol"><div style="display: inline;">Subview</div></b> in the field and verify all members and enter their information.</div></li><li class="li"><div style="display: inline;">Do a full recompute of all members, reconsolidate, then create the e-file.</div></li></div></ol></div></section></div>
+</div>

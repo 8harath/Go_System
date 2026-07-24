@@ -1,0 +1,17 @@
+<div class="topic topic reference" id="GUID-44df8bf0-0f69-46a8-b2a2-bd2b8bfb041d-enHYPHENus">
+<h1 class="title" id="error-the-field-39ein39-with"><div style="display: inline;">Error: The field 'EIN' with value '0', data is missing.</div></h1>
+<div class="shortdesc"><div style="display: inline;">A locator is missing an EIN. </div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error Message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">
+Validation failed on:
+Form: SchUM[2][@documentId='SchUM12345OC1] MembersNameFID[1]/FID[1]/EIN[1]
+Requirement: Type for Employer Identification No. - 9 digits
+Error: The field 'EIN' with value '0', data is missing.
+Element Name: EIN
+XPath: //SchUM[@documentId='SchUM12345OC1']/MembersNameFID[1]/FID[1]/EIN[1]
+XML Fragment: &lt;EIN xmlns="http://www.irs.gov/efile"&gt;0&lt;/EIN&gt;
+Error Code: c00ce169
+Error Reason: '0' violates pattern constraint of '[0-9]{9}'.
+The element '{http://www.irs.gov/efile}EIN' with value '0' failed to parse.</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">General Information</div></b><b class="ph uicontrol"><div style="display: inline;">Basic Return Information</div></b><b class="ph uicontrol"><div style="display: inline;">Entity Information tab</div></b></div></span> . When the elimination doesn't have an EIN, 99-9999999 is commonly used. </div></li><li class="li"><div style="display: inline;">Add an EIN for the top consolidated locator and all lower members, including the eliminations.</div></li><li class="li"><div style="display: inline;">Do a full recompute, reconsolidate, and recreate the e-file. </div></li></div></ol></div></section></div>
+</div>
