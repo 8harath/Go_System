@@ -1,9 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "//": "GoSystem Tax RS Help portal. The deployable static output is ./site, produced by build.sh. NOTE: build.sh needs BOTH Python (venv + requirements.txt) and Node (Pagefind). The recommended flow is to build in CI (.github/workflows/refresh.yml) and deploy the prebuilt ./site. The buildCommand below only works if the Vercel runtime also has Python 3 available.",
   "buildCommand": "bash build.sh",
   "outputDirectory": "site",
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
   "headers": [
     {
@@ -13,6 +12,5 @@
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
     }
-  ],
-  "//x-robots-tag": "OPTIONAL — USER'S CHOICE (JSON has no comments, so this option is documented here rather than commented out). This portal republishes Thomson Reuters copyrighted help content. If you do NOT want search engines to index the public deployment, add this object to the headers[0].headers array above: { \"key\": \"X-Robots-Tag\", \"value\": \"noindex\" }"
+  ]
 }

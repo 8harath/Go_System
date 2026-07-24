@@ -152,8 +152,26 @@ build image has Python 3 — otherwise prefer the CI flow above). Copy
 
 ### Vercel
 
-Config: `deploy/vercel.json` (output dir `site`). To deploy a locally-built site
-without Vercel re-running the Python build:
+The root **`vercel.json`** is the active config: a **prebuilt static deploy**.
+`site/` is committed, so importing the repo into Vercel "just works" — Vercel
+serves `./site` as-is with no build step. `framework: null` plus the no-op
+`installCommand`/`buildCommand` stop Vercel from auto-detecting this as a Python
+(`requirements.txt`) or Node (`package.json`) project. It also sends long
+`Cache-Control` headers for the immutable Pagefind index and short,
+revalidating ones for the JSON/JS/CSS assets.
+
+> **Zero-config import:** In the Vercel dashboard, *Add New → Project*, pick this
+> repo, leave every Build & Output setting on its default, and deploy. Nothing
+> else is required. After changing content, re-run `./build.sh` locally and
+> re-commit `./site`, then push — Vercel redeploys automatically.
+
+Note: **`vercel.json` cannot contain comments or unknown keys** — Vercel's schema
+sets `additionalProperties: false` and rejects an unknown top-level key (e.g. a
+`"//"` comment) with an `Invalid vercel.json` build error. Keep it comment-free.
+
+`deploy/vercel.json` is an **alternative** config for letting Vercel run the full
+build (`bash build.sh`) itself; that only works if the build image has Python 3.
+To deploy a locally-built site with the Vercel CLI instead of the dashboard:
 
 ```bash
 ./build.sh
@@ -162,15 +180,19 @@ printf '{ "version": 3 }' > .vercel/output/config.json
 npx vercel deploy --prebuilt --prod
 ```
 
-Copy `deploy/vercel.json` to the repo root if you let Vercel build directly.
-
 ### Search-engine indexing (your choice)
 
-Both host configs include an **optional, off-by-default** `X-Robots-Tag: noindex`
-header (a real commented-out line in `netlify.toml`; a documented note in
-`vercel.json` since JSON has no comments). Because this portal republishes
-third-party copyrighted content, you may prefer to **discourage public search
-indexing** — enable that header if so. It is entirely your call.
+Because this portal republishes third-party copyrighted content, you may prefer
+to **discourage public search indexing**. `netlify.toml` ships an optional,
+off-by-default `X-Robots-Tag: noindex` header (a real commented-out line). To do
+the same on Vercel, add this object to the `headers[0].headers` array (the
+`/(.*)` rule) in the root `vercel.json`:
+
+```json
+{ "key": "X-Robots-Tag", "value": "noindex" }
+```
+
+It is entirely your call.
 
 ---
 
