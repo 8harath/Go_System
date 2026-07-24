@@ -1,0 +1,19 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "//": "GoSystem Tax RS Help portal — PREBUILT STATIC DEPLOY. The deployable output (./site) is committed to git, so Vercel serves it as-is with no build. framework:null + the no-op build/install commands stop Vercel from auto-detecting this as a Python app (it has requirements.txt at the root for local/CI tooling only). After changing content, re-run build.sh locally and re-commit ./site.",
+  "framework": null,
+  "buildCommand": "echo 'Serving prebuilt static site from ./site — no build step.'",
+  "installCommand": "echo 'No dependencies to install.'",
+  "outputDirectory": "site",
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}

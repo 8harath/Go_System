@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Error: The field &#39;Loss&#39; with value &#39;NONE&#39;, data format is not correct · GoSystem Tax RS Help Search</title>
+  <meta name="description" content="Error: The field &#39;Loss&#39; with value &#39;NONE&#39;, data format is not correct — GoSystem Tax RS help (Form e-file).">
+  <meta name="color-scheme" content="light dark">
+  <script>
+  (function () {
+    var d = document.documentElement;
+    try { var t = localStorage.getItem("gs-theme"); if (t === "light" || t === "dark") d.setAttribute("data-theme", t); } catch (e) {}
+    function cur() { var a = d.getAttribute("data-theme"); return a === "dark" ? "dark" : "light"; }
+    function sync() { var b = document.querySelector("[data-theme-toggle]"); if (!b) return; var c = cur(); b.setAttribute("aria-pressed", c === "dark"); var l = b.querySelector("[data-theme-label]"); if (l) l.textContent = c === "dark" ? "Dark" : "Light"; }
+    function set(t) { d.setAttribute("data-theme", t); try { localStorage.setItem("gs-theme", t); } catch (e) {} sync(); }
+    addEventListener("DOMContentLoaded", function () { sync(); var b = document.querySelector("[data-theme-toggle]"); if (b) b.addEventListener("click", function () { set(cur() === "dark" ? "light" : "dark"); }); });
+  })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true">GS</span>
+        <span class="brand__name">e-file&nbsp;resolver</span>
+        <span class="brand__sub">GoSystem Tax&nbsp;RS</span>
+      </a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a class="topbar__link" href="/">Resolver</a>
+        <button type="button" class="themetoggle" data-theme-toggle aria-label="Switch between light and dark theme" aria-pressed="false">
+          <svg class="i-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="i-moon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+          <span class="themetoggle__label" data-theme-label>Light</span>
+        </button>
+        <kbd class="kbd kbd--hint" data-focus-search title="Press / to search">/</kbd>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+<div class="wrap article-wrap">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol>
+      <li>
+<a href="/">GoSystem Tax RS</a>
+      </li>
+      <li>
+<a href="/e-file/index.html">e-file</a>
+      </li>
+      <li>
+<a href="/e-file/1065-e-file-errors/index.html">1065 e-file errors</a>
+      </li>
+      <li>
+<a href="/e-file/1065-e-file-errors/states/index.html">States</a>
+      </li>
+      <li>
+<a href="/e-file/1065-e-file-errors/states/california/index.html">California</a>
+      </li>
+      <li>
+<span aria-current="page">Error: The field &#39;Loss&#39; with value &#39;NONE&#39;, data format is not correct</span>      </li>
+    </ol>
+  </nav>
+
+  <article class="doc">
+    <header class="doc__head">
+      <div class="doc__tags">
+        <span class="tag tag--form">Form e-file</span>
+<span class="tag tag--code">15661</span>      </div>
+      <h1 class="doc__title">Error: The field &#39;Loss&#39; with value &#39;NONE&#39;, data format is not correct</h1>
+    </header>
+
+    <div class="doc__body prose">
+      <p>This error occurs when the Loss field on California Form 565 or Form 568 Schedule EO contains an invalid value such as "NONE" instead of a valid decimal format. The California e-file schema requires loss percentages to be between 0% and 100%, entered as a decimal with up to 6 digits and 4 required fraction digits.</p>
+<h2>Error message</h2>
+<pre><code>Validation failed on [FILE_ID]:
+
+Form: CAForm565ScheduleEO[1][@documentId='CAForm565ScheduleEO] PartialOwnership[1]/Loss[1]
+Description: Loss Percentage
+LineNumber: Part I
+Requirement: CA type for a non-negative decimal that allows up to 6 digits and 4 required fraction digits
+Error: The field 'Loss' with value 'NONE', data format is not correct.
+
+Element Name: Loss
+XPath: //CAForm565ScheduleEO[@documentId='CAForm565ScheduleEO']/PartialOwnership[1]/Loss[1]
+XML Fragment: NONE
+Field Key: 85,15661,132,0,0,0,0,0,0
+Error Code: [CODE]
+Error Reason: 'NONE' violates pattern constraint of '[0-9]?[0-9]?.[0-9][0-9][0-9][0-9]'.
+The element '{http://www.ftb.ca.gov/efile}Loss' with value 'NONE' failed to parse.
+</code></pre>
+<h2>Solution</h2>
+<ul>
+<li>Go to </li>
+</ul>
+<p><strong>Organizer</strong><strong>States</strong><strong>California</strong><strong>Other State Forms</strong><strong>Schedule EO</strong><strong>Part I - Partial Ownership of less than 100%</strong></p>
+<p>.
+- Remove the NONE value from the <strong>Loss</strong> column. If there's no percentage or 0%, leave the field blank.
+- Run a full recompute and create the e-file.</p>
+<p>note</p>
+<p>The percentages for partners can't be less than 0 or greater than 100% as per California's e-filing schema. Enter all ratios as fractions (for example, enter 23% as .23).</p>
+    </div>
+
+
+    <aside class="source" aria-label="Source">
+      <p class="source__note">Reproduced from Thomson Reuters. Read the canonical version:</p>
+      <a class="source__link" href="https://www.thomsonreuters.com/en-us/help/gosystem-tax-rs/e-file/1065-e-file-errors/states/california/loss-with-value-none-data-format-not-correct" target="_blank" rel="noopener nofollow">
+        Source: Thomson Reuters <span aria-hidden="true">↗</span>
+      </a>
+    </aside>
+  </article>
+</div>
+  </main>
+
+</body>
+</html>
