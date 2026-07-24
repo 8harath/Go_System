@@ -1,0 +1,94 @@
+name: Refresh & Deploy
+
+# Weekly re-scrape of ALL sections, rebuild the static site, and deploy.
+# Also runnable on demand from the Actions tab (workflow_dispatch).
+on:
+  schedule:
+    # 07:00 UTC every Monday.  (minute hour day-of-month month day-of-week)
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+    inputs:
+      sections:
+        description: "Sections to build (709 | all | comma list)"
+        required: false
+        default: "all"
+
+# ---------------------------------------------------------------------------
+# REQUIRED SECRETS
+# Configure under: repo Settings -> Secrets and variables -> Actions.
+# The names below are PLACEHOLDERS — do NOT paste real tokens into this file.
+#
+#   Netlify deploy (the default/active path below):
+#     NETLIFY_AUTH_TOKEN  — Netlify personal access token (User settings -> Applications)
+#     NETLIFY_SITE_ID     — target site's API ID (Site settings -> General -> Site details)
+#
+#   Vercel deploy (the commented-out alternative path below):
+#     VERCEL_TOKEN        — Vercel token (Account Settings -> Tokens)
+#     VERCEL_ORG_ID       — from .vercel/project.json after `vercel link`
+#     VERCEL_PROJECT_ID   — from .vercel/project.json after `vercel link`
+# ---------------------------------------------------------------------------
+
+permissions:
+  contents: read
+
+concurrency:
+  group: refresh-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      # workflow_dispatch input wins; scheduled runs default to ALL sections.
+      # build.sh expands "all" to the canonical 10-section list.
+      SECTIONS: ${{ github.event.inputs.sections || 'all' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Create venv & install Python deps
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install --upgrade pip
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Install Node deps (Pagefind)
+        run: npm install
+
+      - name: Run full pipeline (scrape -> build -> codes -> pagefind)
+        run: bash build.sh
+
+      # --- Deploy: Netlify (default — deploys the prebuilt ./site) -----------
+      - name: Deploy to Netlify
+        run: |
+          npm install --global netlify-cli
+          netlify deploy --dir=site --prod \
+            --auth "$NETLIFY_AUTH_TOKEN" --site "$NETLIFY_SITE_ID"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      # --- Deploy: Vercel (alternative — uncomment to use instead of Netlify) -
+      # build.sh needs Python, so we deploy the ALREADY-built ./site via the
+      # Vercel Build Output API to avoid Vercel re-running the build.
+      # - name: Deploy to Vercel
+      #   run: |
+      #     npm install --global vercel@latest
+      #     mkdir -p .vercel/output/static
+      #     cp -R site/. .vercel/output/static/
+      #     printf '{ "version": 3 }' > .vercel/output/config.json
+      #     vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+      #   env:
+      #     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      #     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      #     VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
