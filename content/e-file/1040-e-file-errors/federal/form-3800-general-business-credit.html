@@ -1,0 +1,15 @@
+<div class="topic topic concept" id="e-file-diagnostic-form-3800---general-business-credit" lang="en-US">
+<h1 class="title" id="e-file-diagnostic-form-3800--"><div style="display: inline;">E-file diagnostic: Form 3800 - General Business Credit:</div></h1>
+<div style="display: inline;">
+<div class="shortdesc"><div style="display: inline;">Learn how to resolve various Form 3800 e-file diagnostic errors that occur when required line items are missing values based on entries in other parts of the form.</div></div>
+<div class="p"><div style="display: inline;">One or more e-file diagnostics appear for Form 3800. Examples include:</div></div>
+<pre class="pre msgblock"><div style="display: inline;">
+Form 3800 - General Business Credit: If Part III, line 6, column (f) has a value and Part III Line 3, column (j) has a non-zero value, then Form 3800, Part II, line 24 must have a value.
+ </div></pre>
+<pre class="pre msgblock"><div style="display: inline;">Form 3800 – General Business Credit: If Part III Line 2, column (f) has a non-zero value, then Form 3800 Part I, line 3 must have a value.</div></pre>
+<div class="shortdesc"><div style="display: inline;"> This happens when there is an amount Form 3800 and the program is consequently expecting another line on Form 3800 to have a value.</div></div>
+</div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="cause"><div style="display: inline;">Cause</div></h2>
+<div class="p"><div style="display: inline;">This diagnostic occurs when an amount is entered on Form 3800 and the program expects a corresponding value on another line of the form. Many amounts in Parts I and II auto-populate based on entries in Part III.</div></div></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<div class="p"><div style="display: inline;">Review the e-file diagnostic to identify which lines on Form 3800 are in question. Review the form instructions or consider overriding amounts if needed.</div></div><ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Tax Forms</div></b><b class="ph uicontrol"><div style="display: inline;">Federal</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Select <b class="ph uicontrol"><div style="display: inline;">Form 3800 - General Business Credit</div></b>, then go to the line items in question.</div></li><li class="li"><div style="display: inline;">If there are amounts present, go to the line referenced at the end of the diagnostic and make sure there is an amount or <span class="ph userinput"><div style="display: inline;">NONE</div></span> entered.</div></li><li class="li"><div style="display: inline;">Do a full recompute and recreate the e-file.</div></li></div></ol></div></section></div>
+</div>
