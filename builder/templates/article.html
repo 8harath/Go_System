@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }} · {{ site_name }}{% endblock %}
+{% block description %}{{ article.title }} — GoSystem Tax RS help (Form {{ article.section }}).{% endblock %}
+{% block body_class %}page-article{% endblock %}
+
+{% block content %}
+<div class="wrap article-wrap">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol>
+      {% for c in crumbs %}
+      <li>
+        {% if c.href %}<a href="{{ c.href }}">{{ c.label }}</a>
+        {% else %}<span aria-current="page">{{ c.label }}</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </nav>
+
+  <article class="doc">
+    <header class="doc__head">
+      <div class="doc__tags">
+        <span class="tag tag--form">Form {{ article.section }}</span>
+        {% for code in article.codes %}<span class="tag tag--code">{{ code }}</span>{% endfor %}
+      </div>
+      <h1 class="doc__title">{{ article.title }}</h1>
+    </header>
+
+    {% if body_html %}
+    <div class="doc__body prose">
+      {{ body_html | safe }}
+    </div>
+    {% elif is_category %}
+    <p class="doc__muted">A topic index. Pick an article below.</p>
+    {% endif %}
+
+    {% if children %}
+    <section class="childlist" aria-label="Articles in this topic">
+      <h2 class="childlist__heading">{{ "In this section" if is_section else "In this topic" }}</h2>
+      <ul class="childlist__grid">
+        {% for ch in children %}
+        <li>
+          <a href="{{ ch.href }}">
+            <span class="childlist__title">{{ ch.title }}</span>
+            {% if ch.is_category %}<span class="childlist__tag">topic</span>{% endif %}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+
+    <aside class="source" aria-label="Source">
+      <p class="source__note">Reproduced from Thomson Reuters. Read the canonical version:</p>
+      <a class="source__link" href="{{ article.source_url }}" target="_blank" rel="noopener nofollow">
+        Source: Thomson Reuters <span aria-hidden="true">↗</span>
+      </a>
+    </aside>
+  </article>
+</div>
+{% endblock %}
