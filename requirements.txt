@@ -1,0 +1,11 @@
+# Python dependencies for the GoSystem Tax RS Help search portal.
+# Pinned to the exact versions installed in the project .venv (from `pip freeze`).
+# Install into the venv:  .venv/bin/pip install -r requirements.txt
+#
+# Direct dependencies (scraper + builder):
+requests==2.32.5          # HTTP client (scraper)
+beautifulsoup4==4.15.0    # HTML parsing (scraper)
+lxml==6.1.1               # fast parser backend for BeautifulSoup
+Jinja2==3.1.6             # HTML templating (builder)
+markdownify==1.2.3        # HTML -> Markdown (scraper: DITA topic body)
+Markdown==3.9             # Markdown -> HTML renderer (builder: .md page bodies)
