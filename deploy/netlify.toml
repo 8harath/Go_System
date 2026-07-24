@@ -1,0 +1,32 @@
+# netlify.toml — GoSystem Tax RS Help search portal
+#
+# The deployable static output is ./site, produced by build.sh.
+# NOTE: build.sh needs BOTH Python (venv + requirements.txt) and Node (Pagefind).
+# The recommended flow is to build in CI (.github/workflows/refresh.yml) and
+# deploy the prebuilt ./site. The [build] block below only works if the Netlify
+# build image also has Python 3 available.
+
+[build]
+  command = "bash build.sh"
+  publish = "site"
+
+[build.environment]
+  # PoC default. Set to "all" (or an explicit comma list, e.g. "709,706,1040")
+  # for the full 10-section run.
+  SECTIONS = "709"
+  PYTHON_VERSION = "3.9"
+
+# Security headers applied to every response.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # --------------------------------------------------------------------
+    # OPTIONAL — USER'S CHOICE (commented out by default).
+    # This portal republishes Thomson Reuters copyrighted help content.
+    # If you do NOT want search engines to index the public deployment,
+    # uncomment the next line to send an "X-Robots-Tag: noindex" header.
+    # X-Robots-Tag = "noindex"
+    # --------------------------------------------------------------------
