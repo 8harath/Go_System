@@ -1,0 +1,20 @@
+<div class="topic topic reference" id="GUID-af71a42e-0198-4b9d-8db0-3126a3b584a6-enHYPHENus">
+<h1 class="title" id="error-field-34discusswithpaidpreparerind34-is-unexpected"><div style="display: inline;">Error: Field "DiscussWithPaidPreparerInd" is unexpected</div></h1>
+<div class="shortdesc"><div style="display: inline;">This error occurs on a Federal 709 e-file when signature authorization settings aren't configured. Configure the signature options to resolve the validation error.</div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">Validation failed on [FILE_ID]:
+
+Form: ReturnHeader
+Description: Discuss With Paid Preparer Indicator
+Requirement: Expecting PrimaryPINEnteredByCd, SignatureOptionCd
+Error: Field 'DiscussWithPaidPreparerInd' is unexpected
+
+Element Name: DiscussWithPaidPreparerInd
+XPath: /Return[1]/ReturnHeader[1]/DiscussWithPaidPreparerInd[1]
+XML Fragment: true
+Field Key: 7,27,5,0,0,0,0,0,0
+Error Code: c00ce014
+Error Reason: Element '{http://www.irs.gov/efile}DiscussWithPaidPreparerInd' is unexpected according to content model of parent element '{http://www.irs.gov/efile}ReturnHeader'.
+Expecting: {http://www.irs.gov/efile}PrimaryPINEnteredByCd, {http://www.irs.gov/efile}SignatureOptionCd.</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">E-file</div></b><b class="ph uicontrol"><div style="display: inline;">Signature Authorization</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Make a selection other than <b class="ph uicontrol"><div style="display: inline;">Not applicable</div></b> in both the <b class="ph uicontrol"><div style="display: inline;">Signature for 709</div></b> and <b class="ph uicontrol"><div style="display: inline;">PIN Entered by</div></b> sections.</div></li><li class="li"><div style="display: inline;">Recompute and recreate the e-file.</div></li></div></ol></div></section></div>
+</div>

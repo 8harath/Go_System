@@ -1,0 +1,22 @@
+<div class="topic topic reference" id="GUID-ebc4f0a2-dd5a-413f-9e31-30162c73d67a-enHYPHENus">
+<h1 class="title" id="error-field-34relationshipdescriptiontxt34-is-unexpected"><div style="display: inline;">Error: Field "RelationshipDescriptionTxt" is unexpected</div></h1>
+<div class="shortdesc"><div style="display: inline;">This error occurs when the donee address is missing or incomplete on a Form 709 gift tax return. Enter the complete donee address information to resolve the validation error.</div></div>
+<div style="display: inline;"><section class="section"><div style="display: inline;"><h2 class="title" id="error-message"><div style="display: inline;">Error message</div></h2>
+<pre class="pre msgblock"><div style="display: inline;">Validation failed on [FILE_ID]:
+
+Form: IRS709[1][@documentId='IRS709] DonorGiftsSubjectToGiftTxGrp[2]/RelationshipDescriptionTxt[1]
+Description: Donee's Relationship To Donor
+LineNumber: Schedule A Part 1 Column (c)
+Requirement: Expecting DoneeUSAddress, DoneeForeignAddress
+Error: Field 'RelationshipDescriptionTxt' is unexpected
+
+Element Name: RelationshipDescriptionTxt
+XPath: //IRS709[@documentId='IRS709']/DonorGiftsSubjectToGiftTxGrp[2]/RelationshipDescriptionTxt[1]
+XML Fragment: Son
+Field Key: 1,100,128,1,1,5,0,0,0
+Error Code: c00ce014
+Error Reason: Element '{http://www.irs.gov/efile}RelationshipDescriptionTxt' is unexpected according to content model of parent element '{http://www.irs.gov/efile}DonorGiftsSubjectToGiftTxGrp'.
+Expecting: {http://www.irs.gov/efile}DoneeUSAddress, {http://www.irs.gov/efile}DoneeForeignAddress.</div></pre></div></section><section class="section"><div style="display: inline;"><h2 class="title" id="solution"><div style="display: inline;">Solution</div></h2>
+<ol class="ol"><div style="display: inline;"><li class="li"><div style="display: inline;">Go to <span class="ph menucascade"><div style="display: inline;"><b class="ph uicontrol"><div style="display: inline;">Organizer</div></b><b class="ph uicontrol"><div style="display: inline;">List of Gift Recipients</div></b><b class="ph uicontrol"><div style="display: inline;">Name</div></b><b class="ph uicontrol"><div style="display: inline;">Recipient Information</div></b></div></span>.</div></li><li class="li"><div style="display: inline;">Enter the Donee Address and relationship to the donor.
+          <div class="note" data-label="NOTE"><span class="headerTitle" style="text-transform: capitalize;">note</span><div style="display: inline;">Alternatively, check the checkbox <b class="ph uicontrol"><div style="display: inline;">Check if address is same as donor</div></b>.</div></div></div></li><li class="li"><div style="display: inline;">Do a full recompute and recreate the e-file.</div></li></div></ol></div></section></div>
+</div>
