@@ -1,0 +1,14 @@
+{
+  "name": "gosystem-help",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static search portal for GoSystem Tax RS help articles (Pagefind full-text search + error-code index).",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "bash build.sh",
+    "index": "pagefind --site site"
+  },
+  "devDependencies": {
+    "pagefind": "^1.3.0"
+  }
+}
