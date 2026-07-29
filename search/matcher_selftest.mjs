@@ -126,6 +126,7 @@ const CLASSIFIER_CASES = [
   ["NY form prefix", "NYFormIT201 schema validation failed", "NY", "schema-validation"],
   ["state context", "Jurisdiction: TX — data is missing", "TX", "missing-data"],
   ["state name", "Ohio e-file schema: AccountNumber is unexpected", "OH", "unexpected-data"],
+  ["state-only search", "TX", "TX", "search"],
   ["state code prefix", "AL65-008 e-file error", "AL", "reject-code"],
   ["federal authority", "IRS MeF rejection R0000-058-01", "Federal", "reject-code"],
   ["no false Indiana", "IND-039-01 e-file error", "", "reject-code"],

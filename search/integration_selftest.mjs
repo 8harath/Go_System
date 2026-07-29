@@ -38,6 +38,15 @@ check(
   federalMatches[0]?.url || "no match"
 );
 
+const stateSearchMatches = match("New York");
+check(
+  "state-only search returns that jurisdiction",
+  stateSearchMatches.length > 0 &&
+    stateSearchMatches[0].jurisdictionCode === "NY" &&
+    stateSearchMatches.every(hit => hit.matchedOn.state === "NY"),
+  `${stateSearchMatches.length} New York matches`
+);
+
 const collision = codes.codes.X0000005;
 const collisionJurisdictions = new Set((collision?.matches || [collision]).map(x => x.jurisdiction_code));
 check(

@@ -210,6 +210,14 @@ function detectJurisdiction(raw, normalized, codes) {
     if (pattern.test(raw)) return jurisdictionInfo(code, "high", "State tax authority");
   }
 
+  // A state-only search such as "TX" or "ny" should work without requiring
+  // words like "return" or "schema" around the postal abbreviation.
+  const exactState = raw.trim().match(/^([A-Z]{2})$/i);
+  if (exactState && ABBR_SET.has(exactState[1].toUpperCase())) {
+    const code = exactState[1].toUpperCase();
+    return jurisdictionInfo(code, "high", "State abbreviation search");
+  }
+
   const stateForm = raw.match(RE_STATE_FORM);
   if (stateForm) {
     const code = stateForm[1].toUpperCase();
@@ -577,6 +585,7 @@ function match(text) {
   const hasSignal =
     (q.codes && q.codes.length > 0) ||
     !!q.field ||
+    !!q.state ||
     (q._elements && q._elements.length > 0);
   if (!hasSignal) return [];
 
