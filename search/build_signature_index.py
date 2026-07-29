@@ -148,7 +148,7 @@ _RE_FCODE_PREFIX = re.compile(r"\bF(\d{3,4})[A-Z]*-\d")
 # xpath / element-path runs (a leading "/" then >= 1 more "/segment").
 _RE_XPATH = re.compile(r"(/[A-Za-z][\w .:\-]*(?:/[A-Za-z0-9][\w .:\-]*)+)")
 # 2-letter-state form prefix (e.g. CAForm..., NYForm...).
-_RE_STATE_FORM = re.compile(r"\b([A-Z]{2})Form\d")
+_RE_STATE_FORM = re.compile(r"\b([A-Z]{2})Form[A-Z]*\d", re.I)
 
 _DIGIT = re.compile(r"\d")
 

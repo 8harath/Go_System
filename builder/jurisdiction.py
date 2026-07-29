@@ -100,7 +100,7 @@ def detect_jurisdiction(article: dict) -> dict:
             return {"code": "Federal", "label": "Federal", "type": "Federal", "name": "Federal", "icon": "🏛️"}
 
     # 3. Title evaluation
-    m_sf = re.search(r"\b([a-z]{2})form\d", title)
+    m_sf = re.search(r"\b([a-z]{2})form[a-z]*\d", title)
     if m_sf:
         ab = m_sf.group(1).upper()
         for k, (code, name) in STATE_MAP.items():
