@@ -14,7 +14,7 @@
   <h1 class="hero__title">Paste the rejection.<br>Read <span class="mark">the fix</span>.</h1>
   <p class="hero__lede">
     Drop in a raw e-file validation error — a reject code or a state schema message.
-    It gets decoded into its parts and matched to the exact GoSystem&nbsp;Tax&nbsp;RS article that resolves it.
+    Deterministic rules identify the jurisdiction, error type, form, field, and code, then match the exact GoSystem&nbsp;Tax&nbsp;RS article that resolves it.
   </p>
 
   <form class="paste" id="gs-form" role="search" autocomplete="off">
@@ -50,18 +50,6 @@
     <button type="button" class="sample" data-sample="X0000-005 e-file error">X0000-005</button>
   </div>
 
-  {% if jurisdictions and jurisdictions|length > 0 %}
-  <div class="jurisdiction-bar" aria-label="Filter issues by jurisdiction">
-    <span class="jurisdiction-bar__label">Filter by Jurisdiction:</span>
-    <div class="jurisdiction-bar__pills">
-      {% for j in jurisdictions %}
-      <button type="button" class="jur-pill jur-pill--{{ j.type | lower }}" data-sample="{{ j.name }}">
-        <span aria-hidden="true">{{ j.icon }}</span> {{ j.label }}
-      </button>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
 </section>
 
 <section class="results wrap" aria-label="Matches">

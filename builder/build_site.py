@@ -232,21 +232,7 @@ def main() -> None:
             }
         )
 
-    # Unique jurisdictions list for filter pills on landing page
-    all_jurisdictions = {}
-    for a in articles:
-        j = a.get("jurisdiction") or detect_jurisdiction(a)
-        all_jurisdictions[j["code"]] = j
-    
-    # Sort order: Federal, then States A-Z, then General
-    def j_sort_key(j):
-        if j["code"] == "Federal": return (0, "Federal")
-        if j["type"] == "State": return (1, j["name"])
-        return (2, j["name"])
-
-    unique_jurisdictions = sorted(all_jurisdictions.values(), key=j_sort_key)
-
-    index_html = tpl_search.render(site_name=SITE_NAME, sections=browse, jurisdictions=unique_jurisdictions)
+    index_html = tpl_search.render(site_name=SITE_NAME, sections=browse)
     write(SITE / "index.html", index_html)
 
     # ---- Stylesheet ------------------------------------------------------ #

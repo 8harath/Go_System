@@ -302,7 +302,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 .why__chip { font-family: var(--mono); font-size: .72rem; color: var(--ink-soft); background: var(--surface-2); border: 2px solid var(--ink); border-radius: var(--r-sm); padding: 2px 8px; }
 .why__chip--strong { color: var(--accent-ink); background: var(--accent-wash); border-color: var(--accent); }
 
-.card__disc { flex: 0 0 auto; align-self: center; color: var(--ink); font-family: var(--mono); font-weight: 600; font-size: .9rem; transition: transform .2s var(--ease); }
+.card__disc { flex: 0 0 auto; align-self: center; color: var(--ink); font-family: var(--mono); font-weight: 600; font-size: .9rem; line-height: 1; background: var(--surface-2); border: 2px solid var(--ink); border-radius: var(--r-sm); width: 32px; height: 32px; cursor: pointer; transition: transform .2s var(--ease), background-color .2s var(--ease); }
+.card__disc:hover { background: var(--flag-wash); }
 .card[data-open="true"] .card__disc { transform: rotate(90deg); color: var(--accent); }
 
 .card__fix { border-top: var(--b); padding: 4px 18px 20px; display: none; background: var(--surface); }
@@ -394,17 +395,11 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   background: var(--surface-2);
 }
 .card__jurisdiction--federal { background: #D9E2EC; color: #102A43; border-color: #334E68; }
-.card__jurisdiction--ca { background: #FFE8D6; color: #78350F; border-color: #B45309; }
-.card__jurisdiction--ct { background: #E0F2FE; color: #0369A1; border-color: #0284C7; }
-.card__jurisdiction--ny { background: #E0E7FF; color: #3730A3; border-color: #4F46E5; }
-.card__jurisdiction--il { background: #FEF3C7; color: #92400E; border-color: #D97706; }
+.card__jurisdiction--state { background: #FFE8D6; color: #78350F; border-color: #B45309; }
 .card__jurisdiction--general { background: var(--surface-2); color: var(--ink-soft); }
 
 :root[data-theme="dark"] .card__jurisdiction--federal { background: #1E293B; color: #E2E8F0; border-color: #475569; }
-:root[data-theme="dark"] .card__jurisdiction--ca { background: #451A03; color: #FDE68A; border-color: #92400E; }
-:root[data-theme="dark"] .card__jurisdiction--ct { background: #0C4A6E; color: #BAE6FD; border-color: #0284C7; }
-:root[data-theme="dark"] .card__jurisdiction--ny { background: #1E1B4B; color: #C7D2FE; border-color: #4338CA; }
-:root[data-theme="dark"] .card__jurisdiction--il { background: #451A03; color: #FEF3C7; border-color: #B45309; }
+:root[data-theme="dark"] .card__jurisdiction--state { background: #451A03; color: #FDE68A; border-color: #92400E; }
 
 .tag--jurisdiction { color: var(--ink); background: var(--surface-2); }
 .tag--jurisdiction.tag--state { color: #78350F; background: #FFE8D6; border-color: #B45309; }
@@ -421,6 +416,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 .results__filters {
   display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding-top: 8px; border-top: 1.5px dashed var(--grid);
 }
+.results__scope { margin: 0; font-family: var(--mono); font-size: .76rem; color: var(--ink-soft); }
+.results__scope strong { color: var(--accent-ink); }
 
 .filterbox {
   display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: .8rem; color: var(--ink-soft);
@@ -444,46 +441,3 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 }
 .select-input:hover { background-color: var(--surface-2); }
 .select-input:focus { outline: 2px solid var(--focus); }
-
-.jurisdiction-bar {
-  margin-top: 20px;
-  padding: 12px 16px;
-  background: var(--surface);
-  border: var(--b);
-  border-radius: var(--r);
-  box-shadow: var(--sh-sm);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.jurisdiction-bar__label {
-  font-family: var(--display);
-  font-size: .78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  color: var(--ink-soft);
-}
-.jurisdiction-bar__pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.jur-pill {
-  font-family: var(--mono);
-  font-size: .78rem;
-  font-weight: 600;
-  padding: 5px 12px;
-  border: var(--b);
-  border-radius: var(--r-sm);
-  background: var(--surface-2);
-  color: var(--ink);
-  box-shadow: 2px 2px 0 var(--ink);
-  cursor: pointer;
-  transition: transform .12s var(--ease), background-color .12s var(--ease);
-}
-.jur-pill:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--ink);
-  background: var(--flag-wash);
-}
