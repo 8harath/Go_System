@@ -43,7 +43,7 @@ from builder.jurisdiction import detect_jurisdiction
 BUILDER_DIR = Path(__file__).resolve().parent
 ROOT = BUILDER_DIR.parent
 TEMPLATE_DIR = BUILDER_DIR / "templates"
-STYLES_SRC = BUILDER_DIR / "assets" / "styles.css"
+ASSETS_SRC = BUILDER_DIR / "assets"
 
 MANIFEST = ROOT / "data" / "manifest.json"
 SITE = ROOT / "site"
@@ -235,9 +235,9 @@ def main() -> None:
     index_html = tpl_search.render(site_name=SITE_NAME, sections=browse)
     write(SITE / "index.html", index_html)
 
-    # ---- Stylesheet ------------------------------------------------------ #
-    shutil.copyfile(STYLES_SRC, SITE / "assets" / "styles.css")
-    written.append(SITE / "assets" / "styles.css")
+    # ---- Static design assets ------------------------------------------- #
+    shutil.copytree(ASSETS_SRC, SITE / "assets", dirs_exist_ok=True)
+    written.extend(path for path in (SITE / "assets").iterdir() if path.is_file())
 
     # ---- Summary --------------------------------------------------------- #
     print(f"Built {len(written)} files into {SITE}")

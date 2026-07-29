@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f7f4ed"/>
+      <stop offset="1" stop-color="#e2e8df"/>
+    </linearGradient>
+    <filter id="s" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#263a2e" flood-opacity=".18"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1100" cy="80" r="260" fill="#315e47" opacity=".06"/>
+  <circle cx="80" cy="590" r="220" fill="#d3ae62" opacity=".08"/>
+  <g transform="translate(84 82) scale(1.65)" filter="url(#s)">
+    <rect x="2" y="2" width="60" height="60" rx="17" fill="#315e47"/>
+    <path d="M20 13h18l9 9v27a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V17a4 4 0 0 1 4-4Z" fill="#fbf8ef"/>
+    <path d="M38 13v10h9" fill="#dfe7df" stroke="#b9c7bc" stroke-width="1.4"/>
+    <path d="m23 37 6 6 12-14" fill="none" stroke="#356349" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="49" cy="13" r="5" fill="#d3ae62" stroke="#f5e7c4" stroke-width="2"/>
+  </g>
+  <text x="84" y="245" fill="#315e47" font-family="Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="3">GS E-FILE RESOLVER</text>
+  <text x="84" y="348" fill="#20231f" font-family="Georgia, serif" font-size="76" font-weight="600">From rejection</text>
+  <text x="84" y="430" fill="#315e47" font-family="Georgia, serif" font-size="76" font-style="italic">to resolution.</text>
+  <text x="88" y="502" fill="#5b6058" font-family="Arial, sans-serif" font-size="25">Jurisdiction-aware GoSystem Tax RS help for tax professionals.</text>
+  <rect x="84" y="548" width="350" height="2" fill="#315e47" opacity=".3"/>
+  <text x="884" y="553" fill="#5b6058" font-family="Arial, sans-serif" font-size="20">50 STATES + FEDERAL</text>
+</svg>
