@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Form 510-02150-011 e-file error · GoSystem Tax RS Help Search</title>
+  <meta name="description" content="Form 510-02150-011 e-file error — GoSystem Tax RS help (Form e-file).">
+  <meta name="color-scheme" content="light dark">
+  <script>
+  (function () {
+    var d = document.documentElement;
+    try { var t = localStorage.getItem("gs-theme"); if (t === "light" || t === "dark") d.setAttribute("data-theme", t); } catch (e) {}
+    function cur() { var a = d.getAttribute("data-theme"); return a === "dark" ? "dark" : "light"; }
+    function sync() { var b = document.querySelector("[data-theme-toggle]"); if (!b) return; var c = cur(); b.setAttribute("aria-pressed", c === "dark"); var l = b.querySelector("[data-theme-label]"); if (l) l.textContent = c === "dark" ? "Dark" : "Light"; }
+    function set(t) { d.setAttribute("data-theme", t); try { localStorage.setItem("gs-theme", t); } catch (e) {} sync(); }
+    addEventListener("DOMContentLoaded", function () { sync(); var b = document.querySelector("[data-theme-toggle]"); if (b) b.addEventListener("click", function () { set(cur() === "dark" ? "light" : "dark"); }); });
+  })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true">GS</span>
+        <span class="brand__name">e-file&nbsp;resolver</span>
+        <span class="brand__sub">GoSystem Tax&nbsp;RS</span>
+      </a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a class="topbar__link" href="/">Resolver</a>
+        <button type="button" class="themetoggle" data-theme-toggle aria-label="Switch between light and dark theme" aria-pressed="false">
+          <svg class="i-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="i-moon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+          <span class="themetoggle__label" data-theme-label>Light</span>
+        </button>
+        <kbd class="kbd kbd--hint" data-focus-search title="Press / to search">/</kbd>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+<div class="wrap article-wrap">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol>
+      <li>
+<a href="/">GoSystem Tax RS</a>
+      </li>
+      <li>
+<a href="/e-file/index.html">e-file</a>
+      </li>
+      <li>
+<a href="/e-file/1065-e-file-errors/index.html">1065 e-file errors</a>
+      </li>
+      <li>
+<a href="/e-file/1065-e-file-errors/states/index.html">States</a>
+      </li>
+      <li>
+<a href="/e-file/1065-e-file-errors/states/maryland/index.html">Maryland</a>
+      </li>
+      <li>
+<span aria-current="page">Form 510-02150-011 e-file error</span>      </li>
+    </ol>
+  </nav>
+
+  <article class="doc" data-pagefind-filter="jurisdiction:Maryland (MD)" data-pagefind-sort="jurisdiction:Maryland" data-jurisdiction="Maryland (MD)">
+    <header class="doc__head">
+      <div class="doc__tags">
+        <span class="tag tag--jurisdiction tag--state"><span aria-hidden="true">📍</span> Maryland (MD)</span>
+        <span class="tag tag--form">Form e-file</span>
+<span class="tag tag--code">02150-011</span>      </div>
+      <h1 class="doc__title">Form 510-02150-011 e-file error</h1>
+    </header>
+
+    <div class="doc__body prose">
+      <pre><code>Line 2 - Total distributive or pro rata share of income per federal return must be equal to the sum of distributive income for all members as listed on Schedule B Parts I, II, III, and IV. This rule should not be applied when PTE has only tax exempt members.
+</code></pre>
+<p>This happens when the Maryland MD 510, page 1, line 2 doesn’t match the total of Schedule B Parts I, II, III and IV.</p>
+<h2>Solution 1</h2>
+<p>Partners where the Type of Entity is Exempt Org don’t automatically flow to a section of Maryland Schedule B. To correct this, you can change the entity type or use the following steps:</p>
+<ul>
+<li>Go to the <strong>Organizer</strong>,<strong>Partner Information</strong> folder.</li>
+<li>Go to <strong>Partner by Partner Data</strong>,<strong>(Partner Name)</strong>,<strong>Partner Information</strong> folder.</li>
+<li>Go to the <strong>State Partner Information</strong> tab.</li>
+<li>Go down to <strong>Maryland</strong> section.</li>
+<li>Mark the box <strong>Partner should be treated as Other</strong>.</li>
+<li>Near the MD 510, Schedule B member information (override), make a selection from the dropdown.</li>
+<li>Do a full recompute, recreate the e-file.</li>
+</ul>
+<h2>Solution 2</h2>
+<ul>
+<li>Verify the amounts match below before sending out.</li>
+<li>Go to <strong>Tax Forms</strong>, then the <strong>States</strong> folder.</li>
+<li>Go to <strong>Maryland</strong>, then the <strong>MD 510</strong> folder.</li>
+<li>Go to the <strong>MD 510, Page 1</strong> tab.</li>
+<li>On <strong>line 2</strong>, <strong>Total distributive or pro rata share</strong> make note of that amount.</li>
+<li>On <strong>Sch B, Part I, IND</strong>, <strong>Sch B, Part II, FID</strong>, <strong>Sch B, Part III, PTE</strong> and <strong>Sch B, Part IV, COR</strong> tabs need to add up to line 2.</li>
+<li>If they equal do a full recompute, recreate the e-file.</li>
+</ul>
+    </div>
+
+
+    <aside class="source" aria-label="Source">
+      <p class="source__note">Reproduced from Thomson Reuters. Read the canonical version:</p>
+      <a class="source__link" href="https://www.thomsonreuters.com/en-us/help/gosystem-tax-rs/e-file/1065-e-file-errors/states/maryland/form510-02150-011" target="_blank" rel="noopener nofollow">
+        Source: Thomson Reuters <span aria-hidden="true">↗</span>
+      </a>
+    </aside>
+  </article>
+</div>
+  </main>
+
+</body>
+</html>

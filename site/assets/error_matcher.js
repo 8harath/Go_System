@@ -88,6 +88,54 @@ const STATE_ABBR = {
   "district of columbia": "DC",
 };
 const ABBR_SET = new Set(Object.values(STATE_ABBR));
+const STATE_NAME = Object.fromEntries(
+  Object.entries(STATE_ABBR).map(([name, code]) => [
+    code,
+    name.replace(/\b\w/g, (c) => c.toUpperCase()),
+  ])
+);
+
+// Authority hostnames are a stronger signal than words in the message body.
+// Keep this deliberately small: unknown authorities fall through to the other
+// rules instead of being guessed.
+const AUTHORITY_STATE = [
+  [/ftb\.ca\.gov|tax\.ca\.gov/i, "CA"],
+  [/tax\.ny\.gov/i, "NY"],
+  [/tax\.illinois\.gov|revenue\.state\.il\.us/i, "IL"],
+  [/tax\.ohio\.gov/i, "OH"],
+  [/tax\.virginia\.gov/i, "VA"],
+  [/dor\.wa\.gov/i, "WA"],
+  [/mass\.gov\/dor/i, "MA"],
+];
+
+function jurisdictionInfo(code, confidence = "", evidence = "") {
+  if (!code) return { code: "", label: "", type: "", confidence: "", evidence: "" };
+  if (String(code).toLowerCase() === "federal") {
+    return { code: "Federal", label: "Federal", type: "Federal", confidence, evidence };
+  }
+  const upper = String(code).toUpperCase();
+  const name = STATE_NAME[upper];
+  if (!name) return { code: "", label: "", type: "", confidence: "", evidence: "" };
+  return { code: upper, label: `${name} (${upper})`, type: "State", confidence, evidence };
+}
+
+function detectArticleJurisdiction(url = "", title = "", breadcrumbs = []) {
+  const path = String(url).toLowerCase();
+  const statePath = path.match(/\/states\/([^/]+)/);
+  if (statePath) {
+    const name = statePath[1].replace(/-/g, " ");
+    if (STATE_ABBR[name]) return jurisdictionInfo(STATE_ABBR[name]);
+  }
+  if (/(?:^|\/)federal(?:\/|$)/.test(path)) return jurisdictionInfo("Federal");
+
+  const low = `${title} ${(breadcrumbs || []).join(" ")}`.toLowerCase();
+  for (const name of Object.keys(STATE_ABBR).sort((a, b) => b.length - a.length)) {
+    const re = new RegExp("\\b" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b");
+    if (re.test(low)) return jurisdictionInfo(STATE_ABBR[name]);
+  }
+  if (/\b(?:federal|irs|mef)\b/.test(low)) return jurisdictionInfo("Federal");
+  return { code: "General", label: "General / Federal", type: "General", confidence: "", evidence: "" };
+}
 
 // ------------------------------ state --------------------------------------
 let SIGNATURES = null; // { generated_at, count, articles:[...] }
@@ -118,11 +166,13 @@ function normalizeText(text) {
 }
 
 // ------------------------------ regexes ------------------------------------
-const RE_CODE_DASHED = /\b([A-Z][A-Z0-9]{0,6}(?:-[A-Z0-9]+){1,3})\b/g;
+const RE_CODE_DASHED = /\b([A-Z][A-Z0-9]{0,6}(?:-[A-Z0-9]+){1,3})\b/gi;
+const RE_CODE_COMPACT = /\b([A-Z]{1,6}\d{3,}[A-Z0-9]*)\b/gi;
+const RE_CODE_NUMERIC_CONTEXT = /\b(\d{3,10})\b(?=\s+(?:e-?file\s+)?(?:error|reject|diagnostic|code)\b)/gi;
 const RE_CAFORM = /\bCAForm\s*(\d{3,4})/i;
 const RE_FORM = /\bForm\s*(\d{3,4})\b/i;
-const RE_FCODE_PREFIX = /\bF(\d{3,4})[A-Z]*-\d/;
-const RE_STATE_FORM = /\b([A-Z]{2})Form\d/;
+const RE_FCODE_PREFIX = /\bF(\d{3,4})(?:[A-Z]*-|\d)/i;
+const RE_STATE_FORM = /\b([A-Z]{2})Form[A-Z]*\d/i;
 // No \b before "Schedule": it is often glued to a form root ("565ScheduleK-1").
 const RE_SCHEDULE = /Schedule\s*(K-?\d|[A-Z0-9]+(?:-[A-Z0-9]+)*)/i;
 // A path-ish run: Segment(/Segment)+, each Segment starting with a letter.
@@ -152,6 +202,77 @@ function cleanSegment(seg) {
   return String(seg).replace(/\s+/g, "").trim();
 }
 
+function detectJurisdiction(raw, normalized, codes) {
+  if (/\b(?:irs|internal revenue service|irs\.gov|federal mef)\b/i.test(raw)) {
+    return jurisdictionInfo("Federal", "high", "Federal tax authority");
+  }
+  for (const [pattern, code] of AUTHORITY_STATE) {
+    if (pattern.test(raw)) return jurisdictionInfo(code, "high", "State tax authority");
+  }
+
+  const stateForm = raw.match(RE_STATE_FORM);
+  if (stateForm) {
+    const code = stateForm[1].toUpperCase();
+    if (ABBR_SET.has(code)) return jurisdictionInfo(code, "high", `${code} form prefix`);
+  }
+  if (/\bCAForm/i.test(normalized)) return jurisdictionInfo("CA", "high", "CA form prefix");
+
+  const low = raw.toLowerCase();
+  // Longest names first avoids a shorter phrase winning inside a longer one.
+  for (const name of Object.keys(STATE_ABBR).sort((a, b) => b.length - a.length)) {
+    const re = new RegExp("\\b" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b");
+    if (re.test(low)) return jurisdictionInfo(STATE_ABBR[name], "high", "State name in error");
+  }
+
+  const contextual = raw.match(
+    /\b(?:state|jurisdiction)\s*[:=-]?\s*([A-Z]{2})\b|\b([A-Z]{2})\s+(?:return|rejection|reject|efile|e-file|schema)\b/i
+  );
+  if (contextual) {
+    const code = (contextual[1] || contextual[2]).toUpperCase();
+    if (ABBR_SET.has(code)) return jurisdictionInfo(code, "medium", "State abbreviation in context");
+  }
+
+  // State business-rule codes commonly start with the postal abbreviation,
+  // followed by a separator or digit. Do not treat federal IND/F/R/X codes as
+  // state codes merely because their first two letters happen to match.
+  for (const rawCode of codes || []) {
+    const code = rawCode.toUpperCase();
+    const prefix = code.slice(0, 2);
+    if (ABBR_SET.has(prefix) && /^(?:[A-Z]{2})(?:-|\d)/.test(code)) {
+      return jurisdictionInfo(prefix, "medium", `${prefix} reject-code prefix`);
+    }
+  }
+  return jurisdictionInfo("");
+}
+
+function classifyErrorKind(text, codes, constraint) {
+  const low = text.toLowerCase();
+  if (codes && codes.length) return { code: "reject-code", label: "Reject code" };
+  if (constraint === "MissingRequired" || /\b(?:data is missing|must be present|required (?:element|field))\b/.test(low)) {
+    return { code: "missing-data", label: "Missing required data" };
+  }
+  if (constraint === "UnexpectedElement" || /\b(?:is unexpected|not allowed)\b/.test(low)) {
+    return { code: "unexpected-data", label: "Unexpected data" };
+  }
+  if (constraint === "Enumeration") return { code: "invalid-choice", label: "Invalid allowed value" };
+  if (constraint === "Pattern" || /\b(?:data format|format is not correct|datatype)\b/.test(low)) {
+    return { code: "invalid-format", label: "Invalid format" };
+  }
+  if (constraint === "BadBoolean" || constraint === "BadInteger") {
+    return { code: "invalid-type", label: "Invalid data type" };
+  }
+  if (/\b(?:duplicate|already been filed|already exists)\b/.test(low)) {
+    return { code: "duplicate", label: "Duplicate filing" };
+  }
+  if (/\b(?:schema|validation|invalid|failed constraint)\b/.test(low)) {
+    return { code: "schema-validation", label: "Schema validation" };
+  }
+  if (/\b(?:diagnostic|e-?file error|rejection|reject)\b/.test(low)) {
+    return { code: "diagnostic", label: "E-file diagnostic" };
+  }
+  return { code: "search", label: "Help search" };
+}
+
 // --------------------------- the parser ------------------------------------
 function parse(text) {
   const raw = String(text == null ? "" : text);
@@ -162,28 +283,24 @@ function parse(text) {
   let m;
   RE_CODE_DASHED.lastIndex = 0;
   while ((m = RE_CODE_DASHED.exec(t)) !== null) {
-    if (looksLikeCode(m[1])) codes.push(m[1]);
+    if (looksLikeCode(m[1])) codes.push(m[1].toUpperCase());
+  }
+  RE_CODE_COMPACT.lastIndex = 0;
+  while ((m = RE_CODE_COMPACT.exec(t)) !== null) {
+    const token = m[1].toUpperCase();
+    if (!/(?:FORM|SCHEDULE)/.test(token)) codes.push(token);
+  }
+  RE_CODE_NUMERIC_CONTEXT.lastIndex = 0;
+  while ((m = RE_CODE_NUMERIC_CONTEXT.exec(t)) !== null) {
+    codes.push(m[1]);
   }
 
-  // ---- state --------------------------------------------------------------
-  let state = "";
-  if (/ftb\.ca\.gov/i.test(raw)) state = "CA";
-  else if (/irs\.gov/i.test(raw)) state = "federal";
-  if (!state) {
-    const sf = raw.match(RE_STATE_FORM);
-    if (sf && ABBR_SET.has(sf[1])) state = sf[1];
-  }
-  if (!state && /\bCAForm/i.test(t)) state = "CA";
-  if (!state) {
-    const low = raw.toLowerCase();
-    for (const name in STATE_ABBR) {
-      const re = new RegExp("\\b" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b");
-      if (re.test(low)) {
-        state = STATE_ABBR[name];
-        break;
-      }
-    }
-  }
+  // ---- jurisdiction -------------------------------------------------------
+  // This runs after code extraction so state-prefixed business-rule codes can
+  // contribute a medium-confidence signal.
+  const uniqueCodes = uniq(codes.map((code) => code.toUpperCase()));
+  const jurisdiction = detectJurisdiction(raw, t, uniqueCodes);
+  const state = jurisdiction.code === "Federal" ? "federal" : jurisdiction.code;
 
   // ---- form ---------------------------------------------------------------
   let form = "";
@@ -246,7 +363,9 @@ function parse(text) {
   // ---- constraint ---------------------------------------------------------
   let constraint = "";
   const lc = t.toLowerCase();
-  if (/incomplete content|is unexpected|list of possible elements expected/.test(lc)) {
+  if (/\bis unexpected\b/.test(lc)) {
+    constraint = "UnexpectedElement";
+  } else if (/incomplete content|list of possible elements expected|data is missing|must be present/.test(lc)) {
     constraint = "MissingRequired";
   } else if (/enumeration/.test(lc)) {
     constraint = "Enumeration";
@@ -270,9 +389,13 @@ function parse(text) {
     t.match(/\bThe value\s+['"]?([A-Za-z0-9_.:\-]+)['"]?/i);
   if (vm) value = vm[1];
 
+  const errorKind = classifyErrorKind(t, uniqueCodes, constraint);
+
   return {
     raw,
     state,
+    jurisdiction,
+    errorKind,
     form,
     schedule,
     element,
@@ -281,7 +404,7 @@ function parse(text) {
     constraint,
     datatype,
     value,
-    codes: uniq(codes),
+    codes: uniqueCodes,
     _elements: elements, // internal: all path tokens (used by match)
   };
 }
@@ -331,6 +454,7 @@ const CONSTRAINT_KEYWORD = {
   Enumeration: "enumeration",
   Pattern: "pattern",
   MissingRequired: "incomplete content",
+  UnexpectedElement: "unexpected",
   BadInteger: "integer",
   BadBoolean: "boolean",
 };
@@ -479,15 +603,31 @@ function match(text) {
 
 // ------------------------------- init --------------------------------------
 // Kick off loading in a browser; Node hosts call setSignatures() themselves.
-if (typeof fetch === "function") {
+if (typeof window !== "undefined" && typeof fetch === "function") {
   loadSignatures();
 }
 
-const ErrorMatcher = { ready, parse, match, setSignatures, normalizeCode };
+const ErrorMatcher = {
+  ready,
+  parse,
+  match,
+  setSignatures,
+  normalizeCode,
+  jurisdictionInfo,
+  detectArticleJurisdiction,
+};
 
 if (typeof window !== "undefined") {
   window.ErrorMatcher = ErrorMatcher;
 }
 
-export { ready, parse, match, setSignatures, normalizeCode };
+export {
+  ready,
+  parse,
+  match,
+  setSignatures,
+  normalizeCode,
+  jurisdictionInfo,
+  detectArticleJurisdiction,
+};
 export default ErrorMatcher;
