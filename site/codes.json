@@ -1,6 +1,6 @@
 {
   "normalize": "Upper-case, then remove every character that is not A-Z or 0-9 (strips spaces, hyphens, dots, slashes, underscores and all other punctuation). Example: 'F1065-037-02', 'f1065 037 02', and 'F1065037-02' all normalize to 'F106503702'. JS equivalent: code.toUpperCase().replace(/[^A-Z0-9]/g, '').",
-  "generated_at": "2026-07-29T17:44:52Z",
+  "generated_at": "2026-07-29T23:40:17Z",
   "count": 1331,
   "codes": {
     "0000": {
