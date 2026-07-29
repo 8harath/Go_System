@@ -1,0 +1,14 @@
+{
+  "name": "GS E-file Resolver",
+  "short_name": "GS Resolver",
+  "description": "Jurisdiction-aware GoSystem Tax RS e-file error resolution.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ede9e1",
+  "theme_color": "#315e47",
+  "icons": [
+    { "src": "/assets/logo-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/assets/app-icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
