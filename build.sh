@@ -11,8 +11,8 @@
 #
 # Idempotent: safe to re-run; every component overwrites its own outputs.
 #
-# Configurable via env var SECTIONS (default: 709 for the PoC):
-#   SECTIONS=709                 ./build.sh   # PoC (default)
+# Configurable via env var SECTIONS (default: e-file):
+#   SECTIONS=e-file              ./build.sh   # current production corpus (default)
 #   SECTIONS=all                 ./build.sh   # all 10 sections (expanded below)
 #   SECTIONS=709,706,1040        ./build.sh   # explicit subset
 #
@@ -28,7 +28,7 @@ PY="$ROOT/.venv/bin/python"
 FULL_SECTIONS="e-file,import-export,1065,1120,1040,1041,990,5500,706,709"
 
 # --- Section selection --------------------------------------------------------
-SECTIONS="${SECTIONS:-709}"
+SECTIONS="${SECTIONS:-e-file}"
 if [ "$SECTIONS" = "all" ]; then
   SECTIONS="$FULL_SECTIONS"
 fi

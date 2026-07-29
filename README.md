@@ -11,7 +11,7 @@ error-code lookup index, and indexes everything for full-text search with
 [Pagefind](https://pagefind.app). The output is a plain `site/` directory that can
 be hosted anywhere (Vercel, Netlify, GitHub Pages, S3, …) — no server, no database.
 
-> **Scope:** The current Proof of Concept builds **section `709` only** (12 articles).
+> **Scope:** The current deployable corpus builds the complete **`e-file` section** (1,426 records).
 > Flip to all 10 sections with a single env var — see
 > [Switching PoC -> all sections](#switching-poc---all-sections).
 
@@ -20,7 +20,7 @@ be hosted anywhere (Vercel, Netlify, GitHub Pages, S3, …) — no server, no da
 ## Pipeline
 
 ```
-                          build.sh  (SECTIONS=709 by default)
+                          build.sh  (SECTIONS=e-file by default)
   ┌──────────────────────────────────────────────────────────────────────────┐
   │                                                                            │
   │  1. scraper/scrape.py ──────────► data/manifest.json                       │
@@ -77,7 +77,7 @@ npm install
 The whole pipeline is orchestrated by `build.sh` (idempotent — safe to re-run):
 
 ```bash
-./build.sh                 # PoC: section 709 only (default)
+./build.sh                 # complete e-file corpus (default)
 ```
 
 It runs, in order: **scrape -> build_site -> build_codes_index -> copy search.js -> pagefind index**,
@@ -98,7 +98,7 @@ Pagefind indexing step against an existing `site/`.
 
 ## Switching PoC -> all sections
 
-`build.sh` reads the **`SECTIONS`** environment variable (default `709`). Set it to
+`build.sh` reads the **`SECTIONS`** environment variable (default `e-file`). Set it to
 `all` to build every section, or pass an explicit comma-separated list:
 
 ```bash
