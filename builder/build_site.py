@@ -24,10 +24,18 @@ from __future__ import annotations
 import json
 import re
 import shutil
+import sys
 from pathlib import Path
+
+BUILDER_DIR = Path(__file__).resolve().parent
+ROOT = BUILDER_DIR.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 import markdown
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+from builder.jurisdiction import detect_jurisdiction
 
 # --------------------------------------------------------------------------- #
 # Paths
@@ -152,6 +160,7 @@ def main() -> None:
 
     # ---- Article & category pages ---------------------------------------- #
     for a in articles:
+        a["jurisdiction"] = detect_jurisdiction(a)
         body_html = render_body(a["content_md"])
         children = children_of(a["path"]) if a["is_category"] else []
         html = tpl_article.render(
@@ -181,6 +190,7 @@ def main() -> None:
             "breadcrumb": ["GoSystem Tax RS", sec],
             "source_url": f"{base_url}{prefix}/{sec}/browse",
         }
+        section_record["jurisdiction"] = detect_jurisdiction(section_record)
         html = tpl_article.render(
             site_name=SITE_NAME,
             article=section_record,
@@ -222,7 +232,21 @@ def main() -> None:
             }
         )
 
-    index_html = tpl_search.render(site_name=SITE_NAME, sections=browse)
+    # Unique jurisdictions list for filter pills on landing page
+    all_jurisdictions = {}
+    for a in articles:
+        j = a.get("jurisdiction") or detect_jurisdiction(a)
+        all_jurisdictions[j["code"]] = j
+    
+    # Sort order: Federal, then States A-Z, then General
+    def j_sort_key(j):
+        if j["code"] == "Federal": return (0, "Federal")
+        if j["type"] == "State": return (1, j["name"])
+        return (2, j["name"])
+
+    unique_jurisdictions = sorted(all_jurisdictions.values(), key=j_sort_key)
+
+    index_html = tpl_search.render(site_name=SITE_NAME, sections=browse, jurisdictions=unique_jurisdictions)
     write(SITE / "index.html", index_html)
 
     # ---- Stylesheet ------------------------------------------------------ #

@@ -16,9 +16,10 @@
     </ol>
   </nav>
 
-  <article class="doc">
+  <article class="doc" data-pagefind-filter="jurisdiction:{{ article.jurisdiction.label }}" data-pagefind-sort="jurisdiction:{{ article.jurisdiction.name }}" data-jurisdiction="{{ article.jurisdiction.label }}">
     <header class="doc__head">
       <div class="doc__tags">
+        <span class="tag tag--jurisdiction tag--{{ article.jurisdiction.type | lower }}"><span aria-hidden="true">{{ article.jurisdiction.icon }}</span> {{ article.jurisdiction.label }}</span>
         <span class="tag tag--form">Form {{ article.section }}</span>
         {% for code in article.codes %}<span class="tag tag--code">{{ code }}</span>{% endfor %}
       </div>

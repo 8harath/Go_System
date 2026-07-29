@@ -84,6 +84,22 @@ function renderSignature(sig) {
   return true;
 }
 
+/* ---- jurisdiction helper for JS ----------------------------------------- */
+function detectJurisdictionJS(url = "", title = "", breadcrumbs = []) {
+  const low = (url + " " + title + " " + breadcrumbs.join(" ")).toLowerCase();
+  if (low.includes("/states/california") || low.includes("california")) return { label: "California (CA)", code: "CA" };
+  if (low.includes("/states/connecticut") || low.includes("connecticut")) return { label: "Connecticut (CT)", code: "CT" };
+  if (low.includes("/states/illinois") || low.includes("illinois")) return { label: "Illinois (IL)", code: "IL" };
+  if (low.includes("/states/new-york") || low.includes("new york")) return { label: "New York (NY)", code: "NY" };
+  if (low.includes("/states/ohio") || low.includes("ohio")) return { label: "Ohio (OH)", code: "OH" };
+  if (low.includes("/states/alaska") || low.includes("alaska")) return { label: "Alaska (AK)", code: "AK" };
+  if (low.includes("/states/texas") || low.includes("texas")) return { label: "Texas (TX)", code: "TX" };
+  if (low.includes("/states/maryland") || low.includes("maryland")) return { label: "Maryland (MD)", code: "MD" };
+  if (low.includes("/states/utah") || low.includes("utah")) return { label: "Utah (UT)", code: "UT" };
+  if (low.includes("/federal") || low.includes("federal") || low.includes("irs") || low.includes("mef")) return { label: "Federal", code: "Federal" };
+  return { label: "General / Federal", code: "General" };
+}
+
 /* ---- result cards --------------------------------------------------------- */
 function cardHTML(hit, rank, best) {
   const why = (hit.why || []).map((w, i) =>
@@ -93,12 +109,21 @@ function cardHTML(hit, rank, best) {
   const kind = hit.kind || "text";
   const kindTag = `<span class="card__kind card__kind--${kind}">${esc(KIND_LABEL[kind] || kind)}</span>`;
   const crumbSpans = (hit.breadcrumb || []).map(c => `<span>${esc(c)}</span>`).join("");
+  
+  const j = hit.jurisdiction || "General / Federal";
+  const jCode = hit.jurisdictionCode || "General";
+  const jIcon = jCode === "Federal" ? "🏛️" : (jCode === "General" ? "🌐" : "📍");
+  const jBadge = `<span class="card__jurisdiction card__jurisdiction--${jCode.toLowerCase()}"><span aria-hidden="true">${jIcon}</span> ${esc(j)}</span>`;
+
   return `
-  <article class="card ${best ? "card--best" : ""}" data-url="${esc(hit.url)}" data-kind="${esc(kind)}" data-open="false">
+  <article class="card ${best ? "card--best" : ""}" data-url="${esc(hit.url)}" data-kind="${esc(kind)}" data-jurisdiction="${esc(j)}" data-title="${esc(hit.title)}" data-rank="${rank}" data-open="false">
     <div class="card__top" role="button" tabindex="0" aria-expanded="${best}">
       <span class="card__rank">${best ? "✓" : rank}</span>
       <div class="card__grow">
-        ${badge}
+        <div class="card__header-tags">
+          ${badge}
+          ${jBadge}
+        </div>
         <h3 class="card__title"><a href="${esc(hit.url)}">${esc(hit.title)}</a></h3>
         <p class="card__crumb">${kindTag}${crumbSpans}</p>
         ${why ? `<div class="why">${why}</div>` : excerpt}
@@ -150,7 +175,18 @@ function wireCards() {
 async function gather(query, sig) {
   const out = [];
   const seen = new Set();
-  const add = (h) => { const k = h.url.replace(/index\.html$/, "").replace(/\.html$/, "").toLowerCase(); if (!seen.has(k)) { seen.add(k); out.push(h); } };
+  const add = (h) => {
+    const k = h.url.replace(/index\.html$/, "").replace(/\.html$/, "").toLowerCase();
+    if (!seen.has(k)) {
+      seen.add(k);
+      if (!h.jurisdiction) {
+        const jInfo = detectJurisdictionJS(h.url, h.title, h.breadcrumb);
+        h.jurisdiction = jInfo.label;
+        h.jurisdictionCode = jInfo.code;
+      }
+      out.push(h);
+    }
+  };
 
   // 1) deterministic error matches (highest confidence)
   if (window.ErrorMatcher) {
@@ -164,7 +200,17 @@ async function gather(query, sig) {
   if (sig && sig.codes) {
     for (const code of sig.codes) {
       const hit = c.codes?.[normCode(code)];
-      if (hit) add({ url: hit.url, title: hit.title, breadcrumb: hit.section ? ["Form " + hit.section] : [], why: ["Exact code " + code], kind: "code" });
+      if (hit) {
+        add({
+          url: hit.url,
+          title: hit.title,
+          breadcrumb: hit.section ? ["Form " + hit.section] : [],
+          why: ["Exact code " + code],
+          kind: "code",
+          jurisdiction: hit.jurisdiction,
+          jurisdictionCode: hit.jurisdiction_code
+        });
+      }
     }
   }
   // 3) full-text (natural language / body text)
@@ -172,8 +218,18 @@ async function gather(query, sig) {
   if (pf) {
     try {
       const search = await pf.search(query.slice(0, 240));
-      const top = await Promise.all(search.results.slice(0, 8).map(r => r.data()));
-      top.forEach(d => add({ url: d.url.replace(/\.html$/, ".html"), title: (d.meta && d.meta.title) || d.url, breadcrumb: [], excerpt: d.excerpt, kind: "text" }));
+      const top = await Promise.all(search.results.slice(0, 12).map(r => r.data()));
+      top.forEach(d => {
+        const pfJurisdiction = d.filters?.jurisdiction?.[0];
+        add({
+          url: d.url.replace(/\.html$/, ".html"),
+          title: (d.meta && d.meta.title) || d.url,
+          breadcrumb: [],
+          excerpt: d.excerpt,
+          kind: "text",
+          jurisdiction: pfJurisdiction || null
+        });
+      });
     } catch {}
   }
   return out;
@@ -216,48 +272,126 @@ async function run() {
   hits.forEach((h, i) => html.push(cardHTML(h, i + 1, i === 0)));
   results.innerHTML = html.join("");
   wireCards();
-  wireToolbar(hits.length);
+  wireToolbar(hits);
 }
 
-/* ---- results toolbar: match-type filters + expand/collapse ---------------- */
+/* ---- results toolbar: match-type filters, jurisdiction filter, sort & actions ---------------- */
 function toolbarHTML(hits) {
   const n = hits.length;
-  const present = KIND_ORDER.filter(k => hits.some(h => (h.kind || "text") === k));
-  const filters = present.length > 1
+  const presentKinds = KIND_ORDER.filter(k => hits.some(h => (h.kind || "text") === k));
+  const kindFilters = presentKinds.length > 1
     ? `<div class="filterset" role="group" aria-label="Filter matches by type">
-         <button type="button" class="filter filter--on" data-filter="all">All</button>
-         ${present.map(k => `<button type="button" class="filter" data-filter="${k}">${esc(KIND_LABEL[k])}</button>`).join("")}
+         <button type="button" class="filter filter--on" data-filter="all">All types</button>
+         ${presentKinds.map(k => `<button type="button" class="filter" data-filter="${k}">${esc(KIND_LABEL[k])}</button>`).join("")}
        </div>`
     : "";
+
+  const jurisdictions = Array.from(new Set(hits.map(h => h.jurisdiction || "General / Federal"))).sort();
+  const jurSelect = `<div class="filterbox">
+    <label for="gs-jur-filter" class="filterbox__label">Jurisdiction:</label>
+    <select id="gs-jur-filter" class="select-input">
+      <option value="all">All Jurisdictions (${n})</option>
+      ${jurisdictions.map(j => `<option value="${esc(j)}">${esc(j)}</option>`).join("")}
+    </select>
+  </div>`;
+
+  const sortSelect = `<div class="filterbox">
+    <label for="gs-sort-select" class="filterbox__label">Sort by:</label>
+    <select id="gs-sort-select" class="select-input">
+      <option value="relevance">Best match</option>
+      <option value="jurisdiction-asc">Jurisdiction (A–Z)</option>
+      <option value="jurisdiction-desc">Jurisdiction (Z–A)</option>
+      <option value="title-asc">Title (A–Z)</option>
+    </select>
+  </div>`;
+
   const actions = n > 1
     ? `<div class="results__actions">
          <button type="button" class="bar-btn" data-action="expand">Expand all</button>
          <button type="button" class="bar-btn" data-action="collapse">Collapse all</button>
        </div>`
     : "";
+
   return `<div class="results__bar">
-    <p class="results__count" id="gs-count">${n} match${n > 1 ? "es" : ""}</p>
-    ${filters}${actions}
+    <div class="results__bar-top">
+      <p class="results__count" id="gs-count">${n} match${n > 1 ? "es" : ""}</p>
+      ${actions}
+    </div>
+    <div class="results__filters">
+      ${kindFilters}
+      ${jurSelect}
+      ${sortSelect}
+    </div>
   </div>`;
 }
 
-function wireToolbar(total) {
+function wireToolbar(hits) {
+  const total = hits.length;
   const count = results.querySelector("#gs-count");
-  results.querySelectorAll(".filter").forEach(btn => {
-    btn.addEventListener("click", () => {
-      results.querySelectorAll(".filter").forEach(b => b.classList.toggle("filter--on", b === btn));
-      const f = btn.dataset.filter;
-      let shown = 0;
-      results.querySelectorAll(".card").forEach(card => {
-        const match = f === "all" || card.dataset.kind === f;
-        card.hidden = !match;
-        if (match) shown++;
-      });
-      if (count) count.textContent = f === "all"
+  const kindBtns = results.querySelectorAll(".filter");
+  const jurSelect = results.querySelector("#gs-jur-filter");
+  const sortSelect = results.querySelector("#gs-sort-select");
+
+  let activeKind = "all";
+  let activeJur = "all";
+
+  function applyFiltersAndSort() {
+    let cards = Array.from(results.querySelectorAll(".card"));
+    
+    // 1. Filtering
+    let shown = 0;
+    cards.forEach(card => {
+      const matchKind = activeKind === "all" || card.dataset.kind === activeKind;
+      const matchJur = activeJur === "all" || card.dataset.jurisdiction === activeJur;
+      const visible = matchKind && matchJur;
+      card.hidden = !visible;
+      if (visible) shown++;
+    });
+
+    if (count) {
+      const extra = activeJur !== "all" ? ` · ${activeJur}` : "";
+      count.textContent = (activeKind === "all" && activeJur === "all")
         ? `${total} match${total > 1 ? "es" : ""}`
-        : `${shown} of ${total} shown`;
+        : `${shown} of ${total} shown${extra}`;
+    }
+
+    // 2. Sorting
+    const sortVal = sortSelect ? sortSelect.value : "relevance";
+    cards.sort((a, b) => {
+      if (sortVal === "jurisdiction-asc") {
+        return a.dataset.jurisdiction.localeCompare(b.dataset.jurisdiction);
+      }
+      if (sortVal === "jurisdiction-desc") {
+        return b.dataset.jurisdiction.localeCompare(a.dataset.jurisdiction);
+      }
+      if (sortVal === "title-asc") {
+        return a.dataset.title.localeCompare(b.dataset.title);
+      }
+      // default: relevance / rank
+      return Number(a.dataset.rank) - Number(b.dataset.rank);
+    });
+
+    // Re-append sorted cards in DOM container
+    cards.forEach(card => results.appendChild(card));
+  }
+
+  kindBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      kindBtns.forEach(b => b.classList.toggle("filter--on", b === btn));
+      activeKind = btn.dataset.filter;
+      applyFiltersAndSort();
     });
   });
+
+  jurSelect?.addEventListener("change", e => {
+    activeJur = e.target.value;
+    applyFiltersAndSort();
+  });
+
+  sortSelect?.addEventListener("change", () => {
+    applyFiltersAndSort();
+  });
+
   results.querySelector('[data-action="expand"]')?.addEventListener("click", () => {
     results.querySelectorAll(".card").forEach(c => { if (!c.hidden) toggleCard(c, true); });
   });
@@ -265,6 +399,7 @@ function wireToolbar(total) {
     results.querySelectorAll(".card").forEach(c => toggleCard(c, false));
   });
 }
+
 
 /* ---- samples + keyboard --------------------------------------------------- */
 samples?.addEventListener("click", e => {

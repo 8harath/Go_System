@@ -78,11 +78,13 @@ import os
 import re
 import sys
 
-# ---------------------------------------------------------------------------
-# Paths
-# ---------------------------------------------------------------------------
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _ROOT = os.path.dirname(_HERE)  # repo root (search/ -> ..)
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
+
+from builder.jurisdiction import detect_jurisdiction
+
 DEFAULT_MANIFEST = os.path.join(_ROOT, "data", "manifest.json")
 DEFAULT_OUT = os.path.join(_ROOT, "site", "codes.json")
 
@@ -107,11 +109,7 @@ def normalize_code(code: str) -> str:
 
 
 def local_url(article: dict) -> str:
-    """Build the LOCAL built-site page URL from an article's ``path``.
-
-    Mirrors the builder's output: categories -> ``.../index.html``, articles ->
-    ``<path>.html``. Always root-absolute so it works from any page.
-    """
+    """LOCAL built-site page URL from an article's ``path`` (mirrors builder)."""
     path = str(article.get("path", "")).strip("/")
     if not path:
         return "/"
@@ -128,10 +126,13 @@ def build_index(articles: list) -> dict:
         if not codes:
             continue
         url = local_url(art)
+        j = art.get("jurisdiction") or detect_jurisdiction(art)
         match = {
             "title": art.get("title", ""),
             "url": url,
             "section": art.get("section", ""),
+            "jurisdiction": j["label"],
+            "jurisdiction_code": j["code"],
             "_is_category": bool(art.get("is_category")),
         }
         for raw in codes:
@@ -152,7 +153,13 @@ def to_codes_json(index: dict) -> dict:
         # ties keep manifest insertion order (stable sort).
         matches = sorted(index[key], key=lambda m: (m["_is_category"],))
         clean = [
-            {"title": m["title"], "url": m["url"], "section": m["section"]}
+            {
+                "title": m["title"],
+                "url": m["url"],
+                "section": m["section"],
+                "jurisdiction": m.get("jurisdiction", "General / Federal"),
+                "jurisdiction_code": m.get("jurisdiction_code", "General"),
+            }
             for m in matches
         ]
         entry = dict(clean[0])  # primary => flat CONTRACT fields

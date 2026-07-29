@@ -96,11 +96,13 @@ import os
 import re
 import sys
 
-# ---------------------------------------------------------------------------
-# Paths
-# ---------------------------------------------------------------------------
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _ROOT = os.path.dirname(_HERE)  # repo root (search/ -> ..)
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
+
+from builder.jurisdiction import detect_jurisdiction
+
 DEFAULT_MANIFEST = os.path.join(_ROOT, "data", "manifest.json")
 DEFAULT_OUT = os.path.join(_ROOT, "site", "signatures.json")
 
@@ -345,11 +347,15 @@ def build_article_signature(article: dict, body: str) -> dict:
         "states": extract_states(title, breadcrumb, path),
         "elements": extract_elements(title, body),
     }
+    j = article.get("jurisdiction") or detect_jurisdiction(article)
     return {
         "url": local_url(article),
         "title": title,
         "section": article.get("section", "") or "",
         "breadcrumb": breadcrumb,
+        "jurisdiction": j["label"],
+        "jurisdiction_code": j["code"],
+        "jurisdiction_type": j["type"],
         "keys": keys,
         "excerpt": make_excerpt(body),
     }

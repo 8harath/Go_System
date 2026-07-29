@@ -376,3 +376,114 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
 }
+
+/* ---- Jurisdiction & Advanced Toolbar Controls ----------------------------- */
+.card__header-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+
+.card__jurisdiction {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  background: var(--surface-2);
+}
+.card__jurisdiction--federal { background: #D9E2EC; color: #102A43; border-color: #334E68; }
+.card__jurisdiction--ca { background: #FFE8D6; color: #78350F; border-color: #B45309; }
+.card__jurisdiction--ct { background: #E0F2FE; color: #0369A1; border-color: #0284C7; }
+.card__jurisdiction--ny { background: #E0E7FF; color: #3730A3; border-color: #4F46E5; }
+.card__jurisdiction--il { background: #FEF3C7; color: #92400E; border-color: #D97706; }
+.card__jurisdiction--general { background: var(--surface-2); color: var(--ink-soft); }
+
+:root[data-theme="dark"] .card__jurisdiction--federal { background: #1E293B; color: #E2E8F0; border-color: #475569; }
+:root[data-theme="dark"] .card__jurisdiction--ca { background: #451A03; color: #FDE68A; border-color: #92400E; }
+:root[data-theme="dark"] .card__jurisdiction--ct { background: #0C4A6E; color: #BAE6FD; border-color: #0284C7; }
+:root[data-theme="dark"] .card__jurisdiction--ny { background: #1E1B4B; color: #C7D2FE; border-color: #4338CA; }
+:root[data-theme="dark"] .card__jurisdiction--il { background: #451A03; color: #FEF3C7; border-color: #B45309; }
+
+.tag--jurisdiction { color: var(--ink); background: var(--surface-2); }
+.tag--jurisdiction.tag--state { color: #78350F; background: #FFE8D6; border-color: #B45309; }
+.tag--jurisdiction.tag--federal { color: #102A43; background: #D9E2EC; border-color: #334E68; }
+:root[data-theme="dark"] .tag--jurisdiction.tag--state { color: #FDE68A; background: #451A03; border-color: #92400E; }
+:root[data-theme="dark"] .tag--jurisdiction.tag--federal { color: #E2E8F0; background: #1E293B; border-color: #475569; }
+
+.results__bar {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.results__bar-top {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.results__filters {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding-top: 8px; border-top: 1.5px dashed var(--grid);
+}
+
+.filterbox {
+  display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: .8rem; color: var(--ink-soft);
+}
+.filterbox__label { font-weight: 600; font-size: .78rem; }
+.select-input {
+  font-family: var(--mono);
+  font-size: .8rem;
+  font-weight: 600;
+  padding: 5px 26px 5px 10px;
+  background-color: var(--surface);
+  color: var(--ink);
+  border: var(--b);
+  border-radius: var(--r-sm);
+  box-shadow: 2px 2px 0 var(--ink);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+.select-input:hover { background-color: var(--surface-2); }
+.select-input:focus { outline: 2px solid var(--focus); }
+
+.jurisdiction-bar {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: var(--b);
+  border-radius: var(--r);
+  box-shadow: var(--sh-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.jurisdiction-bar__label {
+  font-family: var(--display);
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--ink-soft);
+}
+.jurisdiction-bar__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.jur-pill {
+  font-family: var(--mono);
+  font-size: .78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border: var(--b);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  cursor: pointer;
+  transition: transform .12s var(--ease), background-color .12s var(--ease);
+}
+.jur-pill:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--ink);
+  background: var(--flag-wash);
+}
