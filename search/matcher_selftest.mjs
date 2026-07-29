@@ -12,7 +12,13 @@
  * Exits non-zero if any assertion fails.
  */
 
-import { parse, match, setSignatures, ready } from "./error_matcher.js";
+import {
+  parse,
+  match,
+  setSignatures,
+  ready,
+  detectArticleJurisdiction,
+} from "./error_matcher.js";
 
 // ---------------------------------------------------------------------------
 // The CA example inputs (path + realistic FTB/schema message). These do NOT
@@ -115,6 +121,70 @@ for (const c of CASES) {
   }
 }
 
+// Jurisdiction and error-kind rules must remain nationwide and deterministic.
+const CLASSIFIER_CASES = [
+  ["NY form prefix", "NYFormIT201 schema validation failed", "NY", "schema-validation"],
+  ["state context", "Jurisdiction: TX — data is missing", "TX", "missing-data"],
+  ["state name", "Ohio e-file schema: AccountNumber is unexpected", "OH", "unexpected-data"],
+  ["state code prefix", "AL65-008 e-file error", "AL", "reject-code"],
+  ["federal authority", "IRS MeF rejection R0000-058-01", "Federal", "reject-code"],
+  ["no false Indiana", "IND-039-01 e-file error", "", "reject-code"],
+  ["lowercase code", "f1065-037-02 e-file error", "", "reject-code"],
+  ["compact state code", "AL65008 e-file error", "AL", "reject-code"],
+];
+
+console.log("\n=== jurisdiction and error-kind classifier ===\n");
+for (const [name, input, jurisdiction, kind] of CLASSIFIER_CASES) {
+  const parsed = parse(input);
+  const ok = parsed.jurisdiction.code === jurisdiction && parsed.errorKind.code === kind;
+  if (!ok) failures++;
+  console.log(`${pad(name, 22)} ${ok ? "PASS" : "FAIL"}`);
+  if (!ok) console.log("   got:", parsed.jurisdiction.code, parsed.errorKind.code);
+}
+
+const codeShapes = [
+  ["f1065-037-02 e-file error", "F1065-037-02"],
+  ["IND03901 e-file error", "IND03901"],
+  ["80004005 error", "80004005"],
+  ["725 e-file error", "725"],
+];
+for (const [input, expected] of codeShapes) {
+  const actual = parse(input).codes;
+  const ok = actual.includes(expected);
+  if (!ok) failures++;
+  console.log(`${pad(`code ${expected}`, 22)} ${ok ? "PASS" : "FAIL"}`);
+}
+
+const articleJurisdictions = [
+  ["/e-file/1065-e-file-errors/states/new-mexico/x.html", "NM"],
+  ["/e-file/1040-e-file-errors/states/district-of-columbia/x.html", "DC"],
+  ["/e-file/990-e-file-errors/federal/x.html", "Federal"],
+];
+for (const [url, expected] of articleJurisdictions) {
+  const actual = detectArticleJurisdiction(url).code;
+  if (actual !== expected) failures++;
+}
+
+const ALL_STATE_PATHS = {
+  alabama: "AL", alaska: "AK", arizona: "AZ", arkansas: "AR", california: "CA",
+  colorado: "CO", connecticut: "CT", delaware: "DE", florida: "FL", georgia: "GA",
+  hawaii: "HI", idaho: "ID", illinois: "IL", indiana: "IN", iowa: "IA",
+  kansas: "KS", kentucky: "KY", louisiana: "LA", maine: "ME", maryland: "MD",
+  massachusetts: "MA", michigan: "MI", minnesota: "MN", mississippi: "MS",
+  missouri: "MO", montana: "MT", nebraska: "NE", nevada: "NV",
+  "new-hampshire": "NH", "new-jersey": "NJ", "new-mexico": "NM", "new-york": "NY",
+  "north-carolina": "NC", "north-dakota": "ND", ohio: "OH", oklahoma: "OK",
+  oregon: "OR", pennsylvania: "PA", "rhode-island": "RI", "south-carolina": "SC",
+  "south-dakota": "SD", tennessee: "TN", texas: "TX", utah: "UT", vermont: "VT",
+  virginia: "VA", washington: "WA", "west-virginia": "WV", wisconsin: "WI",
+  wyoming: "WY", "district-of-columbia": "DC",
+};
+const allStatePathsOk = Object.entries(ALL_STATE_PATHS).every(([slug, code]) =>
+  detectArticleJurisdiction(`/e-file/errors/states/${slug}/example.html`).code === code
+);
+if (!allStatePathsOk) failures++;
+console.log(`${pad("all state URL paths", 22)} ${allStatePathsOk ? "PASS" : "FAIL"}`);
+
 // Show the full parse of the first case (datatype / value / schedule / codes).
 console.log("\nFull parse() of case 1 (EntityType / CHECK):");
 console.log(JSON.stringify(parse(CASES[0].input), (k, v) =>
@@ -179,10 +249,9 @@ const SYNTHETIC = {
   ],
 };
 
-// Wait for the module's initial (failing) fetch to settle, THEN inject the
-// synthetic index so it isn't clobbered by the empty fallback.
-await ready;
+// Node does not auto-fetch the browser index; inject the fixture directly.
 setSignatures(SYNTHETIC);
+await ready;
 
 console.log("\n\n=== match() ranking demo (synthetic signatures.json) ===");
 
