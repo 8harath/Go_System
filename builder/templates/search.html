@@ -2,6 +2,7 @@
 {% block title %}{{ site_name }} — paste an error, get the fix{% endblock %}
 {% block description %}Paste a rejected GoSystem Tax RS e-file error — an IRS MeF reject code or a state schema validation message — and get the exact Thomson Reuters fix, instantly.{% endblock %}
 {% block body_class %}page-resolver{% endblock %}
+{% block footer_action %}{% endblock %}
 
 {% block head_extra %}
   <link rel="prefetch" href="/codes.json" as="fetch" crossorigin="anonymous">
@@ -10,14 +11,24 @@
 
 {% block content %}
 <section class="hero wrap">
-  <p class="hero__eyebrow">e-file rejection resolver</p>
-  <h1 class="hero__title">Paste the rejection.<br>Read <span class="mark">the fix</span>.</h1>
-  <p class="hero__lede">
-    Drop in a raw e-file validation error — a reject code or a state schema message.
-    Deterministic rules identify the jurisdiction, error type, form, field, and code, then match the exact GoSystem&nbsp;Tax&nbsp;RS article that resolves it.
-  </p>
+  <div class="hero__intro">
+    <div class="hero__copy">
+      <p class="hero__eyebrow"><span aria-hidden="true"></span> E-file rejection resolver</p>
+      <h1 class="hero__title">From rejection to <em>resolution.</em></h1>
+      <p class="hero__lede">
+        Paste an e-file diagnostic or search by state. We’ll identify the jurisdiction, form, field, and reject code, then show the GoSystem Tax RS article most likely to resolve it.
+      </p>
+    </div>
+  </div>
 
   <form class="paste" id="gs-form" role="search" autocomplete="off">
+    <div class="paste__heading">
+      <div>
+        <span class="paste__kicker">New diagnostic</span>
+        <h2>Paste an error or search a jurisdiction</h2>
+      </div>
+      <span class="paste__privacy">Processed in your browser</span>
+    </div>
     <div class="paste__frame">
       <div class="paste__rail" aria-hidden="true">
         <span class="paste__tick" data-state-dot></span>
@@ -31,8 +42,9 @@
                 autocapitalize="off"
                 autocorrect="off"
                 enterkeyhint="search"
-                aria-label="Paste a GoSystem Tax RS e-file error"
-                placeholder="Paste an error here — e.g.  CAForm565ScheduleK-1\PartnerInformation\EntityType  ·  The value CHECK is invalid … Enumeration constraint failed"></textarea>
+                aria-label="Paste an e-file error, reject code, or search by state"
+                aria-describedby="search-coverage"
+                placeholder="Paste an error, enter a reject code, or search a state — e.g. New York, TX, Alabama…"></textarea>
       <button type="button" class="paste__clear" id="gs-clear" aria-label="Clear" hidden>Clear</button>
     </div>
 
@@ -40,15 +52,15 @@
       <span class="sig__label">signature</span>
       <div class="sig__chips" id="gs-sigchips"></div>
     </div>
+    <p class="search-coverage" id="search-coverage"><span aria-hidden="true">●</span> Recognizes Federal, all 50 states, and Washington, D.C.</p>
+    <div class="samples" id="gs-samples" aria-label="Example errors to try">
+      <span class="samples__label">Try an example</span>
+      <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnerInformation\EntityType&#10;The http://www.ftb.ca.gov/efile:EntityType element is invalid. The value CHECK is invalid according to its datatype http://www.ftb.ca.gov/efile:CA-PartnerMemberEntityType. The Enumeration constraint failed.">CA 565 · EntityType</button>
+      <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnershipInformation\IsInvestmentPartnership&#10;The element PartnershipInformation in namespace http://www.ftb.ca.gov/efile has incomplete content. List of possible elements expected: IsInvestmentPartnership.">CA 565 · Missing field</button>
+      <button type="button" class="sample" data-sample="F1065-037-02 e-file error">F1065-037-02</button>
+      <button type="button" class="sample" data-sample="New York">New York state help</button>
+    </div>
   </form>
-
-  <div class="samples" id="gs-samples" aria-label="Example errors to try">
-    <span class="samples__label">Paste an example:</span>
-    <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnerInformation\EntityType&#10;The http://www.ftb.ca.gov/efile:EntityType element is invalid. The value CHECK is invalid according to its datatype http://www.ftb.ca.gov/efile:CA-PartnerMemberEntityType. The Enumeration constraint failed.">CA 565 · EntityType “CHECK”</button>
-    <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnershipInformation\IsInvestmentPartnership&#10;The element PartnershipInformation in namespace http://www.ftb.ca.gov/efile has incomplete content. List of possible elements expected: IsInvestmentPartnership.">CA 565 · IsInvestmentPartnership</button>
-    <button type="button" class="sample" data-sample="F1065-037-02 e-file error">F1065-037-02</button>
-    <button type="button" class="sample" data-sample="X0000-005 e-file error">X0000-005</button>
-  </div>
 
 </section>
 
