@@ -148,7 +148,13 @@ function cardHTML(hit, rank, best) {
       <button type="button" class="card__disc" aria-expanded="${best}" aria-controls="fix-${rank}" aria-label="Show fix for ${esc(hit.title)}">▸</button>
     </div>
     <div class="card__fix" id="fix-${rank}">
-      <p class="card__fixlabel">The fix</p>
+      <div class="card__fixhead">
+        <p class="card__fixlabel">The fix</p>
+        <button type="button" class="copy-btn" data-copy-solution aria-label="Copy solution for ${esc(hit.title)}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+          <span data-copy-label aria-live="polite">Copy solution</span>
+        </button>
+      </div>
       <div class="prose" data-fixbody>Loading…</div>
       <p class="card__source"><a href="${esc(hit.url)}">Open full article →</a></p>
     </div>
@@ -158,15 +164,58 @@ function cardHTML(hit, rank, best) {
 async function loadFix(card) {
   const body = card.querySelector("[data-fixbody]");
   if (!body || body.dataset.loaded) return;
-  body.dataset.loaded = "1";
-  try {
-    const html = await (await fetch(card.dataset.url)).text();
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    const el = doc.querySelector(".doc__body") || doc.querySelector(".prose");
-    body.innerHTML = el ? el.innerHTML : "See the full article for details.";
-  } catch {
-    body.innerHTML = `Couldn't load the fix inline. <a href="${card.dataset.url}">Open the article →</a>`;
+  if (body._loadPromise) return body._loadPromise;
+  body._loadPromise = (async () => {
+    try {
+      const html = await (await fetch(card.dataset.url)).text();
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const el = doc.querySelector(".doc__body") || doc.querySelector(".prose");
+      body.innerHTML = el ? el.innerHTML : "See the full article for details.";
+    } catch {
+      body.innerHTML = `Couldn't load the fix inline. <a href="${card.dataset.url}">Open the article →</a>`;
+    } finally {
+      body.dataset.loaded = "1";
+      delete body._loadPromise;
+    }
+  })();
+  return body._loadPromise;
+}
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
   }
+  const helper = document.createElement("textarea");
+  helper.value = text;
+  helper.setAttribute("readonly", "");
+  helper.style.position = "fixed";
+  helper.style.opacity = "0";
+  document.body.appendChild(helper);
+  helper.select();
+  document.execCommand("copy");
+  helper.remove();
+}
+
+async function copySolution(card, button) {
+  const label = button.querySelector("[data-copy-label]");
+  button.disabled = true;
+  if (label) label.textContent = "Preparing…";
+  await loadFix(card);
+  const solution = card.querySelector("[data-fixbody]")?.innerText.trim();
+  const text = `${card.dataset.title}\n\n${solution || "See the full article for details."}\n\nSource: ${new URL(card.dataset.url, location.href).href}`;
+  try {
+    await copyText(text);
+    button.dataset.copied = "true";
+    if (label) label.textContent = "Copied";
+  } catch {
+    if (label) label.textContent = "Copy failed";
+  }
+  setTimeout(() => {
+    button.disabled = false;
+    delete button.dataset.copied;
+    if (label) label.textContent = "Copy solution";
+  }, 1800);
 }
 
 function toggleCard(card, open) {
@@ -182,6 +231,7 @@ function wireCards() {
   results.querySelectorAll(".card").forEach(card => {
     const top = card.querySelector(".card__top");
     top.addEventListener("click", e => { if (e.target.closest("a")) return; toggleCard(card); });
+    card.querySelector("[data-copy-solution]")?.addEventListener("click", e => copySolution(card, e.currentTarget));
   });
   const best = results.querySelector(".card--best");
   if (best) toggleCard(best, true);
@@ -315,13 +365,47 @@ async function run() {
     return;
   }
 
-  setState("matched", hits.length === 1 ? "1 match" : hits.length + " matches");
-  const detectedJurisdiction = sig?.jurisdiction?.code || "";
-  const html = [toolbarHTML(hits, detectedJurisdiction)];
-  hits.forEach((h, i) => html.push(cardHTML(h, i + 1, i === 0)));
+  setState("matched", hits.length === 1 ? "1 match" : "best match found");
+  const html = [cardHTML(hits[0], 1, true)];
+  if (hits.length > 1) {
+    const alternatives = hits.slice(1);
+    html.push(`<section class="alternatives" aria-labelledby="more-heading">
+      <div class="alternatives__prompt">
+        <div>
+          <p class="alternatives__eyebrow">Still not resolved?</p>
+          <h2 id="more-heading">Find more possible solutions</h2>
+          <p>Review ${alternatives.length} lower-confidence match${alternatives.length > 1 ? "es" : ""}. These may be less likely to solve this exact error, but can help when the first fix does not apply.</p>
+        </div>
+        <button type="button" class="alternatives__button" data-show-more aria-expanded="false" aria-controls="gs-more-results">
+          <span data-more-label>Show other solutions</span>
+          <span class="alternatives__count">${alternatives.length}</span>
+        </button>
+      </div>
+      <div class="alternatives__results" id="gs-more-results" hidden>
+        ${toolbarHTML(alternatives)}
+        <div class="alternatives__list" id="gs-secondary">
+          ${alternatives.map((hit, i) => cardHTML(hit, i + 2, false)).join("")}
+        </div>
+      </div>
+    </section>`);
+  }
   results.innerHTML = html.join("");
-  wireToolbar(hits, detectedJurisdiction);
+  if (hits.length > 1) wireToolbar(hits.slice(1));
   wireCards();
+  wireAlternatives();
+}
+
+function wireAlternatives() {
+  const button = results.querySelector("[data-show-more]");
+  const panel = results.querySelector("#gs-more-results");
+  if (!button || !panel) return;
+  button.addEventListener("click", () => {
+    const open = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(open));
+    panel.hidden = !open;
+    const label = button.querySelector("[data-more-label]");
+    if (label) label.textContent = open ? "Hide other solutions" : "Show other solutions";
+  });
 }
 
 /* ---- results toolbar: match-type filters, jurisdiction filter, sort & actions ---------------- */
@@ -329,9 +413,12 @@ function toolbarHTML(hits, detectedJurisdiction = "") {
   const n = hits.length;
   const presentKinds = KIND_ORDER.filter(k => hits.some(h => (h.kind || "text") === k));
   const kindFilters = presentKinds.length > 1
-    ? `<div class="filterset" role="group" aria-label="Filter matches by type">
-         <button type="button" class="filter filter--on" data-filter="all">All types</button>
-         ${presentKinds.map(k => `<button type="button" class="filter" data-filter="${k}">${esc(KIND_LABEL[k])}</button>`).join("")}
+    ? `<div class="filter-group" role="group" aria-label="Filter by match type">
+         <span class="filter-group__label">Match</span>
+         <div class="filterset">
+           <button type="button" class="filter filter--on" data-filter="all" aria-pressed="true">All</button>
+           ${presentKinds.map(k => `<button type="button" class="filter" data-filter="${k}" aria-pressed="false">${esc(KIND_LABEL[k])}</button>`).join("")}
+         </div>
        </div>`
     : "";
 
@@ -339,26 +426,30 @@ function toolbarHTML(hits, detectedJurisdiction = "") {
     hits.map(h => [h.jurisdictionCode || "General", h.jurisdiction || "General / Federal"])
   ).entries()).sort((a, b) => a[1].localeCompare(b[1]));
   const canAutoScope = detectedJurisdiction && jurisdictions.some(([code]) => code === detectedJurisdiction);
-  const jurSelect = `<div class="filterbox">
-    <label for="gs-jur-filter" class="filterbox__label">Jurisdiction:</label>
-    <select id="gs-jur-filter" class="select-input">
-      <option value="all">All jurisdictions (${n})</option>
-      ${jurisdictions.map(([code, label]) => `<option value="${esc(code)}" ${canAutoScope && code === detectedJurisdiction ? "selected" : ""}>${esc(label)}</option>`).join("")}
-    </select>
+  const jurButtons = `<div class="filter-group filter-group--wide" role="group" aria-label="Filter by jurisdiction">
+    <span class="filter-group__label">Jurisdiction</span>
+    <div class="filterset filterset--scroll">
+      <button type="button" class="filter ${canAutoScope ? "" : "filter--on"}" data-jur-filter="all" aria-pressed="${canAutoScope ? "false" : "true"}">All <span>${n}</span></button>
+      ${jurisdictions.map(([code, label]) => {
+        const count = hits.filter(h => (h.jurisdictionCode || "General") === code).length;
+        const active = canAutoScope && code === detectedJurisdiction;
+        return `<button type="button" class="filter ${active ? "filter--on" : ""}" data-jur-filter="${esc(code)}" aria-pressed="${active}">${esc(label)} <span>${count}</span></button>`;
+      }).join("")}
+    </div>
   </div>`;
 
   const autoScope = canAutoScope
     ? `<p class="results__scope" id="gs-scope-note">Auto-filtered to <strong>${esc(jurisdictions.find(([code]) => code === detectedJurisdiction)?.[1])}</strong> from the pasted error. Choose “All jurisdictions” to widen the results.</p>`
     : "";
 
-  const sortSelect = `<div class="filterbox">
-    <label for="gs-sort-select" class="filterbox__label">Sort by:</label>
-    <select id="gs-sort-select" class="select-input">
-      <option value="relevance">Best match</option>
-      <option value="jurisdiction-asc">Jurisdiction (A–Z)</option>
-      <option value="jurisdiction-desc">Jurisdiction (Z–A)</option>
-      <option value="title-asc">Title (A–Z)</option>
-    </select>
+  const sortButtons = `<div class="filter-group" role="group" aria-label="Sort results">
+    <span class="filter-group__label">Sort</span>
+    <div class="filterset">
+      <button type="button" class="filter filter--on" data-sort="relevance" aria-pressed="true">Best match</button>
+      <button type="button" class="filter" data-sort="jurisdiction-asc" aria-pressed="false">Jurisdiction A–Z</button>
+      <button type="button" class="filter" data-sort="jurisdiction-desc" aria-pressed="false">Jurisdiction Z–A</button>
+      <button type="button" class="filter" data-sort="title-asc" aria-pressed="false">Title A–Z</button>
+    </div>
   </div>`;
 
   const actions = n > 1
@@ -375,25 +466,28 @@ function toolbarHTML(hits, detectedJurisdiction = "") {
     </div>
     <div class="results__filters">
       ${kindFilters}
-      ${jurSelect}
-      ${sortSelect}
+      ${jurButtons}
+      ${sortButtons}
     </div>
     ${autoScope}
   </div>`;
 }
 
 function wireToolbar(hits, detectedJurisdiction = "") {
+  const cardsRoot = results.querySelector("#gs-secondary") || results;
+  const toolbarRoot = results.querySelector("#gs-more-results") || results;
   const total = hits.length;
-  const count = results.querySelector("#gs-count");
-  const kindBtns = results.querySelectorAll(".filter");
-  const jurSelect = results.querySelector("#gs-jur-filter");
-  const sortSelect = results.querySelector("#gs-sort-select");
+  const count = toolbarRoot.querySelector("#gs-count");
+  const typeBtns = toolbarRoot.querySelectorAll("[data-filter]");
+  const jurBtns = toolbarRoot.querySelectorAll("[data-jur-filter]");
+  const sortBtns = toolbarRoot.querySelectorAll("[data-sort]");
 
   let activeKind = "all";
-  let activeJur = jurSelect?.value || "all";
+  let activeJur = toolbarRoot.querySelector('[data-jur-filter][aria-pressed="true"]')?.dataset.jurFilter || "all";
+  let activeSort = "relevance";
 
   function applyFiltersAndSort() {
-    let cards = Array.from(results.querySelectorAll(".card"));
+    let cards = Array.from(cardsRoot.querySelectorAll(".card"));
     
     // 1. Filtering
     let shown = 0;
@@ -406,7 +500,7 @@ function wireToolbar(hits, detectedJurisdiction = "") {
     });
 
     if (count) {
-      const selectedLabel = jurSelect?.selectedOptions?.[0]?.textContent || activeJur;
+      const selectedLabel = Array.from(jurBtns).find(btn => btn.dataset.jurFilter === activeJur)?.textContent.trim() || activeJur;
       const extra = activeJur !== "all" ? ` · ${selectedLabel}` : "";
       count.textContent = (activeKind === "all" && activeJur === "all")
         ? `${total} match${total > 1 ? "es" : ""}`
@@ -414,7 +508,7 @@ function wireToolbar(hits, detectedJurisdiction = "") {
     }
 
     // 2. Sorting
-    const sortVal = sortSelect ? sortSelect.value : "relevance";
+    const sortVal = activeSort;
     cards.sort((a, b) => {
       if (sortVal === "jurisdiction-asc") {
         return a.dataset.jurisdiction.localeCompare(b.dataset.jurisdiction);
@@ -429,34 +523,53 @@ function wireToolbar(hits, detectedJurisdiction = "") {
       return Number(a.dataset.rank) - Number(b.dataset.rank);
     });
 
-    // Re-append sorted cards in DOM container
-    cards.forEach(card => results.appendChild(card));
+    // Re-append sorted cards in the lower-confidence results container.
+    cards.forEach(card => cardsRoot.appendChild(card));
   }
 
-  kindBtns.forEach(btn => {
+  typeBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-      kindBtns.forEach(b => b.classList.toggle("filter--on", b === btn));
+      typeBtns.forEach(b => {
+        const active = b === btn;
+        b.classList.toggle("filter--on", active);
+        b.setAttribute("aria-pressed", String(active));
+      });
       activeKind = btn.dataset.filter;
       applyFiltersAndSort();
     });
   });
 
-  jurSelect?.addEventListener("change", e => {
-    activeJur = e.target.value;
-    const scopeNote = results.querySelector("#gs-scope-note");
-    if (scopeNote) scopeNote.hidden = activeJur !== detectedJurisdiction;
-    applyFiltersAndSort();
+  jurBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      jurBtns.forEach(b => {
+        const active = b === btn;
+        b.classList.toggle("filter--on", active);
+        b.setAttribute("aria-pressed", String(active));
+      });
+      activeJur = btn.dataset.jurFilter;
+      const scopeNote = toolbarRoot.querySelector("#gs-scope-note");
+      if (scopeNote) scopeNote.hidden = activeJur !== detectedJurisdiction;
+      applyFiltersAndSort();
+    });
   });
 
-  sortSelect?.addEventListener("change", () => {
-    applyFiltersAndSort();
+  sortBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      sortBtns.forEach(b => {
+        const active = b === btn;
+        b.classList.toggle("filter--on", active);
+        b.setAttribute("aria-pressed", String(active));
+      });
+      activeSort = btn.dataset.sort;
+      applyFiltersAndSort();
+    });
   });
 
-  results.querySelector('[data-action="expand"]')?.addEventListener("click", () => {
-    results.querySelectorAll(".card").forEach(c => { if (!c.hidden) toggleCard(c, true); });
+  toolbarRoot.querySelector('[data-action="expand"]')?.addEventListener("click", () => {
+    cardsRoot.querySelectorAll(".card").forEach(c => { if (!c.hidden) toggleCard(c, true); });
   });
-  results.querySelector('[data-action="collapse"]')?.addEventListener("click", () => {
-    results.querySelectorAll(".card").forEach(c => toggleCard(c, false));
+  toolbarRoot.querySelector('[data-action="collapse"]')?.addEventListener("click", () => {
+    cardsRoot.querySelectorAll(".card").forEach(c => toggleCard(c, false));
   });
 
   applyFiltersAndSort();
