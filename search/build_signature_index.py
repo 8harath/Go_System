@@ -78,7 +78,7 @@ elements Normalized path / xpath segments. Normalization: ``\`` -> ``/``; strip
 
 Scoring itself lives in error_matcher.js (``match()``); its documented weights:
     exact reject-code hit (100) > field-name match (45) > element-token overlap
-    (8 each, capped) > form (15) + state (10) > constraint (5).
+    (8 each, capped) > form (15) + schedule (12) + state (10) > constraint (5).
 
 Usage
 -----

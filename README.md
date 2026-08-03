@@ -5,6 +5,15 @@ articles. A user pastes an **error code** (e.g. `F1065-037-02`) or types a
 plain-language question and instantly gets the **verbatim Thomson Reuters article**
 as the fix.
 
+The resolver supports two daily workflows:
+
+- **Auto mode** parses a complete pasted diagnostic and detects its jurisdiction,
+  form, schedule, field, constraint, and reject code.
+- **Manual mode** lets a user search with any combination of jurisdiction, reject
+  code, return/form, schedule, field or element, error type, and message keywords.
+  Selecting a jurisdiction strictly scopes the results, and submitted manual
+  criteria are reflected in the URL so the search can be bookmarked or shared.
+
 The pipeline scrapes the official help docs, renders one static HTML page per
 article (with a canonical "Source: Thomson Reuters" attribution link), builds an
 error-code lookup index, and indexes everything for full-text search with
