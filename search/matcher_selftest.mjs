@@ -277,6 +277,9 @@ function showMatches(label, input, expectTopUrlIncludes) {
 
 showMatches("Query = EntityType example:", CASES[0].input, "entitytype");
 showMatches("Query = IsInvestmentPartnership example:", CASES[1].input, "isinvestmentpartnership");
+showMatches("Manual query = 'California Form 565':", "California Form 565", "isinvestmentpartnership");
+showMatches("Manual query = 'Schedule K-1':", "Schedule K-1", "isinvestmentpartnership");
+showMatches("Manual query = 'enumeration constraint failed':", "enumeration constraint failed", "entitytype");
 
 // A code-bearing federal reject should surface the R0000-058-01 article.
 showMatches(
@@ -286,7 +289,7 @@ showMatches(
 );
 
 // Plain-text (no structured signature) must return [] for full-text fallback.
-const plain = match("How do I file a Form 709 extension?");
+const plain = match("How do I amend a return?");
 const plainOk = Array.isArray(plain) && plain.length === 0;
 if (!plainOk) failures++;
 console.log("\nPlain-text query returns [] (full-text fallback): " + (plainOk ? "PASS" : "FAIL"));
