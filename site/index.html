@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GoSystem Tax RS Help Search — paste an error, get the fix</title>
-  <meta name="description" content="Paste a rejected GoSystem Tax RS e-file error — an IRS MeF reject code or a state schema validation message — and get the exact Thomson Reuters fix, instantly.">
+  <title>GoSystem Tax RS Help Search — find the right e-file fix</title>
+  <meta name="description" content="Resolve a GoSystem Tax RS e-file error automatically from the full diagnostic, or search manually by jurisdiction, reject code, form, field, and error type.">
   <meta name="color-scheme" content="light dark">
   <meta name="application-name" content="GS E-file Resolver">
   <meta name="theme-color" content="#315e47">
@@ -73,57 +73,224 @@
     <div class="hero__copy">
       <p class="hero__eyebrow"><span aria-hidden="true"></span> E-file rejection resolver</p>
       <h1 class="hero__title">From rejection to <em>resolution.</em></h1>
-      <p class="hero__lede">
-        Paste an e-file diagnostic or search by state. We’ll identify the jurisdiction, form, field, and reject code, then show the GoSystem Tax RS article most likely to resolve it.
-      </p>
     </div>
+    <p class="hero__lede">
+      Paste the full diagnostic for the fastest answer, or narrow the search yourself using the details you already know.
+    </p>
   </div>
 
-  <form class="paste" id="gs-form" role="search" autocomplete="off">
+  <form class="paste" id="gs-form" role="search" autocomplete="off" novalidate>
     <div class="paste__heading">
       <div>
-        <span class="paste__kicker">New diagnostic</span>
-        <h2>Paste an error or search a jurisdiction</h2>
+        <span class="paste__kicker">Resolution workspace</span>
+        <h2>How would you like to search?</h2>
       </div>
       <span class="paste__privacy">Processed in your browser</span>
     </div>
-    <div class="paste__frame">
-      <div class="paste__rail" aria-hidden="true">
-        <span class="paste__tick" data-state-dot></span>
-        <span class="paste__railtext" data-state-label>ready</span>
+
+    <div class="mode-tabs" role="tablist" aria-label="Error search mode">
+      <button type="button"
+              class="mode-tab mode-tab--active"
+              id="gs-mode-auto"
+              role="tab"
+              aria-selected="true"
+              aria-controls="gs-auto-panel"
+              data-mode="auto">
+        <span class="mode-tab__index" aria-hidden="true">01</span>
+        <span class="mode-tab__copy"><strong>Auto mode</strong><small>Paste the complete diagnostic</small></span>
+        <span class="mode-tab__check" aria-hidden="true">✓</span>
+      </button>
+      <button type="button"
+              class="mode-tab"
+              id="gs-mode-manual"
+              role="tab"
+              aria-selected="false"
+              aria-controls="gs-manual-panel"
+              data-mode="manual"
+              tabindex="-1">
+        <span class="mode-tab__index" aria-hidden="true">02</span>
+        <span class="mode-tab__copy"><strong>Manual mode</strong><small>Enter the details you know</small></span>
+        <span class="mode-tab__check" aria-hidden="true">✓</span>
+      </button>
+    </div>
+
+    <section class="mode-panel"
+             id="gs-auto-panel"
+             role="tabpanel"
+             aria-labelledby="gs-mode-auto"
+             data-mode-panel="auto">
+      <div class="mode-panel__intro">
+        <div>
+          <span class="mode-panel__label">Recommended</span>
+          <h3>Paste the error exactly as shown</h3>
+        </div>
+        <p>We’ll detect the jurisdiction, form, field, and reject code for you.</p>
       </div>
-      <textarea id="gs-search"
-                class="paste__input"
-                rows="3"
-                autofocus
-                spellcheck="false"
-                autocapitalize="off"
-                autocorrect="off"
-                enterkeyhint="search"
-                aria-label="Paste an e-file error, reject code, or search by state"
-                aria-describedby="search-coverage"
-                placeholder="Paste an error, enter a reject code, or search a state — e.g. New York, TX, Alabama…"></textarea>
-      <button type="button" class="paste__clear" id="gs-clear" aria-label="Clear" hidden>Clear</button>
-    </div>
 
-    <div class="sig" id="gs-signature" hidden aria-live="polite">
-      <span class="sig__label">signature</span>
-      <div class="sig__chips" id="gs-sigchips"></div>
-    </div>
-    <p class="search-coverage" id="search-coverage"><span aria-hidden="true">●</span> Recognizes Federal, all 50 states, and Washington, D.C.</p>
-    <div class="samples" id="gs-samples" aria-label="Example errors to try">
-      <span class="samples__label">Try an example</span>
-      <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnerInformation\EntityType&#10;The http://www.ftb.ca.gov/efile:EntityType element is invalid. The value CHECK is invalid according to its datatype http://www.ftb.ca.gov/efile:CA-PartnerMemberEntityType. The Enumeration constraint failed.">CA 565 · EntityType</button>
-      <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnershipInformation\IsInvestmentPartnership&#10;The element PartnershipInformation in namespace http://www.ftb.ca.gov/efile has incomplete content. List of possible elements expected: IsInvestmentPartnership.">CA 565 · Missing field</button>
-      <button type="button" class="sample" data-sample="F1065-037-02 e-file error">F1065-037-02</button>
-      <button type="button" class="sample" data-sample="New York">New York state help</button>
-    </div>
+      <div class="paste__frame">
+        <div class="paste__rail" aria-hidden="true">
+          <span class="paste__tick" data-state-dot></span>
+          <span class="paste__railtext" data-state-label>ready</span>
+        </div>
+        <textarea id="gs-search"
+                  class="paste__input"
+                  rows="3"
+                  autofocus
+                  spellcheck="false"
+                  autocapitalize="off"
+                  autocorrect="off"
+                  enterkeyhint="search"
+                  aria-label="Paste an e-file error, reject code, or search by state"
+                  aria-describedby="search-coverage"
+                  placeholder="Paste an error, enter a reject code, or search a state — e.g. New York, TX, Alabama…"></textarea>
+        <button type="button" class="paste__clear" id="gs-clear" aria-label="Clear automatic search" hidden>Clear</button>
+      </div>
+
+      <div class="sig" id="gs-signature" hidden aria-live="polite">
+        <span class="sig__label">signature</span>
+        <div class="sig__chips" id="gs-sigchips"></div>
+      </div>
+      <p class="search-coverage" id="search-coverage"><span aria-hidden="true">●</span> Recognizes Federal, all 50 states, and Washington, D.C.</p>
+      <div class="samples" id="gs-samples" aria-label="Example errors to try">
+        <span class="samples__label">Try an example</span>
+        <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnerInformation\EntityType&#10;The http://www.ftb.ca.gov/efile:EntityType element is invalid. The value CHECK is invalid according to its datatype http://www.ftb.ca.gov/efile:CA-PartnerMemberEntityType. The Enumeration constraint failed.">CA 565 · EntityType</button>
+        <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnershipInformation\IsInvestmentPartnership&#10;The element PartnershipInformation in namespace http://www.ftb.ca.gov/efile has incomplete content. List of possible elements expected: IsInvestmentPartnership.">CA 565 · Missing field</button>
+        <button type="button" class="sample" data-sample="F1065-037-02 e-file error">F1065-037-02</button>
+        <button type="button" class="sample" data-sample="New York">New York state help</button>
+      </div>
+    </section>
+
+    <section class="mode-panel manual"
+             id="gs-manual-panel"
+             role="tabpanel"
+             aria-labelledby="gs-mode-manual"
+             data-mode-panel="manual"
+             hidden>
+      <div class="mode-panel__intro">
+        <div>
+          <span class="mode-panel__label">Guided search</span>
+          <h3>Build the error signature yourself</h3>
+        </div>
+        <p>Start with any detail. Adding more fields improves the ranking.</p>
+      </div>
+
+      <div class="manual__grid">
+        <label class="manual-field manual-field--jurisdiction" for="gs-jurisdiction">
+          <span>Jurisdiction <small>Best first filter</small></span>
+          <select id="gs-jurisdiction" name="jurisdiction">
+            <option value="">All jurisdictions</option>
+            <option value="Federal">Federal / IRS</option>
+            <optgroup label="States and districts">
+              <option value="AL">Alabama (AL)</option>
+              <option value="AK">Alaska (AK)</option>
+              <option value="AZ">Arizona (AZ)</option>
+              <option value="AR">Arkansas (AR)</option>
+              <option value="CA">California (CA)</option>
+              <option value="CO">Colorado (CO)</option>
+              <option value="CT">Connecticut (CT)</option>
+              <option value="DE">Delaware (DE)</option>
+              <option value="DC">District of Columbia (DC)</option>
+              <option value="FL">Florida (FL)</option>
+              <option value="GA">Georgia (GA)</option>
+              <option value="HI">Hawaii (HI)</option>
+              <option value="ID">Idaho (ID)</option>
+              <option value="IL">Illinois (IL)</option>
+              <option value="IN">Indiana (IN)</option>
+              <option value="IA">Iowa (IA)</option>
+              <option value="KS">Kansas (KS)</option>
+              <option value="KY">Kentucky (KY)</option>
+              <option value="LA">Louisiana (LA)</option>
+              <option value="ME">Maine (ME)</option>
+              <option value="MD">Maryland (MD)</option>
+              <option value="MA">Massachusetts (MA)</option>
+              <option value="MI">Michigan (MI)</option>
+              <option value="MN">Minnesota (MN)</option>
+              <option value="MS">Mississippi (MS)</option>
+              <option value="MO">Missouri (MO)</option>
+              <option value="MT">Montana (MT)</option>
+              <option value="NE">Nebraska (NE)</option>
+              <option value="NV">Nevada (NV)</option>
+              <option value="NH">New Hampshire (NH)</option>
+              <option value="NJ">New Jersey (NJ)</option>
+              <option value="NM">New Mexico (NM)</option>
+              <option value="NY">New York (NY)</option>
+              <option value="NC">North Carolina (NC)</option>
+              <option value="ND">North Dakota (ND)</option>
+              <option value="OH">Ohio (OH)</option>
+              <option value="OK">Oklahoma (OK)</option>
+              <option value="OR">Oregon (OR)</option>
+              <option value="PA">Pennsylvania (PA)</option>
+              <option value="RI">Rhode Island (RI)</option>
+              <option value="SC">South Carolina (SC)</option>
+              <option value="SD">South Dakota (SD)</option>
+              <option value="TN">Tennessee (TN)</option>
+              <option value="TX">Texas (TX)</option>
+              <option value="UT">Utah (UT)</option>
+              <option value="VT">Vermont (VT)</option>
+              <option value="VA">Virginia (VA)</option>
+              <option value="WA">Washington (WA)</option>
+              <option value="WV">West Virginia (WV)</option>
+              <option value="WI">Wisconsin (WI)</option>
+              <option value="WY">Wyoming (WY)</option>
+            </optgroup>
+          </select>
+        </label>
+
+        <label class="manual-field" for="gs-error-code">
+          <span>Error or reject code <small>Exact match</small></span>
+          <input id="gs-error-code" name="code" type="text" inputmode="text" spellcheck="false" autocapitalize="characters" placeholder="e.g. F1065-037-02">
+        </label>
+
+        <label class="manual-field" for="gs-form-number">
+          <span>Return / form</span>
+          <input id="gs-form-number" name="form" type="text" spellcheck="false" placeholder="e.g. 1040, 1065, IT-201">
+        </label>
+
+        <label class="manual-field" for="gs-schedule">
+          <span>Schedule <small>Optional</small></span>
+          <input id="gs-schedule" name="schedule" type="text" spellcheck="false" placeholder="e.g. K-1, A, 8812">
+        </label>
+
+        <label class="manual-field" for="gs-field-name">
+          <span>Field or element</span>
+          <input id="gs-field-name" name="field" type="text" spellcheck="false" autocapitalize="off" placeholder="e.g. EntityType">
+        </label>
+
+        <label class="manual-field" for="gs-error-type">
+          <span>Error type</span>
+          <select id="gs-error-type" name="kind">
+            <option value="">Any error type</option>
+            <option value="schema validation failed">Schema validation</option>
+            <option value="data is missing">Missing required data</option>
+            <option value="is unexpected">Unexpected data</option>
+            <option value="enumeration constraint failed">Invalid allowed value</option>
+            <option value="pattern constraint failed">Invalid format / pattern</option>
+            <option value="invalid datatype">Invalid data type</option>
+            <option value="duplicate filing">Duplicate filing</option>
+          </select>
+        </label>
+
+        <label class="manual-field manual-field--wide" for="gs-keywords">
+          <span>Message keywords <small>Optional</small></span>
+          <input id="gs-keywords" name="keywords" type="text" placeholder="A short phrase from the error message">
+        </label>
+      </div>
+
+      <p class="manual__error" id="gs-manual-error" role="alert" hidden>Enter at least one detail before searching.</p>
+      <div class="manual__actions">
+        <button type="submit" class="manual__submit" id="gs-manual-submit">
+          <span data-manual-submit-label>Find matching fixes</span>
+          <span aria-hidden="true">→</span>
+        </button>
+        <button type="button" class="manual__reset" id="gs-manual-reset">Reset fields</button>
+        <p id="gs-manual-status" aria-live="polite">No required fields · Use whatever information you have</p>
+      </div>
+    </section>
   </form>
-
 </section>
 
 <section class="results wrap" aria-label="Matches">
-  <div id="gs-results" class="results__list" aria-live="polite"></div>
+  <div id="gs-results" class="results__list" aria-live="polite" aria-busy="false"></div>
 </section>
   </main>
 

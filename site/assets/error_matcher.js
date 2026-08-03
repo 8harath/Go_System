@@ -20,7 +20,7 @@
  *     },
  *     match(text) -> [ {               // scored articles, sorted desc, top ~10
  *        url, title, section, breadcrumb, score,
- *        why:[strings], matchedOn:{field,form,constraint,code,state}
+ *        why:[strings], matchedOn:{field,form,schedule,constraint,code,state}
  *     } ]
  *   }
  *
@@ -38,6 +38,7 @@
  *     FIELD_PARTIAL ... 20    query field is a substring of an article field/element (or vice-versa)
  *     ELEMENT_OVERLAP . 8 each (capped 32)  shared path/xpath element tokens
  *     FORM ............ 15    same form number
+ *     SCHEDULE ........ 12    same schedule in the article title, excerpt, or elements
  *     STATE ........... 10    same state
  *     CONSTRAINT ...... 5     constraint keyword present in article title/excerpt
  * Results with score <= 0 are dropped; the top ~10 are returned.
@@ -61,6 +62,7 @@ const W = {
   ELEMENT_OVERLAP: 8,
   ELEMENT_OVERLAP_CAP: 32,
   FORM: 15,
+  SCHEDULE: 12,
   STATE: 10,
   CONSTRAINT: 5,
   // Penalties: a field/element hit on an article that is explicitly about a
@@ -470,7 +472,7 @@ const CONSTRAINT_KEYWORD = {
 function scoreArticle(q, art) {
   let score = 0;
   const why = [];
-  const matchedOn = { field: null, form: null, constraint: null, code: null, state: null };
+  const matchedOn = { field: null, form: null, schedule: null, constraint: null, code: null, state: null };
 
   // Reject codes (highest).
   if (q.codes && q.codes.length && art._codes && art._codes.length) {
@@ -536,6 +538,17 @@ function scoreArticle(q, art) {
     why.push("Same form (" + q.form + ")");
   }
 
+  // Schedule. Normalize punctuation so K-1 and K1 match consistently.
+  if (q.schedule) {
+    const normalizedSchedule = q.schedule.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const scheduleHay = (art._hay + " " + art._elements.join(" ")).replace(/[^a-z0-9]/g, "");
+    if (normalizedSchedule && scheduleHay.includes("schedule" + normalizedSchedule)) {
+      score += W.SCHEDULE;
+      matchedOn.schedule = q.schedule;
+      why.push("Same schedule (" + q.schedule + ")");
+    }
+  }
+
   // State.
   if (q.state && art._states.has(q.state)) {
     score += W.STATE;
@@ -585,6 +598,9 @@ function match(text) {
   const hasSignal =
     (q.codes && q.codes.length > 0) ||
     !!q.field ||
+    !!q.form ||
+    !!q.schedule ||
+    !!q.constraint ||
     !!q.state ||
     (q._elements && q._elements.length > 0);
   if (!hasSignal) return [];
