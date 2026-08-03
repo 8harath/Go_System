@@ -20,10 +20,29 @@ const results = $("#gs-results");
 const samples = $("#gs-samples");
 const clearBtn= $("#gs-clear");
 const stateLabel = $("[data-state-label]");
+const modeTabs = Array.from(document.querySelectorAll("[data-mode]"));
+const modePanels = Array.from(document.querySelectorAll("[data-mode-panel]"));
+const signatureLabel = $(".sig__label");
+const manualPanel = $("#gs-manual-panel");
+const manualSubmit = $("#gs-manual-submit");
+const manualSubmitLabel = $("[data-manual-submit-label]");
+const manualReset = $("#gs-manual-reset");
+const manualError = $("#gs-manual-error");
+const manualStatus = $("#gs-manual-status");
+const manualFields = {
+  jurisdiction: $("#gs-jurisdiction"),
+  code: $("#gs-error-code"),
+  form: $("#gs-form-number"),
+  schedule: $("#gs-schedule"),
+  field: $("#gs-field-name"),
+  kind: $("#gs-error-type"),
+  keywords: $("#gs-keywords"),
+};
 
 let pagefind = null;
 let codes = null;
 let seq = 0;                         // stale-response guard
+let activeMode = "auto";
 
 /* ---- lazy loaders --------------------------------------------------------- */
 async function loadPagefind() {
@@ -52,9 +71,110 @@ function setState(state, label) {
   if (stateLabel) stateLabel.textContent = label;
 }
 
+function setResultsBusy(busy) {
+  results?.setAttribute("aria-busy", String(busy));
+  if (manualSubmit) {
+    const manualBusy = busy && activeMode === "manual";
+    manualSubmit.disabled = manualBusy;
+    if (manualSubmitLabel) manualSubmitLabel.textContent = manualBusy ? "Searching…" : "Find matching fixes";
+  }
+}
+
 function esc(s) {
   return String(s ?? "").replace(/[&<>"']/g, c =>
     ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
+/* ---- search modes + manual criteria ------------------------------------- */
+const MANUAL_PARAM_KEYS = ["jurisdiction", "code", "form", "schedule", "field", "kind", "keywords"];
+
+function resetSearchUI() {
+  seq++;
+  setResultsBusy(false);
+  setState("ready", "ready");
+  renderSignature(null);
+  results.innerHTML = "";
+  if (samples) samples.style.display = "";
+}
+
+function setMode(mode, { focus = true, clearResults = true, persist = true } = {}) {
+  activeMode = mode === "manual" ? "manual" : "auto";
+  modeTabs.forEach(tab => {
+    const selected = tab.dataset.mode === activeMode;
+    tab.classList.toggle("mode-tab--active", selected);
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+  });
+  modePanels.forEach(panel => { panel.hidden = panel.dataset.modePanel !== activeMode; });
+  if (signatureLabel) signatureLabel.textContent = activeMode === "manual" ? "criteria" : "signature";
+  if (manualError) manualError.hidden = true;
+  if (clearResults) resetSearchUI();
+  if (persist) {
+    try { localStorage.setItem("gs-search-mode", activeMode); } catch {}
+  }
+  if (focus) {
+    const target = activeMode === "manual" ? manualFields.jurisdiction : input;
+    requestAnimationFrame(() => target?.focus());
+  }
+}
+
+function manualValues() {
+  return Object.fromEntries(MANUAL_PARAM_KEYS.map(key => [key, manualFields[key]?.value.trim() || ""]));
+}
+
+function normalizeManualCode(value) {
+  return value.trim().toUpperCase().replace(/[–—]/g, "-").replace(/\s+/g, "-");
+}
+
+function buildManualSearch() {
+  const values = manualValues();
+  values.code = normalizeManualCode(values.code);
+  if (manualFields.code) manualFields.code.value = values.code;
+
+  const jurisdictionLabel = values.jurisdiction
+    ? manualFields.jurisdiction?.selectedOptions?.[0]?.textContent.trim() || values.jurisdiction
+    : "";
+  const kindLabel = values.kind
+    ? manualFields.kind?.selectedOptions?.[0]?.textContent.trim() || values.kind
+    : "";
+  const parts = [
+    jurisdictionLabel,
+    values.code ? `${values.code} e-file error` : "",
+    values.form ? `Form ${values.form}` : "",
+    values.schedule ? `Schedule ${values.schedule}` : "",
+    values.field ? `element ${values.field}` : "",
+    values.kind,
+    values.keywords,
+  ].filter(Boolean);
+
+  return {
+    query: parts.join(" · "),
+    values,
+    jurisdictionLabel,
+    kindLabel,
+    scopeCode: values.jurisdiction,
+    hasCriteria: Object.values(values).some(Boolean),
+  };
+}
+
+function updateManualURL(values) {
+  if (!history.replaceState) return;
+  const params = new URLSearchParams();
+  params.set("mode", "manual");
+  MANUAL_PARAM_KEYS.forEach(key => { if (values[key]) params.set(key, values[key]); });
+  history.replaceState(null, "", `${location.pathname}?${params.toString()}${location.hash}`);
+}
+
+function clearManualURL() {
+  if (history.replaceState) history.replaceState(null, "", `${location.pathname}${location.hash}`);
+}
+
+function restoreManualSearch(params) {
+  MANUAL_PARAM_KEYS.forEach(key => {
+    if (manualFields[key] && params.has(key)) manualFields[key].value = params.get(key) || "";
+  });
+  const search = buildManualSearch();
+  if (search.hasCriteria) runManual({ updateURL: false });
 }
 
 /* ---- live signature decomposition ---------------------------------------- */
@@ -331,21 +451,78 @@ function prioritizeJurisdiction(hits, code) {
 
 /* ---- main run ------------------------------------------------------------- */
 let timer = null;
-function schedule() { clearTimeout(timer); timer = setTimeout(run, 130); }
+function schedule() {
+  clearTimeout(timer);
+  if (activeMode === "auto") timer = setTimeout(run, 130);
+}
 
-async function run() {
-  const query = input.value.trim();
+function manualSummaryHTML(search, filteredOut = 0) {
+  const criteria = [
+    search.jurisdictionLabel && ["Jurisdiction", search.jurisdictionLabel],
+    search.values.code && ["Code", search.values.code],
+    search.values.form && ["Form", search.values.form],
+    search.values.schedule && ["Schedule", search.values.schedule],
+    search.values.field && ["Field", search.values.field],
+    search.values.kind && ["Type", search.kindLabel],
+    search.values.keywords && ["Keywords", search.values.keywords],
+  ].filter(Boolean);
+  const scopeNote = search.scopeCode
+    ? `<span class="search-summary__scope">Strict jurisdiction filter${filteredOut ? ` · ${filteredOut} outside-scope match${filteredOut === 1 ? "" : "es"} hidden` : ""}</span>`
+    : `<span class="search-summary__scope">All jurisdictions included</span>`;
+
+  return `<section class="search-summary" aria-label="Active manual search criteria">
+    <div class="search-summary__top">
+      <div><span class="search-summary__eyebrow">Manual search</span>${scopeNote}</div>
+      <button type="button" class="search-summary__edit" data-edit-manual>Edit filters</button>
+    </div>
+    <div class="search-summary__criteria">
+      ${criteria.map(([label, value]) => `<span><i>${esc(label)}</i><b>${esc(value)}</b></span>`).join("")}
+    </div>
+  </section>`;
+}
+
+function wireManualSummary() {
+  results.querySelectorAll("[data-edit-manual]").forEach(button => {
+    button.addEventListener("click", () => {
+      manualPanel?.scrollIntoView({ behavior: "smooth", block: "center" });
+      manualFields.jurisdiction?.focus({ preventScroll: true });
+    });
+  });
+}
+
+function run() {
+  return executeSearch(input.value.trim(), { mode: "auto" });
+}
+
+async function runManual({ updateURL = true } = {}) {
+  const search = buildManualSearch();
+  if (!search.hasCriteria) {
+    resetSearchUI();
+    if (manualError) manualError.hidden = false;
+    manualPanel?.setAttribute("aria-describedby", "gs-manual-error");
+    manualFields.jurisdiction?.focus();
+    return;
+  }
+  if (manualError) manualError.hidden = true;
+  manualPanel?.removeAttribute("aria-describedby");
+  if (updateURL) updateManualURL(search.values);
+  return executeSearch(search.query, { mode: "manual", scopeCode: search.scopeCode, manualSearch: search });
+}
+
+async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearch = null } = {}) {
   const mine = ++seq;
-  clearBtn.hidden = !query;
+  if (clearBtn) clearBtn.hidden = mode !== "auto" || !query;
 
   if (!query) {
     setState("ready", "ready");
     renderSignature(null);
     results.innerHTML = "";
-    samples.style.display = "";
+    if (samples) samples.style.display = "";
+    setResultsBusy(false);
     return;
   }
-  samples.style.display = "none";
+  if (samples && mode === "auto") samples.style.display = "none";
+  setResultsBusy(true);
 
   let sig = window.ErrorMatcher ? window.ErrorMatcher.parse(query) : null;
   const hasSig = renderSignature(sig);
@@ -356,17 +533,31 @@ async function run() {
 
   sig = inferJurisdictionFromExactMatches(sig, hits);
   renderSignature(sig);
-  hits = prioritizeJurisdiction(hits, sig?.jurisdiction?.code);
+  const detectedCode = scopeCode || sig?.jurisdiction?.code;
+  hits = prioritizeJurisdiction(hits, detectedCode);
+  const unscopedCount = hits.length;
+  if (scopeCode) hits = hits.filter(hit => hit.jurisdictionCode === scopeCode);
+  const filteredOut = unscopedCount - hits.length;
 
   if (!hits.length) {
     setState("reading", "no match");
-    results.innerHTML = `<div class="note">No article matched that yet.<br>
-      Try the reject code on its own (e.g. <code>F1065-037-02</code>) or a few keywords from the message.</div>`;
+    const scope = manualSearch?.jurisdictionLabel;
+    const manualSummary = manualSearch ? manualSummaryHTML(manualSearch, filteredOut) : "";
+    results.innerHTML = `${manualSummary}<div class="note">
+      <strong>No matching guidance found${scope ? ` in ${esc(scope)}` : ""}.</strong>
+      <span>${manualSearch
+        ? "Try removing one detail, choosing all jurisdictions, or entering a phrase from the diagnostic."
+        : "Try the reject code on its own (for example, F1065-037-02) or a few keywords from the message."}</span>
+      ${manualSearch ? `<button type="button" class="note__action" data-edit-manual>Review manual filters</button>` : ""}
+    </div>`;
+    wireManualSummary();
+    setResultsBusy(false);
     return;
   }
 
   setState("matched", hits.length === 1 ? "1 match" : "best match found");
-  const html = [cardHTML(hits[0], 1, true)];
+  const html = manualSearch ? [manualSummaryHTML(manualSearch, filteredOut)] : [];
+  html.push(cardHTML(hits[0], 1, true));
   if (hits.length > 1) {
     const alternatives = hits.slice(1);
     html.push(`<section class="alternatives" aria-labelledby="more-heading">
@@ -393,6 +584,8 @@ async function run() {
   if (hits.length > 1) wireToolbar(hits.slice(1));
   wireCards();
   wireAlternatives();
+  wireManualSummary();
+  setResultsBusy(false);
 }
 
 function wireAlternatives() {
@@ -585,16 +778,73 @@ samples?.addEventListener("click", e => {
   run();
 });
 
-clearBtn?.addEventListener("click", () => { input.value = ""; input.focus(); run(); });
-input?.addEventListener("input", schedule);
-form?.addEventListener("submit", e => { e.preventDefault(); run(); });
+function updateManualStatus() {
+  const count = Object.values(manualValues()).filter(Boolean).length;
+  if (manualStatus) {
+    manualStatus.textContent = count
+      ? count + " detail" + (count === 1 ? "" : "s") + " ready · Add more to narrow the results"
+      : "No required fields · Use whatever information you have";
+  }
+  if (count && manualError) manualError.hidden = true;
+}
+
+modeTabs.forEach((tab, index) => {
+  tab.addEventListener("click", () => setMode(tab.dataset.mode));
+  tab.addEventListener("keydown", e => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+    e.preventDefault();
+    let next = index;
+    if (e.key === "ArrowLeft") next = (index - 1 + modeTabs.length) % modeTabs.length;
+    if (e.key === "ArrowRight") next = (index + 1) % modeTabs.length;
+    if (e.key === "Home") next = 0;
+    if (e.key === "End") next = modeTabs.length - 1;
+    setMode(modeTabs[next].dataset.mode);
+  });
+});
+
+Object.values(manualFields).forEach(field => {
+  field?.addEventListener("input", updateManualStatus);
+  field?.addEventListener("change", updateManualStatus);
+});
+manualFields.code?.addEventListener("blur", () => {
+  manualFields.code.value = normalizeManualCode(manualFields.code.value);
+});
+
+manualReset?.addEventListener("click", () => {
+  Object.values(manualFields).forEach(field => { if (field) field.value = ""; });
+  updateManualStatus();
+  clearManualURL();
+  resetSearchUI();
+  manualFields.jurisdiction?.focus();
+});
+
+clearBtn?.addEventListener("click", () => {
+  input.value = "";
+  clearManualURL();
+  input.focus();
+  run();
+});
+input?.addEventListener("input", () => {
+  if (new URLSearchParams(location.search).has("q")) clearManualURL();
+  schedule();
+});
+form?.addEventListener("submit", e => {
+  e.preventDefault();
+  if (activeMode === "manual") runManual();
+  else run();
+});
 
 document.addEventListener("keydown", e => {
-  const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement?.tagName || "");
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
   if ((e.key === "/" && !typing) || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k")) {
-    e.preventDefault(); input.focus(); input.select?.();
+    e.preventDefault();
+    if (activeMode !== "auto") setMode("auto");
+    input.focus();
+    input.select?.();
   } else if (e.key === "Escape" && document.activeElement === input) {
-    input.value = ""; run();
+    input.value = "";
+    clearManualURL();
+    run();
   } else if (e.key === "Enter" && document.activeElement === input && (e.metaKey || e.ctrlKey)) {
     e.preventDefault();
     const first = results.querySelector(".card a");
@@ -602,9 +852,28 @@ document.addEventListener("keydown", e => {
   }
 });
 document.querySelectorAll("[data-focus-search]").forEach(el =>
-  el.addEventListener("click", () => { input.focus(); input.select?.(); }));
+  el.addEventListener("click", () => {
+    if (activeMode !== "auto") setMode("auto");
+    input.focus();
+    input.select?.();
+  }));
 
-/* deep link ?q= */
-const q0 = new URLSearchParams(location.search).get("q");
-if (q0) { input.value = q0; run(); }
+/* Restore a shareable search, then fall back to the user's last-used mode. */
+const initialParams = new URLSearchParams(location.search);
+const q0 = initialParams.get("q");
+let initialMode = initialParams.get("mode");
+if (initialMode !== "manual" && !q0) {
+  try { initialMode = localStorage.getItem("gs-search-mode"); } catch {}
+}
 setState("ready", "ready");
+if (initialParams.get("mode") === "manual") {
+  setMode("manual", { focus: false, clearResults: false, persist: false });
+  restoreManualSearch(initialParams);
+} else if (q0) {
+  setMode("auto", { focus: false, clearResults: false, persist: false });
+  input.value = q0;
+  run();
+} else {
+  setMode(initialMode === "manual" ? "manual" : "auto", { focus: false, clearResults: false, persist: false });
+}
+updateManualStatus();
