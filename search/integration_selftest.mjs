@@ -47,6 +47,22 @@ check(
   `${stateSearchMatches.length} New York matches`
 );
 
+const manualFormMatches = match("California Form 565");
+check(
+  "manual jurisdiction and form search is structured",
+  manualFormMatches.length > 0 &&
+    manualFormMatches[0].jurisdictionCode === "CA" &&
+    manualFormMatches.some(hit => hit.matchedOn.form === "565"),
+  String(manualFormMatches.length) + " California Form 565 matches"
+);
+
+const manualScheduleMatches = match("California Form 565 Schedule K-1");
+check(
+  "manual schedule search contributes to ranking",
+  manualScheduleMatches.some(hit => hit.matchedOn.schedule === "K-1"),
+  String(manualScheduleMatches.length) + " Schedule K-1 matches"
+);
+
 const collision = codes.codes.X0000005;
 const collisionJurisdictions = new Set((collision?.matches || [collision]).map(x => x.jurisdiction_code));
 check(
