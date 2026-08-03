@@ -8,7 +8,7 @@
   "scripts": {
     "build": "bash build.sh",
     "index": "pagefind --site site",
-    "test": "node search/matcher_selftest.mjs && node search/integration_selftest.mjs"
+    "test": "node search/matcher_selftest.mjs && node search/integration_selftest.mjs && node search/ui_selftest.mjs"
   },
   "devDependencies": {
     "pagefind": "^1.3.0"
