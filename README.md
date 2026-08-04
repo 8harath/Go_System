@@ -5,7 +5,9 @@ articles. A user pastes an **error code** (e.g. `F1065-037-02`) or types a
 plain-language question and instantly gets the **verbatim Thomson Reuters article**
 as the fix.
 
-The resolver supports two daily workflows:
+There are two ways in, for the two ways people actually arrive.
+
+**1. The resolver (`/`)** — for when you have the error in front of you.
 
 - **Auto mode** parses a complete pasted diagnostic and detects its jurisdiction,
   form, schedule, field, constraint, and reject code.
@@ -14,11 +16,20 @@ The resolver supports two daily workflows:
   Selecting a jurisdiction strictly scopes the results, and submitted manual
   criteria are reflected in the URL so the search can be bookmarked or shared.
 
+**2. The error catalog (`/errors/`)** — for when you don't, or you want to see what
+exists. Every indexed article in one filterable list, faceted by **jurisdiction**,
+**return type**, **what went wrong**, **topic**, and **whether it has a reject
+code**. Filters compose, counts are contextual (a facet showing "12" really does
+yield 12 rows, so there are no dead ends), the whole filter state round-trips
+through the URL, and any row expands to show the fix inline. See
+[The error catalog](#the-error-catalog).
+
 The pipeline scrapes the official help docs, renders one static HTML page per
 article (with a canonical "Source: Thomson Reuters" attribution link), builds an
-error-code lookup index, and indexes everything for full-text search with
-[Pagefind](https://pagefind.app). The output is a plain `site/` directory that can
-be hosted anywhere (Vercel, Netlify, GitHub Pages, S3, …) — no server, no database.
+error-code lookup index and a facet index, and indexes everything for full-text
+search with [Pagefind](https://pagefind.app). The output is a plain `site/`
+directory that can be hosted anywhere (Vercel, Netlify, GitHub Pages, S3, …) — no
+server, no database.
 
 > **Scope:** The current deployable corpus builds the complete **`e-file` section** (1,426 records).
 > Flip to all 10 sections with a single env var — see
@@ -36,17 +47,27 @@ be hosted anywhere (Vercel, Netlify, GitHub Pages, S3, …) — no server, no da
   │     --sections $SECTIONS          content/<path>.md|.html                  │
   │                                   _raw/<path>.html   (audit)               │
   │                                        │                                   │
-  │  2. builder/build_site.py ◄───────────┘                                    │
+  │  2. builder/build_catalog.py ◄─────────┤                                   │
+  │                                 ─────► data/catalog.json  (facet index)    │
+  │                                        │                                   │
+  │  3. builder/build_site.py ◄────────────┘ (manifest + content + catalog)    │
   │                                 ─────► site/**/*.html   (one page/article) │
-  │                                        site/index.html  (search landing)   │
+  │                                        site/index.html    (resolver)       │
+  │                                        site/errors/index.html  (catalog)   │
+  │                                        site/errors/jurisdiction/<slug>/    │
+  │                                        site/errors/return/<slug>/          │
+  │                                        site/catalog.json  (copied payload) │
   │                                        site/assets/styles.css              │
   │                                        │                                   │
-  │  3. search/build_codes_index.py ◄──────┘ (reads manifest)                  │
+  │  4. search/build_codes_index.py ◄──────┤ (reads manifest)                  │
   │                                 ─────► site/codes.json  (error-code index) │
+  │                                        │                                   │
+  │  5. search/build_signature_index.py ◄──┘                                   │
+  │                                 ─────► site/signatures.json                │
   │                                                                            │
-  │  4. cp search/search.js ────────► site/assets/search.js                    │
+  │  6. cp search/{search,error_matcher,catalog}.js ──► site/assets/           │
   │                                                                            │
-  │  5. npx pagefind --site site ───► site/pagefind/       (full-text index)   │
+  │  7. npx pagefind --site site ───► site/pagefind/       (full-text index)   │
   │                                                                            │
   └──────────────────────────────────────────────────────────────────────────┘
                                    │
@@ -54,13 +75,17 @@ be hosted anywhere (Vercel, Netlify, GitHub Pages, S3, …) — no server, no da
                         Deployable static site  ./site/
 ```
 
+> **Ordering constraint:** `build_catalog.py` must run *before* `build_site.py`.
+> `build_site.py` wipes `site/` and then copies `data/catalog.json` into it, which
+> is why the facet index is written to `data/` rather than straight to `site/`.
+
 Component ownership (see `CONTRACT.md` for the full interface spec):
 
 | Dir / files          | Owner   | Produces                                        |
 |----------------------|---------|-------------------------------------------------|
 | `scraper/`           | Agent A | `data/manifest.json`, `content/`, `_raw/`       |
-| `builder/`           | Agent B | `site/` pages, `site/assets/styles.css`, `index.html` |
-| `search/`            | Agent C | `site/codes.json`, `search/search.js`           |
+| `builder/`           | Agent B | `data/catalog.json`, `site/` pages (resolver, articles, catalog, facet indexes), `site/assets/styles.css` |
+| `search/`            | Agent C | `site/codes.json`, `site/signatures.json`, `search/{search,error_matcher,catalog}.js` |
 | `deploy/`, root cfg  | Agent D | `build.sh`, `requirements.txt`, `package.json`, host configs, CI |
 
 ---
@@ -89,7 +114,8 @@ The whole pipeline is orchestrated by `build.sh` (idempotent — safe to re-run)
 ./build.sh                 # complete e-file corpus (default)
 ```
 
-It runs, in order: **scrape -> build_site -> build_codes_index -> copy search.js -> pagefind index**,
+It runs, in order: **scrape -> build_catalog -> build_site -> build_codes_index ->
+build_signature_index -> copy browser clients -> pagefind index**,
 echoing progress and failing fast on the first error. When it finishes, the
 deployable site is in `./site/`.
 
@@ -102,6 +128,144 @@ npx serve site          # then open the printed URL
 
 `npm run build` is an alias for `./build.sh`; `npm run index` re-runs just the
 Pagefind indexing step against an existing `site/`.
+
+### Rebuilding without re-scraping
+
+`build.sh` starts with the scraper. When you are only changing the site (templates,
+CSS, facets) and `content/` + `data/manifest.json` are already present, skip
+straight to the build steps so you don't touch the origin at all:
+
+```bash
+.venv/bin/python builder/build_catalog.py       # data/catalog.json
+.venv/bin/python builder/build_site.py          # site/
+.venv/bin/python search/build_codes_index.py    # site/codes.json
+.venv/bin/python search/build_signature_index.py
+cp search/search.js search/error_matcher.js search/catalog.js site/assets/
+npx pagefind --site site
+```
+
+### Tests
+
+```bash
+npm test
+```
+
+Five suites, all offline and dependency-free:
+
+| Suite | Checks |
+|-------|--------|
+| `matcher_selftest.mjs`     | the deterministic parser and scorer, on synthetic errors |
+| `integration_selftest.mjs` | ranking against the real generated indexes |
+| `ui_selftest.mjs`          | the resolver's DOM contract (required control ids, all 52 jurisdictions, asset sync) |
+| `catalog_selftest.mjs`     | catalog integrity — facet indices resolve, counts match their rows, every row URL and facet page exists, and the Python and JS jurisdiction-slug rules agree |
+| `a11y_selftest.mjs`        | the accessibility contract below, recomputed from the actual CSS |
+
+---
+
+## The error catalog
+
+`/errors/` is the browse-everything surface, for when you don't have a diagnostic
+to paste. It lists every non-category article (1,288 of the 1,426 records; the
+other 138 are topic index pages, reachable through breadcrumbs) and filters them
+on five facets:
+
+| Facet | Derived from | Notes |
+|-------|--------------|-------|
+| Jurisdiction | `builder/jurisdiction.py` | The same classifier the article pages and search indexes use, so a row can never disagree with the page it links to |
+| Return type | breadcrumb / path (`1065 e-file errors`, `1040 returns`) | Read off structure, not guessed from the body |
+| What went wrong | title + full article body | Structural patterns (missing data, unexpected data, value mismatch, …), most specific first |
+| Topic | the breadcrumb node under the section | Attachments, Signature & PIN, Create & transmit, … |
+| Reject code | title, then dashed-MeF codes in the manifest | See the note on code extraction below |
+
+Two deliberate choices worth knowing about:
+
+- **Unclassified is a real answer.** Roughly 42% of rows get a specific error type.
+  The rest land in "General rejection" (recognisably a rejection, no nameable
+  structural signal) or "Not classified". Those labels say exactly that instead of
+  implying a diagnosis the source text doesn't support.
+- **Reject codes come from the title, not `manifest.codes`.** That list is a
+  harvest of every code-shaped token in the body, so it is full of publication
+  numbers, tax years and placeholders, and its order is meaningless — reading
+  `codes[0]` mislabels articles. `build_catalog.py` reads the article's own
+  `"<CODE> e-file error"` title, falling back to a dashed-MeF-shaped manifest code.
+  `catalog_selftest.mjs` enforces that every bare-numeric code is corroborated by
+  the article's own URL.
+
+**Progressive enhancement.** The page ships its first 50 rows as HTML and 59 static
+index pages (`/errors/jurisdiction/<slug>/`, `/errors/return/<slug>/`) that are
+complete, JavaScript-free lists. Live filtering needs `catalog.json` (287 KB, 58 KB
+gzipped); if that fetch fails the static rows stay put and the page says so rather
+than rendering an empty shell.
+
+---
+
+## Design & accessibility
+
+The theme is a **"Filing Desk"** system: flat opaque surfaces, hairline rules,
+and type carrying the hierarchy. The reasoning, briefly, since it constrains
+future edits:
+
+- **No glassmorphism.** Translucency makes text contrast depend on whatever
+  scrolls behind it, and `backdrop-filter` shimmers text during scroll. Both are
+  disqualifying for an all-day reference tool. There is no `backdrop-filter` in
+  the stylesheet and a test keeps it that way.
+- **Brutalism's discipline, not its shock.** Honest structure, no decorative
+  gradients, generous hit targets — but modulated hierarchy and a humanist sans
+  for prose, because these articles *are* prose instructions.
+- **Monospace is semantic.** `var(--mono)` marks machine tokens (reject codes,
+  element paths, XPaths) and nothing else.
+- **Blue primary, green only for "resolved", red only for "reject".** The previous
+  green accent was simultaneously the primary action, the Federal jurisdiction and
+  "best match" — and green/red alone is the worst pair for deuteranopia, in a
+  male-skewed profession. Jurisdiction is now a text abbreviation badge (`CA`,
+  `FED`, `GEN`), so it survives greyscale and forced-colors.
+
+### Brand assets
+
+The SVGs in `builder/assets/` are the source of truth; the PNGs beside them exist
+only for consumers that cannot take an SVG.
+
+| Source | Rasterized to | Used by |
+|--------|---------------|---------|
+| `logo-mark.svg` | `favicon-32.png` | in-app brand mark, SVG favicon, PNG fallback |
+| `app-icon.svg` | `app-icon-180.png`, `app-icon-512.png` | apple-touch-icon, maskable PWA icon |
+| `share-card.svg` | `share-card.png` | `og:image` / `twitter:image` |
+
+`logo-mark.svg` is the rounded mark; `app-icon.svg` is **full-bleed** with the glyph
+inside the maskable safe zone (the centre circle of radius 40%), because platforms
+apply their own mask and baked-in rounding shows as a double corner. The manifest
+previously declared the rounded SVG as `"any maskable"`, which would have had its
+corners cropped; the two purposes are now separate entries.
+
+Regenerate after editing any SVG, then commit both:
+
+```bash
+.venv/bin/python builder/make_icons.py            # rasterize
+.venv/bin/python builder/make_icons.py --check    # verify, write nothing
+```
+
+`--check` also verifies the corpus figures printed on the share card against
+`data/catalog.json`, since a raster can't read the build data and would otherwise
+go quietly stale.
+
+> Not wired into `build.sh` on purpose: it uses macOS `sips`, and the scheduled CI
+> job runs on Linux. The PNGs are committed instead. The script's docstring lists
+> equivalent `rsvg-convert` / `inkscape` / `magick` commands for other platforms.
+
+`search/a11y_selftest.mjs` recomputes these claims from the CSS on every run, so
+a regression fails the build rather than shipping:
+
+- **Type scale** — every `font-size` resolves to a `--fs-*` token; nothing below
+  **12px**; 16px base; form controls at 16px so iOS doesn't zoom on focus.
+- **Contrast** — 28 colour pairs per theme, recomputed with the WCAG formula from
+  the actual token values. Body text ≥ 7:1, secondary text ≥ 4.5:1, control
+  borders and focus rings ≥ 3:1. Light and dark both pass with margin.
+- **Markup** — one `h1` per page, a skip link and `main` landmark, unique ids, no
+  positive `tabindex`, `alt` on every image, and an accessible name on every form
+  control and button.
+- **Preferences honoured** — `prefers-reduced-motion`, `prefers-contrast: more`,
+  `forced-colors: active`, `prefers-color-scheme` (the theme follows the OS until
+  you explicitly toggle it), plus a print stylesheet.
 
 ---
 
