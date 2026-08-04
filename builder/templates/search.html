@@ -13,15 +13,25 @@
 <section class="hero wrap">
   <div class="hero__intro">
     <h1 class="hero__title">From rejection to <em>resolution.</em></h1>
-    <p class="hero__lede">Paste the diagnostic, or search by the details you already know.</p>
+    <p class="hero__lede">Paste the diagnostic, search by the details you already know, or browse
+      every indexed error by jurisdiction and return type.</p>
+    {# State the corpus up front. A reference tool that hides its own scope makes
+       the reader guess whether an empty result means "no such error" or
+       "not indexed". #}
+    <ul class="coverage">
+      <li><b>{{ "{:,}".format(catalog.count) }}</b> articles indexed</li>
+      <li><b>{{ "{:,}".format(code_count) }}</b> reject codes</li>
+      <li><b>{{ catalog.jurisdictions | length }}</b> jurisdictions</li>
+      <li>Federal, 50 states &amp; D.C.</li>
+    </ul>
+    <div class="hero__actions">
+      <a class="btn btn--quiet" href="/errors/">Browse the error catalog <span aria-hidden="true">→</span></a>
+    </div>
   </div>
 
   <form class="paste" id="gs-form" role="search" autocomplete="off" novalidate>
     <div class="paste__heading">
-      <div>
-        <h2>How would you like to search?</h2>
-      </div>
-      <span class="paste__privacy">Processed in your browser</span>
+      <h2>How would you like to search?</h2>
     </div>
 
     <div class="mode-tabs" role="tablist" aria-label="Error search mode">
@@ -63,23 +73,41 @@
         <p class="auto-scope__hint" id="gs-auto-scope-status" aria-live="polite">Best matches across federal and state guidance.</p>
       </fieldset>
 
+      {# The field is the primary action on this page, so it is built as a proper
+         editor: a labelled header strip with its own actions, a generous
+         monospace body, and a footer carrying the hint and the privacy note where
+         it actually matters. Progress used to be spelled out in a side rail
+         ("ready" / "scanning" / "matched"); that rail was aria-hidden, so it never
+         reached assistive tech, and it duplicated what the results heading says
+         anyway. What remains is a state accent along the top edge — reinforcement,
+         never the only signal. #}
       <div class="paste__frame">
-        <div class="paste__rail" aria-hidden="true">
-          <span class="paste__tick" data-state-dot></span>
-          <span class="paste__railtext" data-state-label>ready</span>
+        <div class="paste__bar">
+          <label class="paste__label" for="gs-search">Paste the diagnostic</label>
+          <div class="paste__tools">
+            {# Shown by search.js only where navigator.clipboard.readText exists.
+               Hidden by default so unsupported browsers never see a dead button. #}
+            <button type="button" class="paste__tool" id="gs-paste" aria-label="Paste from the clipboard" hidden>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="4" width="12" height="16" rx="2"/><path d="M16 4V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1"/><path d="M8 8H5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h3"/></svg>
+              Paste
+            </button>
+            <button type="button" class="paste__clear" id="gs-clear" aria-label="Clear the pasted diagnostic" hidden>Clear</button>
+          </div>
         </div>
         <textarea id="gs-search"
                   class="paste__input"
-                  rows="3"
+                  rows="6"
                   autofocus
                   spellcheck="false"
                   autocapitalize="off"
                   autocorrect="off"
                   enterkeyhint="search"
-                  aria-label="Paste an e-file error, reject code, or search by state"
-                  aria-describedby="search-coverage"
-                  placeholder="Paste an error, enter a reject code, or search a state, e.g. New York, TX, Alabama"></textarea>
-        <button type="button" class="paste__clear" id="gs-clear" aria-label="Clear automatic search" hidden>Clear</button>
+                  aria-describedby="search-coverage paste-hint"
+                  placeholder="CAForm565ScheduleK-1\PartnerInformation\EntityType&#10;The …:EntityType element is invalid. The Enumeration constraint failed.&#10;&#10;— or just a reject code, e.g. F1065-037-02"></textarea>
+        <p class="paste__foot" id="paste-hint">
+          <span>Whole rejections welcome — the element path, message and code all sharpen the match.</span>
+          <span class="paste__privacy">Nothing you paste leaves your browser</span>
+        </p>
       </div>
 
       <div class="sig" id="gs-signature" hidden aria-live="polite">
@@ -224,6 +252,18 @@
 
 <section class="results wrap" aria-label="Matches">
   <div id="gs-results" class="results__list" aria-live="polite" aria-busy="false"></div>
+</section>
+
+<section class="wrap browse" aria-labelledby="resolver-browse-h">
+  <h2 id="resolver-browse-h">Don't have the exact error to hand?</h2>
+  <p>Browse the whole corpus instead. Every jurisdiction has a complete index page, and the
+     catalog filters by return type and by what actually went wrong.</p>
+  <ul class="browse__grid">
+    {% for j in catalog.jurisdictions[:11] %}
+    <li><a href="/errors/jurisdiction/{{ j.slug }}/"><b>{{ j.label }}</b><span>{{ j.count }}</span></a></li>
+    {% endfor %}
+    <li><a href="/errors/"><b>All {{ catalog.jurisdictions | length }} jurisdictions</b><span>→</span></a></li>
+  </ul>
 </section>
 {% endblock %}
 
