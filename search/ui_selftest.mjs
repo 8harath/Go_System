@@ -57,6 +57,8 @@ assert.equal(new Set(jurisdictionValues).size, 52, "jurisdiction options must be
   ".manual__submit",
   ".search-summary",
   ".manual__error",
+  ".article-nav",
+  ".shortcuts-dialog",
 ].forEach(selector => assert(css.includes(selector), "missing styles for " + selector));
 assert.match(css, /\.prose pre \{[^}]*white-space: pre-wrap/);
 assert.match(formattedArticle, /<li>Go to <strong>Organizer<\/strong> → <strong>States<\/strong> → <strong>Common State<\/strong> → <strong>General Information<\/strong> → <strong>Basic Return Information<\/strong>\.<\/li>/);
@@ -65,8 +67,13 @@ assert.match(searchSource, /hits = hits\.filter\(hit => hit\.jurisdictionCode ==
 assert.match(searchSource, /matchesAutoScope\(hit, activeAutoScope\)/);
 assert.match(searchSource, /gs-auto-jurisdiction-scope/);
 assert.match(searchSource, /params\.set\("mode", "manual"\)/);
+assert.match(searchSource, /function resolverReturnURL\(\)/);
+assert.match(searchSource, /function articleURL\(url\)/);
 assert.match(html, /Enter at least one detail before searching/);
 assert.match(matcherSource, /SCHEDULE: 12/);
+assert.match(formattedArticle, /class="article-nav"/);
+assert.match(formattedArticle, /data-return-link/);
+assert.match(formattedArticle, /id="shortcuts-dialog"/);
 
 assert.equal(builtSearch, searchSource, "built search.js is out of sync with its source");
 assert.equal(builtMatcher, matcherSource, "built error_matcher.js is out of sync with its source");
@@ -76,3 +83,4 @@ console.log("PASS  all 52 jurisdiction choices are present and unique");
 console.log("PASS  automatic federal/state scope and safe diagnostic wrapping are present");
 console.log("PASS  split menu paths render as readable list instructions");
 console.log("PASS  production search assets are synchronized");
+console.log("PASS  article return navigation and shortcut guide are present");
