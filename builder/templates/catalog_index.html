@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}{{ heading }} · {{ site_name }}{% endblock %}
+{% block description %}{{ heading }}: {{ rows | length }} indexed GoSystem Tax RS e-file articles, with the Thomson Reuters fix for each.{% endblock %}
+{% block social_title %}{{ heading }} · GS E-file Resolver{% endblock %}
+{% block social_description %}{{ rows | length }} indexed GoSystem Tax RS e-file articles for {{ heading }}.{% endblock %}
+{% block body_class %}page-catalog{% endblock %}
+{% block footer_action %}<a href="/errors/">Back to the error catalog</a>{% endblock %}
+
+{% block content %}
+{# A static, complete, JavaScript-free index. This is the no-JS spine of the
+   catalog and the stable deep-link target for a jurisdiction or return type. #}
+<div class="wrap catalog" data-pagefind-ignore>
+  <nav class="article-nav" aria-label="Catalog navigation">
+    <a class="article-nav__back" href="/errors/">
+      <span aria-hidden="true">←</span> Error catalog
+    </a>
+    <div class="article-nav__actions">
+      <a class="article-nav__search" href="/?focus=search"><span aria-hidden="true">⌕</span> Resolve an error</a>
+    </div>
+  </nav>
+
+  <header class="catalog__head">
+    <h1>{{ heading }}</h1>
+    <p>{{ lede }}</p>
+    <ul class="coverage">
+      <li><b>{{ "{:,}".format(rows | length) }}</b> articles</li>
+      <li><b>{{ "{:,}".format(coded) }}</b> with a reject code</li>
+    </ul>
+  </header>
+
+  {% if rows %}
+  <ul class="rows">
+    {% for row in rows %}
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            {% if row.code %}<span class="row__code">{{ row.code }}</span>{% endif %}
+            <span class="jur jur--{{ row.jurisdiction.type | lower }}">
+              <span class="jur__abbr">{{ row.jurisdiction.short }}</span>{{ row.jurisdiction.label }}
+            </span>
+          </div>
+          <h2 class="row__title"><a href="{{ row.url }}?return={{ return_param }}">{{ row.title }}</a></h2>
+          {% if row.excerpt %}<p class="row__excerpt">{{ row.excerpt }}</p>{% endif %}
+          <p class="row__meta">
+            <span class="row__tag">{{ row.return_label }}</span>
+            <span class="row__tag">{{ row.type_label }}</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <div class="catalog__empty">
+    <strong>Nothing indexed here yet.</strong>
+    <span>The current corpus has no articles for this filter. Try the full catalog.</span>
+    <a class="btn btn--primary" href="/errors/">Open the error catalog</a>
+  </div>
+  {% endif %}
+
+  <section class="browse" aria-labelledby="siblings-h">
+    <h2 id="siblings-h">{{ siblings_heading }}</h2>
+    <ul class="browse__grid">
+      {% for s in siblings %}
+      <li><a href="{{ s.href }}"{% if s.current %} aria-current="page"{% endif %}><b>{{ s.label }}</b><span>{{ s.count }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+{% endblock %}

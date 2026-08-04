@@ -4,10 +4,15 @@
 #
 # Pipeline (STRICT ORDER):
 #   1. scrape            → data/manifest.json, content/, _raw/
-#   2. build_site        → site/ pages + site/assets/styles.css + site/index.html
-#   3. build_codes_index → site/codes.json
-#   4. install search.js → copy search/search.js into site/assets/
-#   5. pagefind index    → site/pagefind/
+#   2. build_catalog     → data/catalog.json          (facets for /errors/)
+#   3. build_site        → site/ pages + assets + index.html + /errors/ + catalog.json
+#   4. build_codes_index → site/codes.json
+#   5. build_signatures  → site/signatures.json
+#   6. install clients   → copy search/*.js into site/assets/
+#   7. pagefind index    → site/pagefind/
+#
+# build_catalog runs BEFORE build_site because build_site wipes site/ and then
+# copies data/catalog.json into it.
 #
 # Idempotent: safe to re-run; every component overwrites its own outputs.
 #
@@ -50,29 +55,34 @@ fi
 log "Pipeline start — SECTIONS=$SECTIONS"
 
 # 1. Scrape --------------------------------------------------------------------
-log "[1/5] Scraping GoSystem Tax RS help (sections: $SECTIONS)"
+log "[1/7] Scraping GoSystem Tax RS help (sections: $SECTIONS)"
 "$PY" scraper/scrape.py --sections "$SECTIONS"
 
-# 2. Build static site ---------------------------------------------------------
-log "[2/5] Building static site from data/manifest.json + content/"
+# 2. Build catalog facet index -------------------------------------------------
+log "[2/7] Building catalog facet index → data/catalog.json"
+"$PY" builder/build_catalog.py
+
+# 3. Build static site ---------------------------------------------------------
+log "[3/7] Building static site from data/manifest.json + content/ + data/catalog.json"
 "$PY" builder/build_site.py
 
-# 3. Build error-code index ----------------------------------------------------
-log "[3/6] Building error-code index → site/codes.json"
+# 4. Build error-code index ----------------------------------------------------
+log "[4/7] Building error-code index → site/codes.json"
 "$PY" search/build_codes_index.py
 
-# 4. Build deterministic signature index ---------------------------------------
-log "[4/6] Building error-signature index → site/signatures.json"
+# 5. Build deterministic signature index ---------------------------------------
+log "[5/7] Building error-signature index → site/signatures.json"
 "$PY" search/build_signature_index.py
 
-# 5. Install search client -----------------------------------------------------
-log "[5/6] Installing search client → site/assets/"
+# 6. Install browser clients ---------------------------------------------------
+log "[6/7] Installing browser clients → site/assets/"
 mkdir -p site/assets
 cp search/search.js site/assets/search.js
 cp search/error_matcher.js site/assets/error_matcher.js
+cp search/catalog.js site/assets/catalog.js
 
-# 6. Pagefind full-text index --------------------------------------------------
-log "[6/6] Building Pagefind full-text index → site/pagefind/"
+# 7. Pagefind full-text index --------------------------------------------------
+log "[7/7] Building Pagefind full-text index → site/pagefind/"
 npx --yes pagefind --site site
 
 log "DONE — deployable static site is in ./site/  (open ./site/index.html)"

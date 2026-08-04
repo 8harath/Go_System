@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% block title %}Error catalog · {{ site_name }}{% endblock %}
+{% block description %}Browse every indexed GoSystem Tax RS e-file error. Filter by jurisdiction, return type, what went wrong, and topic, or search reject codes and message text.{% endblock %}
+{% block social_title %}GoSystem Tax RS e-file error catalog{% endblock %}
+{% block social_description %}Every indexed e-file error in one filterable list — by jurisdiction, return type, and error type.{% endblock %}
+{% block body_class %}page-catalog{% endblock %}
+{% block footer_action %}<a href="/">Go to the resolver</a>{% endblock %}
+
+{% block head_extra %}
+  <link rel="prefetch" href="/catalog.json" as="fetch" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+{# data-pagefind-ignore: this is an index surface. Only article bodies belong in
+   the full-text index, otherwise every catalog row's text competes with the
+   article it points at. #}
+<div class="wrap catalog" data-pagefind-ignore>
+  <header class="catalog__head">
+    <h1>Error catalog</h1>
+    <p>Every e-file article in the index, in one list you can narrow down. Filter by jurisdiction,
+       return type, what actually went wrong, or topic — then read the fix inline without leaving
+       the page. No account, and all filtering runs in your browser.</p>
+    <ul class="coverage">
+      <li><b>{{ "{:,}".format(catalog.count) }}</b> articles</li>
+      <li><b>{{ "{:,}".format(code_count) }}</b> with a reject code</li>
+      <li><b>{{ catalog.jurisdictions | length }}</b> jurisdictions</li>
+      <li><b>{{ catalog.returns | length }}</b> return types</li>
+    </ul>
+  </header>
+
+  <noscript>
+    <p class="noscript-note">
+      Live filtering needs JavaScript. The <a href="#browse-jurisdiction">jurisdiction</a> and
+      <a href="#browse-return">return type</a> indexes at the bottom of this page are plain,
+      complete lists that work without it.
+    </p>
+  </noscript>
+
+  <div class="catalog__layout">
+    <div class="facets" id="cat-facets" data-open="false">
+      <div class="facets__toggle">
+        <button type="button" class="facets__toggle-btn" data-facets-toggle
+                aria-expanded="false" aria-controls="cat-facet-panel">
+          <span>Filters</span>
+          <span data-facet-badge>None applied</span>
+        </button>
+      </div>
+
+      <div class="facets__panel" id="cat-facet-panel">
+        <div class="facets__top">
+          <h2>Filters</h2>
+          <button type="button" class="facets__clear" id="cat-clear" hidden>Clear all</button>
+        </div>
+
+        <fieldset class="facet">
+          <legend class="facet__head">Jurisdiction</legend>
+          <label class="visually-hidden" for="cat-jur-filter">Narrow the jurisdiction list</label>
+          <input class="facet__filter" id="cat-jur-filter" type="search"
+                 placeholder="Find a state…" autocomplete="off" spellcheck="false">
+          <ul class="facet__list facet__list--tall" data-facet="j">
+            {% for j in catalog.jurisdictions %}
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="{{ j.code }}" data-facet-input="j">
+                <span class="facet-option__label">{{ j.label }}</span>
+                <span class="facet-option__count">{{ j.count }}</span>
+              </label>
+            </li>
+            {% endfor %}
+          </ul>
+        </fieldset>
+
+        <fieldset class="facet">
+          <legend class="facet__head">Return type</legend>
+          <ul class="facet__list" data-facet="r">
+            {% for r in catalog.returns %}
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="{{ r.code }}" data-facet-input="r">
+                <span class="facet-option__label">{{ r.label }}</span>
+                <span class="facet-option__count">{{ r.count }}</span>
+              </label>
+            </li>
+            {% endfor %}
+          </ul>
+        </fieldset>
+
+        <fieldset class="facet">
+          <legend class="facet__head">What went wrong</legend>
+          <ul class="facet__list" data-facet="t">
+            {% for t in catalog.types %}
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="{{ t.code }}" data-facet-input="t">
+                <span class="facet-option__label">{{ t.label }}</span>
+                <span class="facet-option__count">{{ t.count }}</span>
+              </label>
+            </li>
+            {% endfor %}
+          </ul>
+        </fieldset>
+
+        <fieldset class="facet">
+          <legend class="facet__head">Reject code</legend>
+          <ul class="facet__list" data-facet="c">
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="with" data-facet-input="c">
+                <span class="facet-option__label">Has a reject code</span>
+                <span class="facet-option__count">{{ code_count }}</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="without" data-facet-input="c">
+                <span class="facet-option__label">No reject code</span>
+                <span class="facet-option__count">{{ catalog.count - code_count }}</span>
+              </label>
+            </li>
+          </ul>
+        </fieldset>
+
+        <fieldset class="facet">
+          <legend class="facet__head">Topic</legend>
+          <ul class="facet__list" data-facet="g">
+            {% for g in catalog.groups %}
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="{{ g.code }}" data-facet-input="g">
+                <span class="facet-option__label">{{ g.label }}</span>
+                <span class="facet-option__count">{{ g.count }}</span>
+              </label>
+            </li>
+            {% endfor %}
+          </ul>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="catalog__main">
+      <div class="catalog__toolbar">
+        <div class="catalog__searchrow">
+          <label class="catalog__searchfield" for="cat-search">
+            <span>Search the catalog</span>
+            <input class="catalog__search" id="cat-search" type="search"
+                   placeholder="Reject code, field name, or words from the message"
+                   autocomplete="off" spellcheck="false" autocapitalize="off" enterkeyhint="search">
+          </label>
+          <label class="catalog__sortfield" for="cat-sort">
+            <span>Sort</span>
+            <select id="cat-sort">
+              <option value="code">Reject code first</option>
+              <option value="title">Title A–Z</option>
+              <option value="jurisdiction">Jurisdiction A–Z</option>
+              <option value="type">Error type</option>
+            </select>
+          </label>
+        </div>
+        <div class="catalog__status">
+          <p class="catalog__count" id="cat-count" role="status" aria-live="polite">
+            Showing <b>{{ initial_rows | length }}</b> of <b>{{ "{:,}".format(catalog.count) }}</b> articles
+          </p>
+          <div class="catalog__chips" id="cat-chips"></div>
+        </div>
+      </div>
+
+      {# Names the results region for screen-reader outlines. Without it the row
+         h3s would follow the facet rail's "Filters" h2 with nothing in between. #}
+      <h2 class="visually-hidden">Matching articles</h2>
+
+      {# Server-rendered first page: the catalog is never an empty shell, and it
+         is fully readable before catalog.json arrives (or if it never does). #}
+      <ul class="rows" id="cat-rows">
+        {% for row in initial_rows %}
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+                {% if row.code %}<span class="row__code">{{ row.code }}</span>{% endif %}
+                <span class="jur jur--{{ row.jurisdiction.type | lower }}">
+                  <span class="jur__abbr">{{ row.jurisdiction.short }}</span>{{ row.jurisdiction.label }}
+                </span>
+              </div>
+              <h3 class="row__title"><a href="{{ row.url }}?return=%2Ferrors%2F">{{ row.title }}</a></h3>
+              {% if row.excerpt %}<p class="row__excerpt">{{ row.excerpt }}</p>{% endif %}
+              <p class="row__meta">
+                <span class="row__tag">{{ row.return_label }}</span>
+                <span class="row__tag">{{ row.type_label }}</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="catalog__more">
+        <button type="button" class="btn" id="cat-more" hidden>Show more</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="browse" id="browse-jurisdiction" aria-labelledby="browse-jurisdiction-h">
+    <h2 id="browse-jurisdiction-h">Browse by jurisdiction</h2>
+    <p>Plain, complete index pages — one per jurisdiction. These need no JavaScript and are
+       stable to bookmark or share.</p>
+    <ul class="browse__grid">
+      {% for j in catalog.jurisdictions %}
+      <li><a href="/errors/jurisdiction/{{ j.slug }}/"><b>{{ j.label }}</b><span>{{ j.count }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="browse" id="browse-return" aria-labelledby="browse-return-h">
+    <h2 id="browse-return-h">Browse by return type</h2>
+    <p>Every indexed error for a given return, in one page.</p>
+    <ul class="browse__grid">
+      {% for r in catalog.returns %}
+      <li><a href="/errors/return/{{ r.slug }}/"><b>{{ r.label }}</b><span>{{ r.count }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="module" src="/assets/catalog.js"></script>
+{% endblock %}

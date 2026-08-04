@@ -1,0 +1,1773 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Error catalog · GoSystem Tax RS Help Search</title>
+  <meta name="description" content="Browse every indexed GoSystem Tax RS e-file error. Filter by jurisdiction, return type, what went wrong, and topic, or search reject codes and message text.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="application-name" content="GS E-file Resolver">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GS E-file Resolver">
+  <meta property="og:title" content="GoSystem Tax RS e-file error catalog">
+  <meta property="og:description" content="Every indexed e-file error in one filterable list — by jurisdiction, return type, and error type.">
+  <meta property="og:image" content="/assets/share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="GS E-file Resolver, from rejection to resolution">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GS E-file Resolver: find the right fix">
+  <meta name="twitter:description" content="Resolve GoSystem Tax RS e-file errors with focused, jurisdiction-aware help.">
+  <meta name="twitter:image" content="/assets/share-card.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-icon-180.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <script>
+  /* Theme resolution, before first paint so there is no flash.
+     An explicit choice wins; otherwise follow the OS. We only write to storage
+     when the user actually toggles, so "follow the OS" stays sticky. */
+  (function () {
+    var d = document.documentElement;
+    var stored = null;
+    try { stored = localStorage.getItem("gs-theme"); } catch (e) {}
+    var mq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+    function systemTheme() { return mq && mq.matches ? "dark" : "light"; }
+    d.setAttribute("data-theme", stored === "light" || stored === "dark" ? stored : systemTheme());
+    function cur() { return d.getAttribute("data-theme") === "dark" ? "dark" : "light"; }
+    function sync() {
+      var b = document.querySelector("[data-theme-toggle]");
+      if (!b) return;
+      var c = cur();
+      b.setAttribute("aria-pressed", c === "dark");
+      b.setAttribute("aria-label", c === "dark" ? "Switch to the light theme" : "Switch to the dark theme");
+      var l = b.querySelector("[data-theme-label]");
+      if (l) l.textContent = c === "dark" ? "Dark" : "Light";
+    }
+    function set(t) {
+      d.setAttribute("data-theme", t);
+      try { localStorage.setItem("gs-theme", t); } catch (e) {}
+      sync();
+    }
+    if (mq && mq.addEventListener) {
+      mq.addEventListener("change", function () {
+        var s = null;
+        try { s = localStorage.getItem("gs-theme"); } catch (e) {}
+        if (s !== "light" && s !== "dark") { d.setAttribute("data-theme", systemTheme()); sync(); }
+      });
+    }
+    addEventListener("DOMContentLoaded", function () {
+      sync();
+      var b = document.querySelector("[data-theme-toggle]");
+      if (b) b.addEventListener("click", function () { set(cur() === "dark" ? "light" : "dark"); });
+    });
+  })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Public Sans is the USWDS text face: large x-height, unambiguous letterforms,
+       designed for accessible government interfaces. IBM Plex Mono is used only
+       for machine tokens; its 0/O and 1/l/I are clearly distinguishable, which
+       matters when someone is transcribing a reject code. -->
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400..800;1,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="prefetch" href="/catalog.json" as="fetch" crossorigin="anonymous">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body class="page-catalog">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="/">
+        <img class="brand__mark" src="/assets/logo-mark.svg" width="34" height="34" alt="">
+        <span class="brand__copy">
+          <span class="brand__name">E-file Resolver</span>
+          <span class="brand__sub">GoSystem Tax RS knowledge desk</span>
+        </span>
+      </a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a class="topbar__link" data-focus-search href="/">Resolver</a>
+        <a class="topbar__link" aria-current="page" href="/errors/">Error catalog</a>
+        <button type="button" class="shortcuts-trigger" data-shortcuts-trigger aria-haspopup="dialog" aria-controls="shortcuts-dialog">
+          <span>Shortcuts</span><kbd class="kbd" aria-hidden="true">?</kbd>
+        </button>
+        <button type="button" class="themetoggle" data-theme-toggle aria-label="Switch between light and dark theme" aria-pressed="false">
+          <svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+          <span class="themetoggle__label" data-theme-label>Light</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+<div class="wrap catalog" data-pagefind-ignore>
+  <header class="catalog__head">
+    <h1>Error catalog</h1>
+    <p>Every e-file article in the index, in one list you can narrow down. Filter by jurisdiction,
+       return type, what actually went wrong, or topic — then read the fix inline without leaving
+       the page. No account, and all filtering runs in your browser.</p>
+    <ul class="coverage">
+      <li><b>1,288</b> articles</li>
+      <li><b>508</b> with a reject code</li>
+      <li><b>51</b> jurisdictions</li>
+      <li><b>8</b> return types</li>
+    </ul>
+  </header>
+
+  <noscript>
+    <p class="noscript-note">
+      Live filtering needs JavaScript. The <a href="#browse-jurisdiction">jurisdiction</a> and
+      <a href="#browse-return">return type</a> indexes at the bottom of this page are plain,
+      complete lists that work without it.
+    </p>
+  </noscript>
+
+  <div class="catalog__layout">
+    <div class="facets" id="cat-facets" data-open="false">
+      <div class="facets__toggle">
+        <button type="button" class="facets__toggle-btn" data-facets-toggle
+                aria-expanded="false" aria-controls="cat-facet-panel">
+          <span>Filters</span>
+          <span data-facet-badge>None applied</span>
+        </button>
+      </div>
+
+      <div class="facets__panel" id="cat-facet-panel">
+        <div class="facets__top">
+          <h2>Filters</h2>
+          <button type="button" class="facets__clear" id="cat-clear" hidden>Clear all</button>
+        </div>
+
+        <fieldset class="facet">
+          <legend class="facet__head">Jurisdiction</legend>
+          <label class="visually-hidden" for="cat-jur-filter">Narrow the jurisdiction list</label>
+          <input class="facet__filter" id="cat-jur-filter" type="search"
+                 placeholder="Find a state…" autocomplete="off" spellcheck="false">
+          <ul class="facet__list facet__list--tall" data-facet="j">
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="Federal" data-facet-input="j">
+                <span class="facet-option__label">Federal</span>
+                <span class="facet-option__count">228</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="General" data-facet-input="j">
+                <span class="facet-option__label">General / Federal</span>
+                <span class="facet-option__count">169</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="AL" data-facet-input="j">
+                <span class="facet-option__label">Alabama (AL)</span>
+                <span class="facet-option__count">60</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="AK" data-facet-input="j">
+                <span class="facet-option__label">Alaska (AK)</span>
+                <span class="facet-option__count">3</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="AZ" data-facet-input="j">
+                <span class="facet-option__label">Arizona (AZ)</span>
+                <span class="facet-option__count">23</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="AR" data-facet-input="j">
+                <span class="facet-option__label">Arkansas (AR)</span>
+                <span class="facet-option__count">7</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="CA" data-facet-input="j">
+                <span class="facet-option__label">California (CA)</span>
+                <span class="facet-option__count">76</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="CO" data-facet-input="j">
+                <span class="facet-option__label">Colorado (CO)</span>
+                <span class="facet-option__count">12</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="CT" data-facet-input="j">
+                <span class="facet-option__label">Connecticut (CT)</span>
+                <span class="facet-option__count">11</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="DE" data-facet-input="j">
+                <span class="facet-option__label">Delaware (DE)</span>
+                <span class="facet-option__count">6</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="DC" data-facet-input="j">
+                <span class="facet-option__label">District of Columbia (DC)</span>
+                <span class="facet-option__count">1</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="FL" data-facet-input="j">
+                <span class="facet-option__label">Florida (FL)</span>
+                <span class="facet-option__count">10</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="GA" data-facet-input="j">
+                <span class="facet-option__label">Georgia (GA)</span>
+                <span class="facet-option__count">15</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="HI" data-facet-input="j">
+                <span class="facet-option__label">Hawaii (HI)</span>
+                <span class="facet-option__count">13</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="ID" data-facet-input="j">
+                <span class="facet-option__label">Idaho (ID)</span>
+                <span class="facet-option__count">9</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="IL" data-facet-input="j">
+                <span class="facet-option__label">Illinois (IL)</span>
+                <span class="facet-option__count">70</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="IN" data-facet-input="j">
+                <span class="facet-option__label">Indiana (IN)</span>
+                <span class="facet-option__count">22</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="IA" data-facet-input="j">
+                <span class="facet-option__label">Iowa (IA)</span>
+                <span class="facet-option__count">21</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="KS" data-facet-input="j">
+                <span class="facet-option__label">Kansas (KS)</span>
+                <span class="facet-option__count">8</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="KY" data-facet-input="j">
+                <span class="facet-option__label">Kentucky (KY)</span>
+                <span class="facet-option__count">14</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="LA" data-facet-input="j">
+                <span class="facet-option__label">Louisiana (LA)</span>
+                <span class="facet-option__count">6</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="ME" data-facet-input="j">
+                <span class="facet-option__label">Maine (ME)</span>
+                <span class="facet-option__count">6</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="MD" data-facet-input="j">
+                <span class="facet-option__label">Maryland (MD)</span>
+                <span class="facet-option__count">33</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="MA" data-facet-input="j">
+                <span class="facet-option__label">Massachusetts (MA)</span>
+                <span class="facet-option__count">26</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="MI" data-facet-input="j">
+                <span class="facet-option__label">Michigan (MI)</span>
+                <span class="facet-option__count">11</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="MN" data-facet-input="j">
+                <span class="facet-option__label">Minnesota (MN)</span>
+                <span class="facet-option__count">18</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="MS" data-facet-input="j">
+                <span class="facet-option__label">Mississippi (MS)</span>
+                <span class="facet-option__count">17</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="MO" data-facet-input="j">
+                <span class="facet-option__label">Missouri (MO)</span>
+                <span class="facet-option__count">5</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="MT" data-facet-input="j">
+                <span class="facet-option__label">Montana (MT)</span>
+                <span class="facet-option__count">16</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="NE" data-facet-input="j">
+                <span class="facet-option__label">Nebraska (NE)</span>
+                <span class="facet-option__count">20</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="NV" data-facet-input="j">
+                <span class="facet-option__label">Nevada (NV)</span>
+                <span class="facet-option__count">4</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="NH" data-facet-input="j">
+                <span class="facet-option__label">New Hampshire (NH)</span>
+                <span class="facet-option__count">8</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="NJ" data-facet-input="j">
+                <span class="facet-option__label">New Jersey (NJ)</span>
+                <span class="facet-option__count">29</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="NM" data-facet-input="j">
+                <span class="facet-option__label">New Mexico (NM)</span>
+                <span class="facet-option__count">10</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="NY" data-facet-input="j">
+                <span class="facet-option__label">New York (NY)</span>
+                <span class="facet-option__count">48</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="NC" data-facet-input="j">
+                <span class="facet-option__label">North Carolina (NC)</span>
+                <span class="facet-option__count">45</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="ND" data-facet-input="j">
+                <span class="facet-option__label">North Dakota (ND)</span>
+                <span class="facet-option__count">7</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="OH" data-facet-input="j">
+                <span class="facet-option__label">Ohio (OH)</span>
+                <span class="facet-option__count">18</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="OK" data-facet-input="j">
+                <span class="facet-option__label">Oklahoma (OK)</span>
+                <span class="facet-option__count">9</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="OR" data-facet-input="j">
+                <span class="facet-option__label">Oregon (OR)</span>
+                <span class="facet-option__count">18</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="PA" data-facet-input="j">
+                <span class="facet-option__label">Pennsylvania (PA)</span>
+                <span class="facet-option__count">24</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="RI" data-facet-input="j">
+                <span class="facet-option__label">Rhode Island (RI)</span>
+                <span class="facet-option__count">5</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="SC" data-facet-input="j">
+                <span class="facet-option__label">South Carolina (SC)</span>
+                <span class="facet-option__count">14</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="TN" data-facet-input="j">
+                <span class="facet-option__label">Tennessee (TN)</span>
+                <span class="facet-option__count">4</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="TX" data-facet-input="j">
+                <span class="facet-option__label">Texas (TX)</span>
+                <span class="facet-option__count">39</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="UT" data-facet-input="j">
+                <span class="facet-option__label">Utah (UT)</span>
+                <span class="facet-option__count">17</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="VT" data-facet-input="j">
+                <span class="facet-option__label">Vermont (VT)</span>
+                <span class="facet-option__count">7</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="VA" data-facet-input="j">
+                <span class="facet-option__label">Virginia (VA)</span>
+                <span class="facet-option__count">17</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="WA" data-facet-input="j">
+                <span class="facet-option__label">Washington (WA)</span>
+                <span class="facet-option__count">5</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="WV" data-facet-input="j">
+                <span class="facet-option__label">West Virginia (WV)</span>
+                <span class="facet-option__count">10</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="WI" data-facet-input="j">
+                <span class="facet-option__label">Wisconsin (WI)</span>
+                <span class="facet-option__count">14</span>
+              </label>
+            </li>
+          </ul>
+        </fieldset>
+
+        <fieldset class="facet">
+          <legend class="facet__head">Return type</legend>
+          <ul class="facet__list" data-facet="r">
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="1040" data-facet-input="r">
+                <span class="facet-option__label">Form 1040 — Individual</span>
+                <span class="facet-option__count">221</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="1041" data-facet-input="r">
+                <span class="facet-option__label">Form 1041 — Estates &amp; trusts</span>
+                <span class="facet-option__count">68</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="1065" data-facet-input="r">
+                <span class="facet-option__label">Form 1065 — Partnership</span>
+                <span class="facet-option__count">479</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="1120" data-facet-input="r">
+                <span class="facet-option__label">Form 1120 — Corporation</span>
+                <span class="facet-option__count">406</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="990" data-facet-input="r">
+                <span class="facet-option__label">Form 990 — Exempt organization</span>
+                <span class="facet-option__count">21</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="1042" data-facet-input="r">
+                <span class="facet-option__label">Form 1042 — Withholding</span>
+                <span class="facet-option__count">9</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="709" data-facet-input="r">
+                <span class="facet-option__label">Form 709 — Gift tax</span>
+                <span class="facet-option__count">2</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="any" data-facet-input="r">
+                <span class="facet-option__label">Any return</span>
+                <span class="facet-option__count">82</span>
+              </label>
+            </li>
+          </ul>
+        </fieldset>
+
+        <fieldset class="facet">
+          <legend class="facet__head">What went wrong</legend>
+          <ul class="facet__list" data-facet="t">
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="missing-data" data-facet-input="t">
+                <span class="facet-option__label">Missing required data</span>
+                <span class="facet-option__count">168</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="unexpected-data" data-facet-input="t">
+                <span class="facet-option__label">Unexpected data</span>
+                <span class="facet-option__count">138</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="invalid-choice" data-facet-input="t">
+                <span class="facet-option__label">Invalid allowed value</span>
+                <span class="facet-option__count">3</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="invalid-format" data-facet-input="t">
+                <span class="facet-option__label">Invalid format or data type</span>
+                <span class="facet-option__count">21</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="duplicate" data-facet-input="t">
+                <span class="facet-option__label">Duplicate filing</span>
+                <span class="facet-option__count">14</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="rule-mismatch" data-facet-input="t">
+                <span class="facet-option__label">Value or total mismatch</span>
+                <span class="facet-option__count">190</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="schema-validation" data-facet-input="t">
+                <span class="facet-option__label">Schema validation failure</span>
+                <span class="facet-option__count">6</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="rejected" data-facet-input="t">
+                <span class="facet-option__label">General rejection</span>
+                <span class="facet-option__count">539</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="unclassified" data-facet-input="t">
+                <span class="facet-option__label">Not classified</span>
+                <span class="facet-option__count">209</span>
+              </label>
+            </li>
+          </ul>
+        </fieldset>
+
+        <fieldset class="facet">
+          <legend class="facet__head">Reject code</legend>
+          <ul class="facet__list" data-facet="c">
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="with" data-facet-input="c">
+                <span class="facet-option__label">Has a reject code</span>
+                <span class="facet-option__count">508</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="without" data-facet-input="c">
+                <span class="facet-option__label">No reject code</span>
+                <span class="facet-option__count">780</span>
+              </label>
+            </li>
+          </ul>
+        </fieldset>
+
+        <fieldset class="facet">
+          <legend class="facet__head">Topic</legend>
+          <ul class="facet__list" data-facet="g">
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="e-file-rejections" data-facet-input="g">
+                <span class="facet-option__label">E-file rejections</span>
+                <span class="facet-option__count">913</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="federal-state-e-file-information" data-facet-input="g">
+                <span class="facet-option__label">Federal &amp; state e-file information</span>
+                <span class="facet-option__count">295</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="create-transmit-e-files" data-facet-input="g">
+                <span class="facet-option__label">Create &amp; transmit e-files</span>
+                <span class="facet-option__count">20</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="common-e-file-errors" data-facet-input="g">
+                <span class="facet-option__label">Common e-file errors</span>
+                <span class="facet-option__count">18</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="attachments" data-facet-input="g">
+                <span class="facet-option__label">Attachments</span>
+                <span class="facet-option__count">17</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="review-track-e-files" data-facet-input="g">
+                <span class="facet-option__label">Review &amp; track e-files</span>
+                <span class="facet-option__count">11</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="signature-pin" data-facet-input="g">
+                <span class="facet-option__label">Signature &amp; PIN</span>
+                <span class="facet-option__count">7</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="state-e-filing-setup" data-facet-input="g">
+                <span class="facet-option__label">State e-filing setup</span>
+                <span class="facet-option__count">4</span>
+              </label>
+            </li>
+            <li>
+              <label class="facet-option">
+                <input type="checkbox" value="apply-to-e-file" data-facet-input="g">
+                <span class="facet-option__label">Apply to e-file</span>
+                <span class="facet-option__count">3</span>
+              </label>
+            </li>
+          </ul>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="catalog__main">
+      <div class="catalog__toolbar">
+        <div class="catalog__searchrow">
+          <label class="catalog__searchfield" for="cat-search">
+            <span>Search the catalog</span>
+            <input class="catalog__search" id="cat-search" type="search"
+                   placeholder="Reject code, field name, or words from the message"
+                   autocomplete="off" spellcheck="false" autocapitalize="off" enterkeyhint="search">
+          </label>
+          <label class="catalog__sortfield" for="cat-sort">
+            <span>Sort</span>
+            <select id="cat-sort">
+              <option value="code">Reject code first</option>
+              <option value="title">Title A–Z</option>
+              <option value="jurisdiction">Jurisdiction A–Z</option>
+              <option value="type">Error type</option>
+            </select>
+          </label>
+        </div>
+        <div class="catalog__status">
+          <p class="catalog__count" id="cat-count" role="status" aria-live="polite">
+            Showing <b>50</b> of <b>1,288</b> articles
+          </p>
+          <div class="catalog__chips" id="cat-chips"></div>
+        </div>
+      </div>
+
+      <h2 class="visually-hidden">Matching articles</h2>
+
+      <ul class="rows" id="cat-rows">
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">000032</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">FL</span>Florida (FL)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/florida/000032-tax-year-must-be-equal.html?return=%2Ferrors%2F">000032 e-file error</a></h3>
+<p class="row__excerpt">000032: Tax Year must be equal the Year portion of Tax Period Begin Date CCYY or Tax Period End Date CCYY.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Value or total mismatch</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">000054</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">FL</span>Florida (FL)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/florida/000054.html?return=%2Ferrors%2F">000054 e-file error</a></h3>
+<p class="row__excerpt">000054: FEIN cannot contain special characters or a value of nine of the same digit. Maximum detail items allowed for Taxes and License entries is limited to 20</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">0015</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">OR</span>Oregon (OR)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/oregon/0015.html?return=%2Ferrors%2F">0015 e-file error</a></h3>
+<p class="row__excerpt">1120 Oregon XML Error Checking: Rule Number: 0015 Description: If Schedule OR-AP Part 2 line 2 is populated attach Net NBI detail with filename &#39;IncomeNonBusinessOrLoss.pdf&#39;. To attach a…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">0031</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">OR</span>Oregon (OR)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/oregon/0031.html?return=%2Ferrors%2F">0031 e-file error</a></h3>
+<p class="row__excerpt">XML Error CheckingRule Number: 0031Description: If Schedule OR-AP Part 2 line 10(a) is populatedAttach OR Apportioned Net Loss Deduction detail with filename ‘AppNetLossDed.pdf’</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Unexpected data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">0037</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">OR</span>Oregon (OR)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/oregon/0037.html?return=%2Ferrors%2F">0037 e-file error</a></h3>
+<p class="row__excerpt">0037: Oregon partnership return was filed. Oregon Schedule OR-AP is missing. The Schedule OR-AP is required when ReturnDataState InandOutofStateActivitityInd is true</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Missing required data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">0038</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">OR</span>Oregon (OR)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/oregon/0038.html?return=%2Ferrors%2F">0038 e-file error</a></h3>
+<p class="row__excerpt">The total number of owners listed on the Oregon Composite return must match the number of owners listed on the Schedule OC 1 or Schedule OC 2. (Automatic GoTo is not available). Navigate -…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Value or total mismatch</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">0046</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">OR</span>Oregon (OR)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/oregon/0046.html?return=%2Ferrors%2F">0046 e-file error</a></h3>
+<p class="row__excerpt">Form OR-20/OR-20-INC: Missing federal Form 1120 page 1 consolidated schedules attach items of gross income and deductions by each entity detail with filename &#39;FF1120p1.pdf&#39;</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">0047</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">OR</span>Oregon (OR)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/oregon/0047.html?return=%2Ferrors%2F">0047 e-file error</a></h3>
+<p class="row__excerpt">XML Error Checking: Rule Number: 0047 Description: If Consolidated submission with Sch. AP attach with filename &#39;ORApportionWorkpapers.pdf&#39;. To attach a PDF: Navigation Edit Insert EFile…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Unexpected data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">0053</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">MS</span>Mississippi (MS)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/mississippi/0053-reject-code.html?return=%2Ferrors%2F">0053 e-file error</a></h3>
+<p class="row__excerpt">Federal or state MS Return</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">1047</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NY</span>New York (NY)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1040-e-file-errors/states/new-york/1047.html?return=%2Ferrors%2F">1047 e-file error</a></h3>
+<p class="row__excerpt">New York - Form IT-225: You have one of the following item for other additions or other subtractions. State did not assign specific code for these items. Code is always required for efile.…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1040 — Individual</span>
+                <span class="row__tag">Unexpected data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">1048</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NY</span>New York (NY)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1040-e-file-errors/states/new-york/1048.html?return=%2Ferrors%2F">1048 e-file error</a></h3>
+<p class="row__excerpt">New York - Form IT-201/IT-203: As a preparer you must enter a NYTPRIN or an exclusion code. (Reject Code 1048)</p>              <p class="row__meta">
+                <span class="row__tag">Form 1040 — Individual</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">1095</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NM</span>New Mexico (NM)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/new-mexico/1095.html?return=%2Ferrors%2F">1095 e-file error</a></h3>
+<p class="row__excerpt">Form CIT-1, line 1. Taxable income before federal NOL and special deductions must equal line 28 of federal Form 1120. (1095)</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Value or total mismatch</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">1280</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">ID</span>Idaho (ID)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1040-e-file-errors/states/idaho/1280.html?return=%2Ferrors%2F">1280 e-file error</a></h3>
+<p class="row__excerpt">Idaho Form 43 Line 68: An income tax withheld from K-1 has been entered which indicates that a copy of Form(s) ID K-1 needs to be included with the tax return. This tax return cannot be…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1040 — Individual</span>
+                <span class="row__tag">Unexpected data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">200006</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/new-jersey/200006.html?return=%2Ferrors%2F">200006 e-file error</a></h3>
+<p class="row__excerpt">Duplicate Return. NJ return with this Tax ID and return period already filed. (200006)</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Duplicate filing</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">200351</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/new-jersey/200351.html?return=%2Ferrors%2F">200351 e-file error</a></h3>
+<p class="row__excerpt">UnitaryID does not begin with NU or invalid length (200351)</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">200779</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-jersey/200779.html?return=%2Ferrors%2F">200779 e-file error</a></h3>
+<p class="row__excerpt">ERROR: Duplicate CBTU Found</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Duplicate filing</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">200779</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/new-jersey/200779.html?return=%2Ferrors%2F">200779 e-file error</a></h3>
+<p class="row__excerpt">Error: Duplicate CBTU Found. You need to ensure the state ID is unique and entered for all members in the reconsolidated and regenerated e-file. Recreate the E-File and resubmit the return.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Duplicate filing</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">200902</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/new-jersey/200902.html?return=%2Ferrors%2F">200902 e-file error</a></h3>
+<p class="row__excerpt">New Jersey counts tax periods by month. This reject happens when the tax period end date is missing, invalid, or exceeds 12 months. Fiscal year filers and 52/53 week filers often get this…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">2049</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">AZ</span>Arizona (AZ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/arizona/2049.html?return=%2Ferrors%2F">2049 e-file error</a></h3>
+<p class="row__excerpt">If Form 1065 Page 1, line F, the &#34;SALES FACTOR ONLY&#34; box is checked, you must complete 1065 Page 3, Section C3 (Sales Factor) lines a through f.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">2055</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">AZ</span>Arizona (AZ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/arizona/2055.html?return=%2Ferrors%2F">2055 e-file error</a></h3>
+<p class="row__excerpt">Inconsistent Data for Standard Apportionment in Apportionment Formula. If Line F equals Standard, then Schedule C, Lines C4 and C5 is required.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Missing required data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">2055</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">AZ</span>Arizona (AZ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/arizona/2055.html?return=%2Ferrors%2F">2055 e-file error</a></h3>
+<p class="row__excerpt">If Line E equals Standard then Schedule E Lines E4 and E5 is required. (2055)</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Missing required data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">2137</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">AZ</span>Arizona (AZ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/arizona/2137.html?return=%2Ferrors%2F">2137 e-file error</a></h3>
+<p class="row__excerpt">2137: The calculation for Total Other Additions to Partnership Income on Schedule A, Line A4 is incorrect.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">2138</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">AZ</span>Arizona (AZ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/arizona/2138.html?return=%2Ferrors%2F">2138 e-file error</a></h3>
+<p class="row__excerpt">2138: Total Other Subtractions from Partnership Income on Schedule B, Line B5 is incorrect. The sum of lines A through G does not match the amount in Line B5-H.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Value or total mismatch</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">2155</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">AZ</span>Arizona (AZ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/arizona/2155-e-file-error.html?return=%2Ferrors%2F">2155 e-file error</a></h3>
+<p class="row__excerpt">2155: Form 120S, Question A is No, but Schedule C, and / or Schedule D are populated with a value other than zero.; FRM - Inconsistent Data for Pass Through Entity (PTE) Election.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">21835</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/new-jersey/21835.html?return=%2Ferrors%2F">21835 e-file error</a></h3>
+<p class="row__excerpt">4th Quarter Estimated Payments Settlement Date Invalid.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">3020</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">TX</span>Texas (TX)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/texas/3020.html?return=%2Ferrors%2F">3020 e-file error</a></h3>
+<p class="row__excerpt">Taxpayer number not found on the taxpayer database, tax return must be submitted by mail. (3020)</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">3020</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">TX</span>Texas (TX)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/texas/3020.html?return=%2Ferrors%2F">3020 e-file error</a></h3>
+<p class="row__excerpt">Taxpayer number not found on the taxpayer database, tax return must be submitted by mail. (3020)</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">3696</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">TX</span>Texas (TX)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1040-e-file-errors/states/texas/3696.html?return=%2Ferrors%2F">3696 e-file error</a></h3>
+<p class="row__excerpt">Reject Code 3696 : Invalid Security Information. Webfile number or last reported revenue is incorrect or blank. Contact Texas Comptroller @1-800-442-3453 for your WebFile Number. Line…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1040 — Individual</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">3696</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">TX</span>Texas (TX)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/texas/3696.html?return=%2Ferrors%2F">3696 e-file error</a></h3>
+<p class="row__excerpt">Reject Code 3696 : Invalid Security Information. Webfile number or last reported revenue is incorrect or blank. Contact Texas Comptroller @1-800-442-3453 for your WebFile Number. Line…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">3696</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">TX</span>Texas (TX)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/texas/3696.html?return=%2Ferrors%2F">3696 e-file error</a></h3>
+<p class="row__excerpt">Reject Code 3696 : Invalid Security Information. Webfile number or last reported revenue is incorrect or blank. Contact Texas Comptroller @1-800-442-3453 for your WebFile Number. Line…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">3703</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">TX</span>Texas (TX)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/texas/3703.html?return=%2Ferrors%2F">3703 e-file error</a></h3>
+<p class="row__excerpt">Since this is a combined report, the 05-165 form is required to be filed.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Missing required data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">3703</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">TX</span>Texas (TX)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/texas/3703.html?return=%2Ferrors%2F">3703 e-file error</a></h3>
+<p class="row__excerpt">Since this is a combined report, the 05-165 form is required to be filed.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Missing required data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">43128</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-jersey/43128.html?return=%2Ferrors%2F">43128 e-file error</a></h3>
+<p class="row__excerpt">43128: NJ 1065 Page 2 Line 7 does not match Schedule A Column C Line 7</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Value or total mismatch</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">43133</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-jersey/43133.html?return=%2Ferrors%2F">43133 e-file error</a></h3>
+<p class="row__excerpt">43133: Line 26 does not match total of all Column K on Partners Directory.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Value or total mismatch</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">43138</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-jersey/43138.html?return=%2Ferrors%2F">43138 e-file error</a></h3>
+<p class="row__excerpt">43138: NJ Partner Directory, Partner Entity Code is missing.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">43143</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-jersey/43143.html?return=%2Ferrors%2F">43143 e-file error</a></h3>
+<p class="row__excerpt">NJ-1065 Partners Directory, if partner is a &#34;Foreign US Partner&#34; or &#34;Applied For&#34;, Partner&#39;s ID must be blank. DO NOT enter as FOREIGNUS, APPLD FOR, or all 9s (999999999, 999-99-9999,…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Unexpected data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">43147</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-jersey/43147.html?return=%2Ferrors%2F">43147 e-file error</a></h3>
+<p class="row__excerpt">43147: Schedule NJK-1 Part I, Date Partner&#39;s Interest in Partnership began must be present.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Missing required data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">43158</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-jersey/43158.html?return=%2Ferrors%2F">43158 e-file error</a></h3>
+<p class="row__excerpt">TotPartIncColAAllSource amount invalid</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">Value or total mismatch</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">43716</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-jersey/43716.html?return=%2Ferrors%2F">43716 e-file error</a></h3>
+<p class="row__excerpt">Noncorporate Partner s share of tax (Column J) missing /Invalid. (43716)</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">43717</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NJ</span>New Jersey (NJ)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-jersey/43717.html?return=%2Ferrors%2F">43717 e-file error</a></h3>
+<p class="row__excerpt">Corporate Partner s share of tax (Column K) missing /invalid. (43716)</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">5135</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NY</span>New York (NY)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/new-york/5135.html?return=%2Ferrors%2F">5135 e-file error</a></h3>
+<p class="row__excerpt">Submission contains invalid XML</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">5205</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">TX</span>Texas (TX)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/texas/5205.html?return=%2Ferrors%2F">5205 e-file error</a></h3>
+<p class="row__excerpt">Invalid combination of tax forms.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">6676</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NY</span>New York (NY)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/new-york/6676.html?return=%2Ferrors%2F">6676 e-file error</a></h3>
+<p class="row__excerpt">Form must be present when required attachments checkbox is checked.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Missing required data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">9497</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">NY</span>New York (NY)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/new-york/9497.html?return=%2Ferrors%2F">9497 e-file error</a></h3>
+<p class="row__excerpt">New York prohibits from submitting the CT-3-A combined return e-file until all associated CT-3-A/BC subsidiary e-files have been submitted. Our records indicate the subsidiary CT-3-A/BC…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">9967</span>                <span class="jur jur--general">
+                  <span class="jur__abbr">GEN</span>General / Federal
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1065-e-file-errors/states/9967.html?return=%2Ferrors%2F">9967 e-file error</a></h3>
+<p class="row__excerpt">BinaryAttachment within the XML File (AttachmentLocation) Physical Attachments. Thomson Reuters Tax &amp; Accounting has detected a discrepancy between the physical attachments and the…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1065 — Partnership</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">9967</span>                <span class="jur jur--general">
+                  <span class="jur__abbr">GEN</span>General / Federal
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/9967.html?return=%2Ferrors%2F">9967 e-file error</a></h3>
+<p class="row__excerpt">BinaryAttachment within the XML File (AttachmentLocation) Physical Attachments. Thomson Reuters Tax &amp; Accounting has detected a discrepancy between the physical attachments and the…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">9983</span>                <span class="jur jur--general">
+                  <span class="jur__abbr">GEN</span>General / Federal
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/common-e-file-errors/9983.html?return=%2Ferrors%2F">9983 e-file error</a></h3>
+<p class="row__excerpt">This rejection happens when the state return is submitted before the federal return is accepted.</p>              <p class="row__meta">
+                <span class="row__tag">Any return</span>
+                <span class="row__tag">General rejection</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">AL20C-001</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">AL</span>Alabama (AL)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/alabama/sa-al20c-001-006.html?return=%2Ferrors%2F">SA-AL20C-001 and SA-AL20C-006 e-file errors</a></h3>
+<p class="row__excerpt">If StateAndLocalIncomeTaxes is populated a document named OtherTaxes.pdf should be attached showing a detailed schedule of taxes from the federal Form 1120 line 17.</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Missing required data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">AL20C-001A</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">AL</span>Alabama (AL)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/alabama/al20c-001a.html?return=%2Ferrors%2F">AL20C-001a e-file error</a></h3>
+<p class="row__excerpt">AL20C-001a: if fiscal year checkbox is populated and the 52/53 week filer checkbox is NOT populated, then Tax period Begin Date should be greater than or equal to 02/01/XXXX and less than…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Unexpected data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="row__main">
+              <div class="row__topline">
+<span class="row__code">AL20C-003</span>                <span class="jur jur--state">
+                  <span class="jur__abbr">AL</span>Alabama (AL)
+                </span>
+              </div>
+              <h3 class="row__title"><a href="/e-file/1120-e-file-errors/states/alabama/schf-al20c-003004.html?return=%2Ferrors%2F">SchF-AL20C-003/004 e-file error</a></h3>
+<p class="row__excerpt">SchF-AL20C-003/004: If Schedule F, line 6, BOY and/or EOY is populated then a pdf named OtherCurrentAssets.pdf or or WksNetWorthStmts.pdf is required to be attached. Note: Do not include…</p>              <p class="row__meta">
+                <span class="row__tag">Form 1120 — Corporation</span>
+                <span class="row__tag">Missing required data</span>
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="catalog__more">
+        <button type="button" class="btn" id="cat-more" hidden>Show more</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="browse" id="browse-jurisdiction" aria-labelledby="browse-jurisdiction-h">
+    <h2 id="browse-jurisdiction-h">Browse by jurisdiction</h2>
+    <p>Plain, complete index pages — one per jurisdiction. These need no JavaScript and are
+       stable to bookmark or share.</p>
+    <ul class="browse__grid">
+      <li><a href="/errors/jurisdiction/federal/"><b>Federal</b><span>228</span></a></li>
+      <li><a href="/errors/jurisdiction/general/"><b>General / Federal</b><span>169</span></a></li>
+      <li><a href="/errors/jurisdiction/alabama/"><b>Alabama (AL)</b><span>60</span></a></li>
+      <li><a href="/errors/jurisdiction/alaska/"><b>Alaska (AK)</b><span>3</span></a></li>
+      <li><a href="/errors/jurisdiction/arizona/"><b>Arizona (AZ)</b><span>23</span></a></li>
+      <li><a href="/errors/jurisdiction/arkansas/"><b>Arkansas (AR)</b><span>7</span></a></li>
+      <li><a href="/errors/jurisdiction/california/"><b>California (CA)</b><span>76</span></a></li>
+      <li><a href="/errors/jurisdiction/colorado/"><b>Colorado (CO)</b><span>12</span></a></li>
+      <li><a href="/errors/jurisdiction/connecticut/"><b>Connecticut (CT)</b><span>11</span></a></li>
+      <li><a href="/errors/jurisdiction/delaware/"><b>Delaware (DE)</b><span>6</span></a></li>
+      <li><a href="/errors/jurisdiction/district-of-columbia/"><b>District of Columbia (DC)</b><span>1</span></a></li>
+      <li><a href="/errors/jurisdiction/florida/"><b>Florida (FL)</b><span>10</span></a></li>
+      <li><a href="/errors/jurisdiction/georgia/"><b>Georgia (GA)</b><span>15</span></a></li>
+      <li><a href="/errors/jurisdiction/hawaii/"><b>Hawaii (HI)</b><span>13</span></a></li>
+      <li><a href="/errors/jurisdiction/idaho/"><b>Idaho (ID)</b><span>9</span></a></li>
+      <li><a href="/errors/jurisdiction/illinois/"><b>Illinois (IL)</b><span>70</span></a></li>
+      <li><a href="/errors/jurisdiction/indiana/"><b>Indiana (IN)</b><span>22</span></a></li>
+      <li><a href="/errors/jurisdiction/iowa/"><b>Iowa (IA)</b><span>21</span></a></li>
+      <li><a href="/errors/jurisdiction/kansas/"><b>Kansas (KS)</b><span>8</span></a></li>
+      <li><a href="/errors/jurisdiction/kentucky/"><b>Kentucky (KY)</b><span>14</span></a></li>
+      <li><a href="/errors/jurisdiction/louisiana/"><b>Louisiana (LA)</b><span>6</span></a></li>
+      <li><a href="/errors/jurisdiction/maine/"><b>Maine (ME)</b><span>6</span></a></li>
+      <li><a href="/errors/jurisdiction/maryland/"><b>Maryland (MD)</b><span>33</span></a></li>
+      <li><a href="/errors/jurisdiction/massachusetts/"><b>Massachusetts (MA)</b><span>26</span></a></li>
+      <li><a href="/errors/jurisdiction/michigan/"><b>Michigan (MI)</b><span>11</span></a></li>
+      <li><a href="/errors/jurisdiction/minnesota/"><b>Minnesota (MN)</b><span>18</span></a></li>
+      <li><a href="/errors/jurisdiction/mississippi/"><b>Mississippi (MS)</b><span>17</span></a></li>
+      <li><a href="/errors/jurisdiction/missouri/"><b>Missouri (MO)</b><span>5</span></a></li>
+      <li><a href="/errors/jurisdiction/montana/"><b>Montana (MT)</b><span>16</span></a></li>
+      <li><a href="/errors/jurisdiction/nebraska/"><b>Nebraska (NE)</b><span>20</span></a></li>
+      <li><a href="/errors/jurisdiction/nevada/"><b>Nevada (NV)</b><span>4</span></a></li>
+      <li><a href="/errors/jurisdiction/new-hampshire/"><b>New Hampshire (NH)</b><span>8</span></a></li>
+      <li><a href="/errors/jurisdiction/new-jersey/"><b>New Jersey (NJ)</b><span>29</span></a></li>
+      <li><a href="/errors/jurisdiction/new-mexico/"><b>New Mexico (NM)</b><span>10</span></a></li>
+      <li><a href="/errors/jurisdiction/new-york/"><b>New York (NY)</b><span>48</span></a></li>
+      <li><a href="/errors/jurisdiction/north-carolina/"><b>North Carolina (NC)</b><span>45</span></a></li>
+      <li><a href="/errors/jurisdiction/north-dakota/"><b>North Dakota (ND)</b><span>7</span></a></li>
+      <li><a href="/errors/jurisdiction/ohio/"><b>Ohio (OH)</b><span>18</span></a></li>
+      <li><a href="/errors/jurisdiction/oklahoma/"><b>Oklahoma (OK)</b><span>9</span></a></li>
+      <li><a href="/errors/jurisdiction/oregon/"><b>Oregon (OR)</b><span>18</span></a></li>
+      <li><a href="/errors/jurisdiction/pennsylvania/"><b>Pennsylvania (PA)</b><span>24</span></a></li>
+      <li><a href="/errors/jurisdiction/rhode-island/"><b>Rhode Island (RI)</b><span>5</span></a></li>
+      <li><a href="/errors/jurisdiction/south-carolina/"><b>South Carolina (SC)</b><span>14</span></a></li>
+      <li><a href="/errors/jurisdiction/tennessee/"><b>Tennessee (TN)</b><span>4</span></a></li>
+      <li><a href="/errors/jurisdiction/texas/"><b>Texas (TX)</b><span>39</span></a></li>
+      <li><a href="/errors/jurisdiction/utah/"><b>Utah (UT)</b><span>17</span></a></li>
+      <li><a href="/errors/jurisdiction/vermont/"><b>Vermont (VT)</b><span>7</span></a></li>
+      <li><a href="/errors/jurisdiction/virginia/"><b>Virginia (VA)</b><span>17</span></a></li>
+      <li><a href="/errors/jurisdiction/washington/"><b>Washington (WA)</b><span>5</span></a></li>
+      <li><a href="/errors/jurisdiction/west-virginia/"><b>West Virginia (WV)</b><span>10</span></a></li>
+      <li><a href="/errors/jurisdiction/wisconsin/"><b>Wisconsin (WI)</b><span>14</span></a></li>
+    </ul>
+  </section>
+
+  <section class="browse" id="browse-return" aria-labelledby="browse-return-h">
+    <h2 id="browse-return-h">Browse by return type</h2>
+    <p>Every indexed error for a given return, in one page.</p>
+    <ul class="browse__grid">
+      <li><a href="/errors/return/1040/"><b>Form 1040 — Individual</b><span>221</span></a></li>
+      <li><a href="/errors/return/1041/"><b>Form 1041 — Estates &amp; trusts</b><span>68</span></a></li>
+      <li><a href="/errors/return/1065/"><b>Form 1065 — Partnership</b><span>479</span></a></li>
+      <li><a href="/errors/return/1120/"><b>Form 1120 — Corporation</b><span>406</span></a></li>
+      <li><a href="/errors/return/990/"><b>Form 990 — Exempt organization</b><span>21</span></a></li>
+      <li><a href="/errors/return/1042/"><b>Form 1042 — Withholding</b><span>9</span></a></li>
+      <li><a href="/errors/return/709/"><b>Form 709 — Gift tax</b><span>2</span></a></li>
+      <li><a href="/errors/return/any/"><b>Any return</b><span>82</span></a></li>
+    </ul>
+  </section>
+</div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <section class="site-footer__about" aria-labelledby="footer-about">
+        <div class="footer-brand">
+          <img src="/assets/logo-mark.svg" width="32" height="32" alt="">
+          <div><strong id="footer-about">GS E-file Resolver</strong><span>Independent help for tax professionals</span></div>
+        </div>
+        <p>Find the most relevant GoSystem Tax RS guidance from a raw rejection, a reject code, a form detail, or a state name — or browse the whole indexed corpus.</p>
+      </section>
+      <section aria-labelledby="footer-nav">
+        <h2 id="footer-nav">Go to</h2>
+        <ul class="footer-links">
+          <li><a href="/">Resolver</a></li>
+          <li><a href="/errors/">Error catalog</a></li>
+          <li><a href="/errors/#browse-jurisdiction">Browse by jurisdiction</a></li>
+          <li><a href="/errors/#browse-return">Browse by return type</a></li>
+        </ul>
+      </section>
+      <section aria-labelledby="footer-note">
+        <h2 id="footer-note">Coverage &amp; source</h2>
+        <p>Search and browse cover Federal, all 50 states, and Washington, D.C.; results depend on available source guidance. Articles are attributed to Thomson Reuters.</p>
+        <p class="footer-note">Runs locally in your browser. No account required.</p>
+      </section>
+    </div>
+    <div class="wrap site-footer__bottom">
+      <span>Not affiliated with or endorsed by Thomson Reuters.</span>
+<a href="/">Go to the resolver</a>    </div>
+  </footer>
+
+  <dialog class="shortcuts-dialog" id="shortcuts-dialog" aria-labelledby="shortcuts-title">
+    <div class="shortcuts-dialog__head">
+      <div>
+        <h2 id="shortcuts-title">Keyboard shortcuts</h2>
+      </div>
+      <button class="shortcuts-dialog__close" type="button" data-shortcuts-close aria-label="Close keyboard shortcuts">×</button>
+    </div>
+    <dl class="shortcuts-list">
+      <div><dt><kbd>/</kbd><kbd>⌘ K</kbd><kbd>Ctrl K</kbd></dt><dd>Focus the search field on this page</dd></div>
+      <div><dt><kbd>⌘ Enter</kbd><kbd>Ctrl Enter</kbd></dt><dd>Open the best matching article</dd></div>
+      <div><dt><kbd>Esc</kbd></dt><dd>Clear the active search or close this guide</dd></div>
+      <div class="shortcuts-list__article"><dt><kbd>B</kbd></dt><dd>Return to results while reading an article</dd></div>
+      <div><dt><kbd>?</kbd></dt><dd>Show this shortcut guide</dd></div>
+    </dl>
+  </dialog>
+
+  <script>
+  (function () {
+    function isTyping() {
+      return /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName || "");
+    }
+    function sameOriginURL(value) {
+      if (!value) return null;
+      try {
+        var url = new URL(value, location.origin);
+        return url.origin === location.origin ? url : null;
+      } catch (e) { return null; }
+    }
+    addEventListener("DOMContentLoaded", function () {
+      var article = document.body.classList.contains("page-article");
+      var dialog = document.querySelector("#shortcuts-dialog");
+      var opener = document.querySelector("[data-shortcuts-trigger]");
+      var closer = document.querySelector("[data-shortcuts-close]");
+      var backLinks = Array.prototype.slice.call(document.querySelectorAll("[data-return-link]"));
+      var back = backLinks[0];
+      var returnTo = sameOriginURL(new URLSearchParams(location.search).get("return"));
+
+      /* Articles are reachable from the resolver and from the catalog, so the
+         back link follows whichever surface sent the reader here. The trailing
+         slash on /errors/ is optional: hosts differ on whether they normalise it
+         (Vercel's trailingSlash:false strips it), and the reader should get
+         "Back to catalog" either way. */
+      if (article && back && returnTo && /^\/(?:errors\/?)?$/.test(returnTo.pathname)) {
+        var isCatalog = /^\/errors\/?$/.test(returnTo.pathname);
+        backLinks.forEach(function (link) {
+          link.href = returnTo.pathname + returnTo.search + returnTo.hash;
+          var label = link.querySelector("[data-return-label]");
+          if (label) label.textContent = isCatalog ? "Back to catalog" : "Back to results";
+        });
+        backLinks.forEach(function (link) { link.addEventListener("click", function (event) {
+          var referrer = sameOriginURL(document.referrer);
+          if (referrer && referrer.pathname === returnTo.pathname && history.length > 1) {
+            event.preventDefault();
+            history.back();
+          }
+        }); });
+      }
+
+      function openShortcuts() {
+        if (dialog && !dialog.open) dialog.showModal();
+      }
+      opener && opener.addEventListener("click", openShortcuts);
+      closer && closer.addEventListener("click", function () { dialog && dialog.close(); });
+      document.querySelectorAll("[data-scroll-top]").forEach(function (button) {
+        button.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "?" && !isTyping() && !event.metaKey && !event.ctrlKey && !event.altKey) {
+          event.preventDefault();
+          openShortcuts();
+          return;
+        }
+        if (!article || isTyping() || event.altKey) return;
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+          return;
+        }
+        if (event.metaKey || event.ctrlKey) return;
+        if (event.key.toLowerCase() === "b" && back) {
+          event.preventDefault();
+          back.click();
+          return;
+        }
+        if (event.key === "/") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+        }
+      });
+    });
+  })();
+  </script>
+
+  <script type="module" src="/assets/catalog.js"></script>
+</body>
+</html>

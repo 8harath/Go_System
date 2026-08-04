@@ -121,6 +121,18 @@ function jurisdictionInfo(code, confidence = "", evidence = "") {
   return { code: upper, label: `${name} (${upper})`, type: "State", confidence, evidence };
 }
 
+/* Path segment for /errors/jurisdiction/<slug>/.
+   Mirrors builder/jurisdiction.py's _struct(): the jurisdiction is spelled out
+   ("california"), not abbreviated, so links from result cards land on the same
+   generated page the article templates link to. */
+function jurisdictionSlug(code) {
+  const upper = String(code || "").toUpperCase();
+  if (upper === "FEDERAL") return "federal";
+  if (upper === "GENERAL" || !upper) return "general";
+  const name = STATE_NAME[upper];
+  return name ? name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : "general";
+}
+
 function detectArticleJurisdiction(url = "", title = "", breadcrumbs = []) {
   const path = String(url).toLowerCase();
   const statePath = path.match(/\/states\/([^/]+)/);
@@ -639,6 +651,7 @@ const ErrorMatcher = {
   setSignatures,
   normalizeCode,
   jurisdictionInfo,
+  jurisdictionSlug,
   detectArticleJurisdiction,
 };
 
@@ -653,6 +666,7 @@ export {
   setSignatures,
   normalizeCode,
   jurisdictionInfo,
+  jurisdictionSlug,
   detectArticleJurisdiction,
 };
 export default ErrorMatcher;

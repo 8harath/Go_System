@@ -19,7 +19,7 @@ const sigChips= $("#gs-sigchips");
 const results = $("#gs-results");
 const samples = $("#gs-samples");
 const clearBtn= $("#gs-clear");
-const stateLabel = $("[data-state-label]");
+const pasteBtn= $("#gs-paste");
 const modeTabs = Array.from(document.querySelectorAll("[data-mode]"));
 const modePanels = Array.from(document.querySelectorAll("[data-mode-panel]"));
 const signatureLabel = $(".sig__label");
@@ -69,9 +69,12 @@ const KIND_LABEL = { code: "Exact code", signature: "Signature match", text: "Fu
 const KIND_ORDER = ["code", "signature", "text"];
 
 /* ---- UI state ------------------------------------------------------------- */
-function setState(state, label) {
+/* Drives the accent along the top of the paste frame. The old side rail also
+   spelled the state out ("ready" / "scanning" / "matched"), but it was
+   aria-hidden so it never reached assistive tech, and the results heading already
+   says the same thing in words. */
+function setState(state) {
   if (frame) frame.dataset.state = state;
-  if (stateLabel) stateLabel.textContent = label;
 }
 
 function setResultsBusy(busy) {
@@ -84,9 +87,9 @@ function setResultsBusy(busy) {
 }
 
 function autoScopeDescription(scope) {
-  if (scope === "Federal") return "Showing federal and general guidance only.";
-  if (scope === "States") return "Showing state and District of Columbia guidance only.";
-  return "Showing the best available matches across federal and state guidance.";
+  if (scope === "Federal") return "Federal and general guidance only.";
+  if (scope === "States") return "State and District of Columbia guidance only.";
+  return "Best matches across federal and state guidance.";
 }
 
 function setAutoScope(scope, { rerun = true, persist = true } = {}) {
@@ -133,7 +136,7 @@ const MANUAL_PARAM_KEYS = ["jurisdiction", "code", "form", "schedule", "field", 
 function resetSearchUI() {
   seq++;
   setResultsBusy(false);
-  setState("ready", "ready");
+  setState("ready");
   renderSignature(null);
   results.innerHTML = "";
   if (samples) samples.style.display = "";
@@ -290,13 +293,16 @@ function cardHTML(hit, rank, best) {
   
   const j = hit.jurisdiction || "General / Federal";
   const jCode = hit.jurisdictionCode || "General";
-  const jIcon = jCode === "Federal" ? "🏛️" : (jCode === "General" ? "🌐" : "📍");
+  // Abbreviation badge rather than an emoji flag: it renders identically on every
+  // platform, survives greyscale, and links through to that jurisdiction's index.
+  const jShort = jCode === "Federal" ? "FED" : (jCode === "General" ? "GEN" : jCode);
   const jClass = /^[A-Z]{2}$/.test(jCode) ? "state" : jCode.toLowerCase();
-  const jBadge = `<span class="card__jurisdiction card__jurisdiction--${jClass}"><span aria-hidden="true">${jIcon}</span> ${esc(j)}</span>`;
+  const jSlug = window.ErrorMatcher?.jurisdictionSlug?.(jCode) || "general";
+  const jBadge = `<a class="jur jur--${jClass}" href="/errors/jurisdiction/${esc(jSlug)}/"><span class="jur__abbr">${esc(jShort)}</span>${esc(j)}</a>`;
   const fullArticleURL = articleURL(hit.url);
 
   return `
-  <article class="card ${best ? "card--best" : ""}" data-url="${esc(hit.url)}" data-article-url="${esc(fullArticleURL)}" data-kind="${esc(kind)}" data-jurisdiction="${esc(j)}" data-jurisdiction-code="${esc(jCode)}" data-title="${esc(hit.title)}" data-rank="${rank}" data-open="false">
+  <article class="card ${best ? "card--best" : ""}" style="--rank:${rank}" data-url="${esc(hit.url)}" data-article-url="${esc(fullArticleURL)}" data-kind="${esc(kind)}" data-jurisdiction="${esc(j)}" data-jurisdiction-code="${esc(jCode)}" data-title="${esc(hit.title)}" data-rank="${rank}" data-open="false">
     <div class="card__top">
       <span class="card__rank">${best ? "✓" : rank}</span>
       <div class="card__grow">
@@ -521,7 +527,7 @@ function manualSummaryHTML(search, filteredOut = 0) {
 
   return `<section class="search-summary" aria-label="Active manual search criteria">
     <div class="search-summary__top">
-      <div><span class="search-summary__eyebrow">Manual search</span>${scopeNote}</div>
+      <div><span class="search-summary__label">Manual search</span>${scopeNote}</div>
       <button type="button" class="search-summary__edit" data-edit-manual>Edit filters</button>
     </div>
     <div class="search-summary__criteria">
@@ -563,7 +569,7 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
   if (clearBtn) clearBtn.hidden = mode !== "auto" || !query;
 
   if (!query) {
-    setState("ready", "ready");
+    setState("ready");
     renderSignature(null);
     results.innerHTML = "";
     if (samples) samples.style.display = "";
@@ -575,7 +581,7 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
 
   let sig = window.ErrorMatcher ? window.ErrorMatcher.parse(query) : null;
   const hasSig = renderSignature(sig);
-  setState("reading", hasSig ? "scanning" : "searching");
+  setState("reading");
 
   let hits = await gather(query, sig);
   if (mine !== seq) return;                   // a newer query superseded us
@@ -590,7 +596,7 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
   const filteredOut = unscopedCount - hits.length;
 
   if (!hits.length) {
-    setState("reading", "no match");
+    setState("reading");
     const scope = manualSearch?.jurisdictionLabel || (activeAutoScope === "all" ? "" : activeAutoScope === "States" ? "states and D.C." : "federal guidance");
     const manualSummary = manualSearch ? manualSummaryHTML(manualSearch, filteredOut) : "";
     results.innerHTML = `${manualSummary}<div class="note">
@@ -605,7 +611,7 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
     return;
   }
 
-  setState("matched", hits.length === 1 ? "1 match" : "best match found");
+  setState("matched");
   const html = manualSearch ? [manualSummaryHTML(manualSearch, filteredOut)] : [];
   html.push(cardHTML(hits[0], 1, true));
   if (hits.length > 1) {
@@ -613,8 +619,7 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
     html.push(`<section class="alternatives" aria-labelledby="more-heading">
       <div class="alternatives__prompt">
         <div>
-          <p class="alternatives__eyebrow">Still not resolved?</p>
-          <h2 id="more-heading">Find more possible solutions</h2>
+          <h2 id="more-heading">Still not resolved?</h2>
           <p>Review ${alternatives.length} lower-confidence match${alternatives.length > 1 ? "es" : ""}. These may be less likely to solve this exact error, but can help when the first fix does not apply.</p>
         </div>
         <button type="button" class="alternatives__button" data-show-more aria-expanded="false" aria-controls="gs-more-results">
@@ -689,9 +694,9 @@ function toolbarHTML(hits, detectedJurisdiction = "") {
     <span class="filter-group__label">Sort</span>
     <div class="filterset">
       <button type="button" class="filter filter--on" data-sort="relevance" aria-pressed="true">Best match</button>
-      <button type="button" class="filter" data-sort="jurisdiction-asc" aria-pressed="false">Jurisdiction A–Z</button>
-      <button type="button" class="filter" data-sort="jurisdiction-desc" aria-pressed="false">Jurisdiction Z–A</button>
-      <button type="button" class="filter" data-sort="title-asc" aria-pressed="false">Title A–Z</button>
+      <button type="button" class="filter" data-sort="jurisdiction-asc" aria-pressed="false">Jurisdiction A-Z</button>
+      <button type="button" class="filter" data-sort="jurisdiction-desc" aria-pressed="false">Jurisdiction Z-A</button>
+      <button type="button" class="filter" data-sort="title-asc" aria-pressed="false">Title A-Z</button>
     </div>
   </div>`;
 
@@ -872,6 +877,26 @@ manualReset?.addEventListener("click", () => {
   manualFields.jurisdiction?.focus();
 });
 
+/* Reading the clipboard is Chromium-and-Safari only (Firefox exposes readText to
+   extensions, not pages), so the button stays hidden unless the API is really
+   there. A denied permission prompt just focuses the field so the user can paste
+   the normal way. */
+if (pasteBtn && navigator.clipboard?.readText) {
+  pasteBtn.hidden = false;
+  pasteBtn.addEventListener("click", async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (!text.trim()) { input.focus(); return; }
+      if (activeMode !== "auto") setMode("auto", { clearResults: false });
+      input.value = text;
+      input.focus();
+      run();
+    } catch {
+      input.focus();
+    }
+  });
+}
+
 clearBtn?.addEventListener("click", () => {
   input.value = "";
   clearManualURL();
@@ -923,7 +948,7 @@ try {
 if (initialMode !== "manual" && !q0) {
   try { initialMode = localStorage.getItem("gs-search-mode"); } catch {}
 }
-setState("ready", "ready");
+setState("ready");
 if (initialParams.get("mode") === "manual") {
   setMode("manual", { focus: false, clearResults: false, persist: false });
   restoreManualSearch(initialParams);

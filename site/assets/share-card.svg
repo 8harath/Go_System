@@ -1,25 +1,60 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#f7f4ed"/>
-      <stop offset="1" stop-color="#e2e8df"/>
-    </linearGradient>
-    <filter id="s" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#263a2e" flood-opacity=".18"/></filter>
-  </defs>
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <circle cx="1100" cy="80" r="260" fill="#315e47" opacity=".06"/>
-  <circle cx="80" cy="590" r="220" fill="#d3ae62" opacity=".08"/>
-  <g transform="translate(84 82) scale(1.65)" filter="url(#s)">
-    <rect x="2" y="2" width="60" height="60" rx="17" fill="#315e47"/>
-    <path d="M20 13h18l9 9v27a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V17a4 4 0 0 1 4-4Z" fill="#fbf8ef"/>
-    <path d="M38 13v10h9" fill="#dfe7df" stroke="#b9c7bc" stroke-width="1.4"/>
-    <path d="m23 37 6 6 12-14" fill="none" stroke="#356349" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="49" cy="13" r="5" fill="#d3ae62" stroke="#f5e7c4" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title">
+  <title id="title">GS E-file Resolver — from rejection to resolution</title>
+  <!-- Open Graph / Twitter card, 1200x630. Rasterized to share-card.png by
+       builder/make_icons.py.
+
+       Flat fills, one accent, no gradients — the same rules as the interface.
+       Type is a system sans stack rather than Public Sans: this file is rasterized
+       locally by `sips`, which can only use fonts installed on the machine, so
+       naming a webfont here would silently fall back to something arbitrary.
+       Plain "Helvetica" is named on purpose: asking for "Helvetica Neue" let the
+       rasterizer resolve the bold weight to a condensed black variant, which set
+       the headline far tighter than intended. -->
+  <rect width="1200" height="630" fill="#f6f7f9"/>
+  <rect width="1200" height="8" fill="#1a4bc4"/>
+
+  <!-- Quiet structural motif: the code column of a diagnostic list. Low contrast
+       on purpose so it never competes with the headline. -->
+  <g fill="#dde3ec">
+    <rect x="762" y="212" width="150" height="12" rx="3"/>
+    <rect x="762" y="254" width="212" height="12" rx="3"/>
+    <rect x="762" y="296" width="178" height="12" rx="3"/>
+    <rect x="762" y="338" width="240" height="12" rx="3"/>
+    <rect x="762" y="380" width="132" height="12" rx="3"/>
   </g>
-  <text x="84" y="245" fill="#315e47" font-family="Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="3">GS E-FILE RESOLVER</text>
-  <text x="84" y="348" fill="#20231f" font-family="Georgia, serif" font-size="76" font-weight="600">From rejection</text>
-  <text x="84" y="430" fill="#315e47" font-family="Georgia, serif" font-size="76" font-style="italic">to resolution.</text>
-  <text x="88" y="502" fill="#5b6058" font-family="Arial, sans-serif" font-size="25">Jurisdiction-aware GoSystem Tax RS help for tax professionals.</text>
-  <rect x="84" y="548" width="350" height="2" fill="#315e47" opacity=".3"/>
-  <text x="884" y="553" fill="#5b6058" font-family="Arial, sans-serif" font-size="20">50 STATES + FEDERAL</text>
+  <g fill="#c3d0e6">
+    <rect x="678" y="212" width="66" height="12" rx="3"/>
+    <rect x="678" y="254" width="66" height="12" rx="3"/>
+    <rect x="678" y="296" width="66" height="12" rx="3"/>
+    <rect x="678" y="338" width="66" height="12" rx="3"/>
+    <rect x="678" y="380" width="66" height="12" rx="3"/>
+  </g>
+
+  <!-- The mark, at 1.5x its 64-unit artboard -->
+  <g transform="translate(84 70) scale(1.5)">
+    <rect width="64" height="64" rx="14" fill="#1a4bc4"/>
+    <path d="M18 13h19l9 9v26a3 3 0 0 1-3 3H21a3 3 0 0 1-3-3V16a3 3 0 0 1 3-3Z" fill="#ffffff"/>
+    <path d="M37 13v9h9Z" fill="#b9cbf5"/>
+    <path d="M23 33l6 6 11-14" fill="none" stroke="#0f6b46" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g font-family="Helvetica, Arial, sans-serif">
+    <text x="196" y="108" fill="#566171" font-size="22" font-weight="700" letter-spacing="4.5">GS E-FILE RESOLVER</text>
+    <text x="196" y="148" fill="#101519" font-size="26" font-weight="500">GoSystem Tax RS knowledge desk</text>
+
+    <text x="84" y="300" fill="#101519" font-size="78" font-weight="700" letter-spacing="-0.5">From rejection</text>
+    <text x="84" y="388" fill="#123a9e" font-size="78" font-weight="700" letter-spacing="-0.5">to resolution.</text>
+
+    <text x="84" y="450" fill="#39424e" font-size="26">Paste the diagnostic, or browse every indexed error by jurisdiction.</text>
+
+    <text x="84" y="566" fill="#101519" font-size="30" font-weight="700">1,288</text>
+    <text x="84" y="592" fill="#566171" font-size="17" letter-spacing="1.2">ARTICLES</text>
+    <text x="290" y="566" fill="#101519" font-size="30" font-weight="700">508</text>
+    <text x="290" y="592" fill="#566171" font-size="17" letter-spacing="1.2">REJECT CODES</text>
+    <text x="540" y="566" fill="#101519" font-size="30" font-weight="700">51</text>
+    <text x="540" y="592" fill="#566171" font-size="17" letter-spacing="1.2">JURISDICTIONS</text>
+    <text x="1116" y="592" fill="#566171" font-size="17" letter-spacing="1.2" text-anchor="end">FEDERAL + 50 STATES + D.C.</text>
+  </g>
+
+  <rect x="84" y="512" width="1032" height="1" fill="#d8dde5"/>
 </svg>
