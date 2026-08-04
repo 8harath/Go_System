@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GoSystem Tax RS Help Search — find the right e-file fix</title>
+  <title>GoSystem Tax RS Help Search: find the right e-file fix</title>
   <meta name="description" content="Resolve a GoSystem Tax RS e-file error automatically from the full diagnostic, or search manually by jurisdiction, reject code, form, field, and error type.">
   <meta name="color-scheme" content="light dark">
   <meta name="application-name" content="GS E-file Resolver">
-  <meta name="theme-color" content="#315e47">
+  <meta name="theme-color" content="#2c5f45">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="GS E-file Resolver">
-  <meta property="og:title" content="GS E-file Resolver — find the right fix">
+  <meta property="og:title" content="GS E-file Resolver: find the right fix">
   <meta property="og:description" content="Paste a GoSystem Tax RS rejection or search any U.S. state to find the most relevant resolution article.">
   <meta property="og:image" content="/assets/share-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="GS E-file Resolver — from rejection to resolution">
+  <meta property="og:image:alt" content="GS E-file Resolver, from rejection to resolution">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="GS E-file Resolver — find the right fix">
+  <meta name="twitter:title" content="GS E-file Resolver: find the right fix">
   <meta name="twitter:description" content="Resolve GoSystem Tax RS e-file errors with focused, jurisdiction-aware help.">
   <meta name="twitter:image" content="/assets/share-card.png">
   <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
@@ -37,7 +37,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400..800&display=swap" rel="stylesheet">
 
   <link rel="prefetch" href="/codes.json" as="fetch" crossorigin="anonymous">
   <link rel="prefetch" href="/signatures.json" as="fetch" crossorigin="anonymous">
@@ -72,19 +72,13 @@
   <main id="main">
 <section class="hero wrap">
   <div class="hero__intro">
-    <div class="hero__copy">
-      <p class="hero__eyebrow"><span aria-hidden="true"></span> E-file rejection resolver</p>
-      <h1 class="hero__title">From rejection to <em>resolution.</em></h1>
-    </div>
-    <p class="hero__lede">
-      Paste the full diagnostic for the fastest answer, or narrow the search yourself using the details you already know.
-    </p>
+    <h1 class="hero__title">From rejection to <em>resolution.</em></h1>
+    <p class="hero__lede">Paste the diagnostic, or search by the details you already know.</p>
   </div>
 
   <form class="paste" id="gs-form" role="search" autocomplete="off" novalidate>
     <div class="paste__heading">
       <div>
-        <span class="paste__kicker">Resolution workspace</span>
         <h2>How would you like to search?</h2>
       </div>
       <span class="paste__privacy">Processed in your browser</span>
@@ -98,8 +92,7 @@
               aria-selected="true"
               aria-controls="gs-auto-panel"
               data-mode="auto">
-        <span class="mode-tab__index" aria-hidden="true">01</span>
-        <span class="mode-tab__copy"><strong>Auto mode</strong><small>Paste the complete diagnostic</small></span>
+        <span class="mode-tab__copy"><strong>Paste a diagnostic</strong><small>Fastest. We read the details for you</small></span>
         <span class="mode-tab__check" aria-hidden="true">✓</span>
       </button>
       <button type="button"
@@ -110,8 +103,7 @@
               aria-controls="gs-manual-panel"
               data-mode="manual"
               tabindex="-1">
-        <span class="mode-tab__index" aria-hidden="true">02</span>
-        <span class="mode-tab__copy"><strong>Manual mode</strong><small>Enter the details you know</small></span>
+        <span class="mode-tab__copy"><strong>Enter what you know</strong><small>Filter by state, code, form, or field</small></span>
         <span class="mode-tab__check" aria-hidden="true">✓</span>
       </button>
     </div>
@@ -121,14 +113,6 @@
              role="tabpanel"
              aria-labelledby="gs-mode-auto"
              data-mode-panel="auto">
-      <div class="mode-panel__intro">
-        <div>
-          <span class="mode-panel__label">Recommended</span>
-          <h3>Paste the error exactly as shown</h3>
-        </div>
-        <p>We’ll detect the jurisdiction, form, field, and reject code for you.</p>
-      </div>
-
       <fieldset class="auto-scope" id="gs-auto-scope">
         <legend>Search jurisdiction</legend>
         <div class="auto-scope__options" role="group" aria-label="Automatic search jurisdiction">
@@ -136,7 +120,7 @@
           <button type="button" class="auto-scope__option" data-auto-scope="Federal" aria-pressed="false">Federal</button>
           <button type="button" class="auto-scope__option" data-auto-scope="States" aria-pressed="false">States &amp; D.C.</button>
         </div>
-        <p class="auto-scope__hint" id="gs-auto-scope-status" aria-live="polite">Showing the best available matches across federal and state guidance.</p>
+        <p class="auto-scope__hint" id="gs-auto-scope-status" aria-live="polite">Best matches across federal and state guidance.</p>
       </fieldset>
 
       <div class="paste__frame">
@@ -154,7 +138,7 @@
                   enterkeyhint="search"
                   aria-label="Paste an e-file error, reject code, or search by state"
                   aria-describedby="search-coverage"
-                  placeholder="Paste an error, enter a reject code, or search a state — e.g. New York, TX, Alabama…"></textarea>
+                  placeholder="Paste an error, enter a reject code, or search a state, e.g. New York, TX, Alabama"></textarea>
         <button type="button" class="paste__clear" id="gs-clear" aria-label="Clear automatic search" hidden>Clear</button>
       </div>
 
@@ -162,7 +146,7 @@
         <span class="sig__label">signature</span>
         <div class="sig__chips" id="gs-sigchips"></div>
       </div>
-      <p class="search-coverage" id="search-coverage"><span aria-hidden="true">●</span> Recognizes Federal, all 50 states, and Washington, D.C.</p>
+      <p class="search-coverage" id="search-coverage">Recognizes Federal, all 50 states, and Washington, D.C.</p>
       <div class="samples" id="gs-samples" aria-label="Example errors to try">
         <span class="samples__label">Try an example</span>
         <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnerInformation\EntityType&#10;The http://www.ftb.ca.gov/efile:EntityType element is invalid. The value CHECK is invalid according to its datatype http://www.ftb.ca.gov/efile:CA-PartnerMemberEntityType. The Enumeration constraint failed.">CA 565 · EntityType</button>
@@ -179,10 +163,7 @@
              data-mode-panel="manual"
              hidden>
       <div class="mode-panel__intro">
-        <div>
-          <span class="mode-panel__label">Guided search</span>
-          <h3>Build the error signature yourself</h3>
-        </div>
+        <h3>Build the error signature yourself</h3>
         <p>Start with any detail. Adding more fields improves the ranking.</p>
       </div>
 
@@ -317,16 +298,12 @@
       </section>
       <section aria-labelledby="footer-how">
         <h2 id="footer-how">How it works</h2>
-        <ol class="footer-steps">
-          <li><span>1</span>Paste or search</li>
-          <li><span>2</span>Review the detected details</li>
-          <li><span>3</span>Open or copy the best fix</li>
-        </ol>
+        <p>Paste the rejection or search by detail. Check the jurisdiction, form, and code we read back, then open or copy the fix.</p>
       </section>
       <section aria-labelledby="footer-note">
-        <h2 id="footer-note">Coverage & source</h2>
+        <h2 id="footer-note">Coverage &amp; source</h2>
         <p>Search recognizes Federal, all 50 states, and Washington, D.C.; results depend on available source guidance. Articles are attributed to Thomson Reuters.</p>
-        <p class="footer-note"><span class="status-dot" aria-hidden="true"></span> Runs locally in your browser · No account required</p>
+        <p class="footer-note">Runs locally in your browser. No account required.</p>
       </section>
     </div>
     <div class="wrap site-footer__bottom">
@@ -337,8 +314,7 @@
   <dialog class="shortcuts-dialog" id="shortcuts-dialog" aria-labelledby="shortcuts-title">
     <div class="shortcuts-dialog__head">
       <div>
-        <span class="shortcuts-dialog__eyebrow">Keyboard navigation</span>
-        <h2 id="shortcuts-title">Move through the resolver faster</h2>
+        <h2 id="shortcuts-title">Keyboard shortcuts</h2>
       </div>
       <button class="shortcuts-dialog__close" type="button" data-shortcuts-close aria-label="Close keyboard shortcuts">×</button>
     </div>
