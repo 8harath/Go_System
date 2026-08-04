@@ -108,6 +108,25 @@ function esc(s) {
     ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
 }
 
+function resolverReturnURL() {
+  const current = new URL(location.href);
+  if (activeMode === "manual" && current.searchParams.get("mode") === "manual") {
+    current.searchParams.delete("focus");
+    return current.pathname + current.search + current.hash;
+  }
+  const query = input?.value.trim() || "";
+  // Keep a useful, shareable return path without putting a full diagnostic in
+  // the address bar. Browser history still restores long diagnostics.
+  if (query && query.length <= 1200) return `/?q=${encodeURIComponent(query)}`;
+  return "/";
+}
+
+function articleURL(url) {
+  const destination = new URL(url, location.origin);
+  destination.searchParams.set("return", resolverReturnURL());
+  return destination.pathname + destination.search + destination.hash;
+}
+
 /* ---- search modes + manual criteria ------------------------------------- */
 const MANUAL_PARAM_KEYS = ["jurisdiction", "code", "form", "schedule", "field", "kind", "keywords"];
 
@@ -274,9 +293,10 @@ function cardHTML(hit, rank, best) {
   const jIcon = jCode === "Federal" ? "🏛️" : (jCode === "General" ? "🌐" : "📍");
   const jClass = /^[A-Z]{2}$/.test(jCode) ? "state" : jCode.toLowerCase();
   const jBadge = `<span class="card__jurisdiction card__jurisdiction--${jClass}"><span aria-hidden="true">${jIcon}</span> ${esc(j)}</span>`;
+  const fullArticleURL = articleURL(hit.url);
 
   return `
-  <article class="card ${best ? "card--best" : ""}" data-url="${esc(hit.url)}" data-kind="${esc(kind)}" data-jurisdiction="${esc(j)}" data-jurisdiction-code="${esc(jCode)}" data-title="${esc(hit.title)}" data-rank="${rank}" data-open="false">
+  <article class="card ${best ? "card--best" : ""}" data-url="${esc(hit.url)}" data-article-url="${esc(fullArticleURL)}" data-kind="${esc(kind)}" data-jurisdiction="${esc(j)}" data-jurisdiction-code="${esc(jCode)}" data-title="${esc(hit.title)}" data-rank="${rank}" data-open="false">
     <div class="card__top">
       <span class="card__rank">${best ? "✓" : rank}</span>
       <div class="card__grow">
@@ -284,7 +304,7 @@ function cardHTML(hit, rank, best) {
           ${badge}
           ${jBadge}
         </div>
-        <h3 class="card__title"><a href="${esc(hit.url)}">${esc(hit.title)}</a></h3>
+        <h3 class="card__title"><a href="${esc(fullArticleURL)}">${esc(hit.title)}</a></h3>
         <p class="card__crumb">${kindTag}${crumbSpans}</p>
         ${why ? `<div class="why">${why}</div>` : excerpt}
       </div>
@@ -299,7 +319,7 @@ function cardHTML(hit, rank, best) {
         </button>
       </div>
       <div class="prose" data-fixbody>Loading…</div>
-      <p class="card__source"><a href="${esc(hit.url)}">Open full article →</a></p>
+      <p class="card__source"><a href="${esc(fullArticleURL)}">Open full article →</a></p>
     </div>
   </article>`;
 }
@@ -315,7 +335,7 @@ async function loadFix(card) {
       const el = doc.querySelector(".doc__body") || doc.querySelector(".prose");
       body.innerHTML = el ? el.innerHTML : "See the full article for details.";
     } catch {
-      body.innerHTML = `Couldn't load the fix inline. <a href="${card.dataset.url}">Open the article →</a>`;
+      body.innerHTML = `Couldn't load the fix inline. <a href="${card.dataset.articleUrl || card.dataset.url}">Open the article →</a>`;
     } finally {
       body.dataset.loaded = "1";
       delete body._loadPromise;
@@ -915,3 +935,11 @@ if (initialParams.get("mode") === "manual") {
   setMode(initialMode === "manual" ? "manual" : "auto", { focus: false, clearResults: false, persist: false });
 }
 updateManualStatus();
+
+if (initialParams.get("focus") === "search") {
+  setTimeout(() => {
+    setMode("auto", { clearResults: false });
+    input?.focus();
+    input?.select?.();
+  }, 0);
+}
