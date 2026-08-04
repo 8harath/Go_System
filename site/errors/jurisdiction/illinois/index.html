@@ -1,0 +1,1432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Illinois (IL) · GoSystem Tax RS Help Search</title>
+  <meta name="description" content="Illinois (IL): 70 indexed GoSystem Tax RS e-file articles, with the Thomson Reuters fix for each.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="application-name" content="GS E-file Resolver">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GS E-file Resolver">
+  <meta property="og:title" content="Illinois (IL) · GS E-file Resolver">
+  <meta property="og:description" content="70 indexed GoSystem Tax RS e-file articles for Illinois (IL).">
+  <meta property="og:image" content="/assets/share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="GS E-file Resolver, from rejection to resolution">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GS E-file Resolver: find the right fix">
+  <meta name="twitter:description" content="Resolve GoSystem Tax RS e-file errors with focused, jurisdiction-aware help.">
+  <meta name="twitter:image" content="/assets/share-card.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-icon-180.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <script>
+  /* Theme resolution, before first paint so there is no flash.
+     An explicit choice wins; otherwise follow the OS. We only write to storage
+     when the user actually toggles, so "follow the OS" stays sticky. */
+  (function () {
+    var d = document.documentElement;
+    var stored = null;
+    try { stored = localStorage.getItem("gs-theme"); } catch (e) {}
+    var mq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+    function systemTheme() { return mq && mq.matches ? "dark" : "light"; }
+    d.setAttribute("data-theme", stored === "light" || stored === "dark" ? stored : systemTheme());
+    function cur() { return d.getAttribute("data-theme") === "dark" ? "dark" : "light"; }
+    function sync() {
+      var b = document.querySelector("[data-theme-toggle]");
+      if (!b) return;
+      var c = cur();
+      b.setAttribute("aria-pressed", c === "dark");
+      b.setAttribute("aria-label", c === "dark" ? "Switch to the light theme" : "Switch to the dark theme");
+      var l = b.querySelector("[data-theme-label]");
+      if (l) l.textContent = c === "dark" ? "Dark" : "Light";
+    }
+    function set(t) {
+      d.setAttribute("data-theme", t);
+      try { localStorage.setItem("gs-theme", t); } catch (e) {}
+      sync();
+    }
+    if (mq && mq.addEventListener) {
+      mq.addEventListener("change", function () {
+        var s = null;
+        try { s = localStorage.getItem("gs-theme"); } catch (e) {}
+        if (s !== "light" && s !== "dark") { d.setAttribute("data-theme", systemTheme()); sync(); }
+      });
+    }
+    addEventListener("DOMContentLoaded", function () {
+      sync();
+      var b = document.querySelector("[data-theme-toggle]");
+      if (b) b.addEventListener("click", function () { set(cur() === "dark" ? "light" : "dark"); });
+    });
+  })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Public Sans is the USWDS text face: large x-height, unambiguous letterforms,
+       designed for accessible government interfaces. IBM Plex Mono is used only
+       for machine tokens; its 0/O and 1/l/I are clearly distinguishable, which
+       matters when someone is transcribing a reject code. -->
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400..800;1,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body class="page-catalog">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="/">
+        <img class="brand__mark" src="/assets/logo-mark.svg" width="34" height="34" alt="">
+        <span class="brand__copy">
+          <span class="brand__name">E-file Resolver</span>
+          <span class="brand__sub">GoSystem Tax RS knowledge desk</span>
+        </span>
+      </a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a class="topbar__link" data-focus-search href="/">Resolver</a>
+        <a class="topbar__link" aria-current="page" href="/errors/">Error catalog</a>
+        <button type="button" class="shortcuts-trigger" data-shortcuts-trigger aria-haspopup="dialog" aria-controls="shortcuts-dialog">
+          <span>Shortcuts</span><kbd class="kbd" aria-hidden="true">?</kbd>
+        </button>
+        <button type="button" class="themetoggle" data-theme-toggle aria-label="Switch between light and dark theme" aria-pressed="false">
+          <svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+          <span class="themetoggle__label" data-theme-label>Light</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+<div class="wrap catalog" data-pagefind-ignore>
+  <nav class="article-nav" aria-label="Catalog navigation">
+    <a class="article-nav__back" href="/errors/">
+      <span aria-hidden="true">←</span> Error catalog
+    </a>
+    <div class="article-nav__actions">
+      <a class="article-nav__search" href="/?focus=search"><span aria-hidden="true">⌕</span> Resolve an error</a>
+    </div>
+  </nav>
+
+  <header class="catalog__head">
+    <h1>Illinois (IL)</h1>
+    <p>Every indexed GoSystem Tax RS e-file article for Illinois (IL). Open one for the verbatim Thomson Reuters fix.</p>
+    <ul class="coverage">
+      <li><b>70</b> articles</li>
+      <li><b>57</b> with a reject code</li>
+    </ul>
+  </header>
+
+  <ul class="rows">
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-100-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-100-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-100-1 e-file error</a></h2>
+<p class="row__excerpt">If FormIL1065 Line Top of form is greater than zero, then FormIL1065 Line Top of form should equal FormILFinancial StatePayment/PaymentAmount. If the amounts do not match, and your entire…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-1030-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-1030-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-1030-1 e-file error</a></h2>
+<p class="row__excerpt">IL1065-1030-1: If FormIL1065 Step 1 Line F (Inv Ptnrship) contains an X, then FormIL1065 Step 5 Line 35 Box B must contain an X and FormIL1065 Step 6 Line 36 through FormIL1065 Step 7 Line…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-1030-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-1030-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-1030-2 e-file error</a></h2>
+<p class="row__excerpt">If Form IL-1065 Step 1 Line F (Inv Ptnrship) contains an &#39;X&#39;, then all occurrences of Sch B Step 2 Col F must contain a &#39;P&#39;.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-10700-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-10700-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-10700-2 e-file error</a></h2>
+<p class="row__excerpt">FormIL1065 Step 9 Line 65c must equal the sum of all occurrences of SchILK1T Step 7 Line 49 plus sum of all occurrences of SchILK1P Step 7 Line 55.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-400-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-400-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-400-2 e-file error</a></h2>
+<p class="row__excerpt">The address should be the mailing address you would like all correspondence and notices issued. (IL1065-400-2)</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-4100-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-4100-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-4100-2 e-file error</a></h2>
+<p class="row__excerpt">If IRS-1065 is attached then, Form IL-1065 Step 3 Line 10 must equal IRS-1065 Schedule K Line 13(b).</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-4600-1E-FILE</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-4600-1e.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-4600-1e-file error</a></h2>
+<p class="row__excerpt">If Form IL-1065 Step 3 Line 11 (Total) is greater than zero, then you may have reported an IRC Section 965(c) deduction listed on Line 3 of the IRC 965 Transition Tax Statement. Please…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-4600-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-4600-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-4600-2 e-file error</a></h2>
+<p class="row__excerpt">IL1065-4600-2: FormIL1065 Step 3 Line 11 (Total) must equal the total of all occurrence of FormIL1065 Step 3 Line 11 (Amount).</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-5700-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-5700-2-and-il1065-7200-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-5700-2 and IL1065-7200-2 e-file errors</a></h2>
+<p class="row__excerpt">reject code IL1065-5700-2,If Form IL-1065 Step 4 Line 19 is greater than zero, then Form IL-1065 Step 4 Line 19 must equal all occurrences of Sch K1T Step 5 Lines 30, 31, 32, 33, 34, 35…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-5800-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-5800-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-5800-1 e-file error</a></h2>
+<p class="row__excerpt">IL1065-5800-1: If Form IL-1065 Step 4 Line 21 is greater than zero, then Sch B Section A Line 3 must be less than zero.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-6400-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-6400-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-6400-1 e-file error</a></h2>
+<p class="row__excerpt">IL1065-6400-1: If Form IL-1065 Step 5 Line 27 is greater than zero, then Sch B Section A Line 3 must be greater than zero.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-7200-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-7200-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-7200-2 e-file error</a></h2>
+<p class="row__excerpt">IL1065-7200-2: Form IL-1065 Step 5 Line 32 must equal all occurrences of Sch K1T Step 5 Lines 36a, 36b, 37, 38, 41, 42, 43, 44, 45 Column A, plus sum of all occurrences of Sch K1P Step 5…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-8400-3</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-8400-3.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-8400-3 e-file error</a></h2>
+<p class="row__excerpt">IL1065-8400-3: If Form IL-1065 Step 6 Line 39 is greater than zero and Form IL-1065 Step 6 Line 40 and Form IL-1065 Step 6 Line 41 are zero, then Form IL-1065 Step 6 Line 42 must be…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-8700-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-8700-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-8700-1 e-file error</a></h2>
+<p class="row__excerpt">Form IL-1065 (Rule IL1065-8700-1): If Form IL-1065 Step 6 Line 45 is less than or greater than zero, then Sch K1T or Sch K1P must be attached.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-900-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-900-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-900-1 e-file error</a></h2>
+<p class="row__excerpt">IL1065-900-1: If Form IL-1065 Step 5 Line 35 Box B contains an X and Form IL-1065 Step 6 Line 40 is greater than zero, then one occurrence of either Form IL-1065 Step 1 Line E (Financial),…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1065-9430-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1065-9430-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1065-9430-1 e-file error</a></h2>
+<p class="row__excerpt">Form IL-1065 (Rule IL1065-9430-1): Form IL-1065 Step 7 Line 51 must equal Form IL-1065 Step 7 Line 47 divided by Form IL-1065 Step 7 Line 50. If greater than 1 or less than zero, enter…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120-1700-5</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/il1120-1700-5.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120-1700-5 e-file error</a></h2>
+<p class="row__excerpt">The federal return as filed with the IRS should be attached. If Illinois requires an IL pro-forma, it will be requested at a later date. (IL1120-1700-5)</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120-3500-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/il1120-3500-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120-3500-2 e-file error</a></h2>
+<p class="row__excerpt">Form IL-1120 (Rule IL1120-3500-2): If Form IL-1120 Step 2, Federal Taxable Income from U.S. Form 1120, is negative, zero or positive, then IRS-1120 must be attached.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120-6300-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/il1120-6300-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120-6300-2 e-file error</a></h2>
+<p class="row__excerpt">Form IL-1120 (Rule IL1120-6300-2): If Form IL-1120 Step 1 Line E (unitary) contains an &#34;X&#34;, then Form IL-1120 Step 4 Line 27 must equal Sch UB Step 3 Line 27 Col E.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120-6400-4</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/il1120-6400-4.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120-6400-4 e-file error</a></h2>
+<p class="row__excerpt">If Step 3 Line 23 Box B contains an &#34;X&#34;, then Step 4 Line 28 is required.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120-6900-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/il1120-6900-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120-6900-1 e-file error</a></h2>
+<p class="row__excerpt">If Form IL-1120 Step 4, Trust, Estate, and Non-unitary Partnership Business Income or Loss Apportionable to Illinois, is less than or greater than zero, then Schedule K1T or Schedule K1P…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120-7200-4</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/il1120-7200-4.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120-7200-4 e-file error</a></h2>
+<p class="row__excerpt">IL1120-7200-4: FormIL1120 Step 5 Line 38 must equal either SchIL1120NLD Step 1 Line 7 Box or SchIL1120UBNLD Step 3 Line 30.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-2400-3</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-2400-3.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-2400-3 e-file error</a></h2>
+<p class="row__excerpt">IL1120B-2400-3: If SchILB Line Section B Col B contains a C, S, P, A, N, or M, then the same occurrence of SchILB Line Section B Col C (SSN) must be blank.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-2500-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-2500-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-2500-1 e-file error</a></h2>
+<p class="row__excerpt">IL1120B-2500-1: If the same occurrence of SchILB Line Section B Col C (SSN) and SchILB Line Section B Col C (FEIN) is blank, then the same occurrence of SchILB Section B Col A (Foreign…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-2500-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-2500-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">Il1120B-2500-2 e-file error</a></h2>
+<p class="row__excerpt">If Sch B Line Section B Col C (FEIN) is present, then Sch B Line Section B Col C (FEIN) must contain a valid FEIN. According to the Internal Revenue Service, the FEIN prefixes of 69, 70 and…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-2700-4</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-2700-4.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-2700-4 e-file error</a></h2>
+<p class="row__excerpt">You&#39;ll get this error if on Schedule B, Page 2, any partner that has a code A, C, M, N, P, or S under Column B has an SSN entered under Column C.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-2700-4</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/il1120b-2700-4.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-2700-4 e-file error</a></h2>
+<p class="row__excerpt">If the partner or shareholder is a disregarded entity for federal income tax purposes (ex: grantor trust, single member LLC, etc), then the owner of the disregarded entity s information and…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-2800-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-2800-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-2800-1 e-file error</a></h2>
+<p class="row__excerpt">If SchILB Line Section B Col A (US State Abbr) or SchILB Line Section B Col A (Foreign State Abbr) is present, then the same occurrence of SchILB Line Section B Col E must be present.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-3000-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-3000-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-3000-2 e-file error</a></h2>
+<p class="row__excerpt">IL1120B-3000-2: If SchILB Section B Line H is greater than zero, then SchILB Section B Line J of the same occurrence cannot be less than the result of SchILB Section B Line H minus SchILB…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-310-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-310-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-310-1 e-file error</a></h2>
+<p class="row__excerpt">If any occurrence of SchILB Line Section B Col A (U.S. State Abbr) or SchILB Line Section B Col A (Foreign Country) are present, then SchILB Section A Line 3 must equal the sum of all…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-310-3</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il-1120b-310-3.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-310-3 e-file error</a></h2>
+<p class="row__excerpt">IL1120B-310-3: If Sch B Section A Line 3 is less than zero, then Sch B Section A Line 3 must equal either Form IL-1120-ST Step 4 Line 20 or Form IL-1065 Step 4 Line 21 written as a positive.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-310-4</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-310-4.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-310-4 e-file error</a></h2>
+<p class="row__excerpt">IL1120B-310-4: If Form IL-1065 Step 1 Line F (PTP) does not contain an X, then the total of all occurrences of Sch B Line Section B Col E must equal the result of Form IL-1065 Step 5 Line…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-3100-8</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-3100-8.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-3100-8 e-file error</a></h2>
+<p class="row__excerpt">If SchILB Line Section B Col B contains an I, M, C, T, S, P, N, or A and either FormIL1065 Step 1 Line F (PTP) or FormIL1065 Step 1 Line F (Inv Ptnrship) contains an X, then SchILB Line…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-3140-8</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-3140-8.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-3140-8 e-file error</a></h2>
+<p class="row__excerpt">If SchILB Line Section B Col G is greater than zero and the same occurrence of SchILB Line Section B Col B contains a C or N, then the same occurrence of SchILB Line Section B Col H must be…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-3140-X</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-3140-x.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-3140-X e-file error</a></h2>
+<p class="row__excerpt">There are multiple variations of this reject code, but all relate to the partner types and pass-through withholding calculations.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-3300-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-3300-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-3300-2 e-file error</a></h2>
+<p class="row__excerpt">IL1120B-3300-2: Sch B Section A Line 5 must equal the sum of all occurrences of Sch B Section B Line J.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-3310-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-3310-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-3310-2 e-file error</a></h2>
+<p class="row__excerpt">IL1120B-3310-2: If FormIL1065 is attached then the sum of all occurrences of SchILB Section B Line K cannot be greater than FormIL1065 Step 8 Line 61.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-3340-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-3340-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-3340-1 e-file error</a></h2>
+<p class="row__excerpt">IL1120B-3340-1: The sum of all occurrences of SchILB Section B Line L must equal the sum of all occurrences of SchILK1P Step 7 Line 53a and SchILK1T Step 7 Line 50.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120B-3410-7</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/il1120b-3410-7.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120B-3410-7 e-file error</a></h2>
+<p class="row__excerpt">If SchILB Line Section B Col G is greater than zero and the same occurrence of SchILB Line Section B Col B contains a T or A, then the same occurrence of SchILB Line Section B Col H must be…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">IL1120ST-2600-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/il1120st-2600-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">IL1120ST-2600-2 e-file error</a></h2>
+<p class="row__excerpt">Form IL-1120-ST (Rule IL1120ST-2600-2): If Form IL-1120-ST Step 2, Ordinary Income or Loss, or Equivalent from Federal Schedule K is present, then IRS-1120S must be attached.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILAUTH-100-3</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilauth-100-3.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILAuth-100-3 e-file error</a></h2>
+<p class="row__excerpt">IL Authorization (Rule ILAuth-100-3): If Form IL-Authorization Line 1 contains &#34;Jurat statement accepted and debit authorized&#34;, then the submission must contain IL-Financial and either Form…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILHEADER-10300-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilheader-10300-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILHeader-10300-1 e-file error</a></h2>
+<p class="row__excerpt">IL Return Header (Rule ILHeader-10300-1): Either IL-Header BusinessRepresentative/Phone or IL-Header BusinessRepresentative/ForeignPhone is required</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILHEADER-10700-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/ilheader-10700-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILHeader-10700-1 e-file error</a></h2>
+<p class="row__excerpt">ILHeader-10700-1: IL-Header BusinessRepresentative/SignatureDt cannot be blank. Navigate to the Organizer \ States \ Common State \ General Information \ Basic Return Information \…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILHEADER-10700-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilheader-10700-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILHeader-10700-1 e-file error</a></h2>
+<p class="row__excerpt">IL Return Header (Rule ILHeader-10700-1): IL-Header BusinesRepresentative/DateSigned cannot be blank.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILHEADER-CORP-3700-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/ilheader-corp-3700-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILHeader-Corp-3700-2 e-file error</a></h2>
+<p class="row__excerpt">1065 Illinois ILHeader-Corp-3700-2: If preparer name is present and preparer is not self-employed, then preparer&#39;s signature date, PTIN, preparer firm&#39;s name and EIN, preparer&#39;s US address…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILK1P-200-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilk1p-200-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILK1P-200-1 e-file error</a></h2>
+<p class="row__excerpt">ILK1P-200-1: Either Sch K1P Step 1 Line 1 (partnership) or Sch K1P Step 1 Line 1 (S Corporation) must contain an X. Both cannot be marked.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILK1P-4000-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/ilk1p-4000-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILK1P-4000-1 e-file error</a></h2>
+<p class="row__excerpt">ILK1P-4000-1: SchILK1P Step 3 Line 19 Col A must equal the sum of all occurrences of SchILK1P Step 3 Line 19 (resident amt.).</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILK1P-500-3</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1041-e-file-errors/states/illinois/ilk1p-500-3.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILK1P-500-3 e-file error</a></h2>
+<p class="row__excerpt">SchILK1P Step 1 Line 3 must contain a valid FEIN. (ILK1P-500-3)</p>          <p class="row__meta">
+            <span class="row__tag">Form 1041 — Estates &amp; trusts</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILK1P-500-3</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/ilk1p-500-3.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILK1P-500-3 e-file error</a></h2>
+<p class="row__excerpt">Rule Number ILK1P-500-3: SchILK1P Step 1 Line 3 must contain a valid FEIN.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILK1P-500-3</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilk1p-500-3.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILK1P-500-3 e-file error</a></h2>
+<p class="row__excerpt">Rule Number ILK1P-500-3: SchILK1P Step 1 Line 3 must contain a valid FEIN.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILK1P-6400-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilk1p-6400-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILK1P-6400-1 e-file error</a></h2>
+<p class="row__excerpt">Schedule K-1-P (Rule ILK1P-6400-1): If Step 4 Line 31 Col A or Col B is not blank, then description is required and vice versa.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILM-2000-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1040-e-file-errors/states/illinois/e-filing-illinois-schedules-m-k-1-p-k-1-t.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILM-2000-1 e-file error</a></h2>
+<p class="row__excerpt">Illinois Schedule M and Schedules K-1-P and K-1-T: For all occurrences of the Schedule K1P and/or Schedule K1T, Schedule M Step 3 Line 14 &#34;PartnerScorpEstateTrustLoss&#34; must not be greater…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1040 — Individual</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILSCHUB-12700-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilschub-12700-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILSCHUB-12700-1 e-file error</a></h2>
+<p class="row__excerpt">Schedule UB (Rule ILSCHUB-12700-1): Sch UB Step 3 Line 9 must equal Sch UB Step 2 Line 30 plus the sum of Sch UB Step 3 Line 2 through Sch UB Step 3 Line 8.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILSCHUB-14750-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilschub-14750-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILSCHUB-14750-1 e-file error</a></h2>
+<p class="row__excerpt">Schedule UB (Rule ILSCHUB-14750-1): Sch UB Step 2 Line 30 Col E must equal sum of all occurrences of Sch UB Step 2 Line 30 minus Sch UB Step 3 Line 1 Col D.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILSCHUB-18300-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilschub-18300-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILSCHUB-18300-1 e-file error</a></h2>
+<p class="row__excerpt">Schedule UB (Rule ILSCHUB-18300-1): If the result of the sum of all occurrences of Step 3 Line 2 minus Line 2 Col D is zero or greater than zero, then Step 3 Line 9 Col E must equal the…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILSCHUB-19800-1</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilschub-19800-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILSCHUB-19800-1 e-file error</a></h2>
+<p class="row__excerpt">Schedule UB (Rule ILSCHUB-19800-1): If the result of the sum of all occurrences of Step 3 Line 2 minus Line 2 Col D is zero or greater than zero, then Step 3 Line 23 Col E must equal the…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">ILSCHUB-20900-2</span>            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilschub-20900-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILSCHUB-20900-2 e-file error</a></h2>
+<p class="row__excerpt">ILSCHUB-20900-2 path to XML Error /ns:ReturnState/ns:ReturnDataState/ns:SchIL1120UB/ns:SchUBMembershipTable/ns:Step3ColABCTaxableInc/ns:ApportionedNetAmount See Schedule UB instructions for…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/efile-guide/1040-returns/il.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">1040 Illinois electronic filing information</a></h2>
+<p class="row__excerpt">If you have specific questions about what you can e-file or about rejections you received, contact the state for more information.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1040 — Individual</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/efile-guide/1041-returns/il.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">1041 Illinois electronic filing information</a></h2>
+<p class="row__excerpt">If you have specific questions about what you can e-file or about rejections you received, contact the state for more information.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1041 — Estates &amp; trusts</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/efile-guide/1065-returns/il.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">1065 Illinois electronic filing information</a></h2>
+<p class="row__excerpt">If you have specific questions about what you can e-file or about rejections you received, contact the state for more information.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/efile-guide/1120-returns/il.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">1120 Illinois electronic filing information</a></h2>
+<p class="row__excerpt">If you have specific questions about what you can e-file or about rejections you received, contact the state for more information.</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/efile-guide/990-returns/il.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">990 Illinois electronic filing information</a></h2>
+<p class="row__excerpt">Electronic filing is not available for Illinois nonprofit returns.</p>          <p class="row__meta">
+            <span class="row__tag">Form 990 — Exempt organization</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/apportionment-elimination-apportionment.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">E-file diagnostic: Apportionment: Elimination apportionment</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/it204ll.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">E-file diagnostic: FormILAuthorization</a></h2>
+<p class="row__excerpt">Field &#39;FormIL1065&#39; is unexpected FormILAuthorization</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/it204ll.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">E-file diagnostic: FormILAuthorization</a></h2>
+<p class="row__excerpt">Field &#39;FormIL1065&#39; is unexpected FormILAuthorization</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/you-have-not-signed-off.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">E-file diagnostic: Illinois Authorization: You have not signed off</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/illinois-electronic-payment-options.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">E-file diagnostic: Illinois Electronic Payment Options</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/field-corporation-is-unexpected.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">Error: Field &#39;Corporation&#39; is unexpected</a></h2>
+<p class="row__excerpt">This e-file validation error appears when the Schedule K-1-P lacks required share percentage information. The system expects either a share percentage value or a binary attachment indicator…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1065-e-file-errors/states/illinois/ilk1p-6600-1-ilk1p-6700-1.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">ILK1P-6600-1 and ILK1P-6700-1 e-file errors</a></h2>
+<p class="row__excerpt">Error Message Sch K1P Step 4 Line 31 Col B must equal the sum of all occurrrences of Sch K1P Step 4 Line 31 (nonresident amt.).</p>          <p class="row__meta">
+            <span class="row__tag">Form 1065 — Partnership</span>
+            <span class="row__tag">Value or total mismatch</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">IL</span>Illinois (IL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/1120-e-file-errors/states/illinois/ilheader-500-2.html?return=%2Ferrors%2Fjurisdiction%2Fillinois%2F">Rule ILHeader-500-2 e-file error</a></h2>
+<p class="row__excerpt">IL Return Header (Rule ILHeader-500-2): If IL-Header TaxPeriodEndDate is not between 12/25/21 and 12/25/22, or IL-Header TaxPeriodBeginDt to TaxPeriodEndDt is greater than 53 weeks, you…</p>          <p class="row__meta">
+            <span class="row__tag">Form 1120 — Corporation</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <section class="browse" aria-labelledby="siblings-h">
+    <h2 id="siblings-h">Every jurisdiction</h2>
+    <ul class="browse__grid">
+      <li><a href="/errors/jurisdiction/federal/"><b>Federal</b><span>228</span></a></li>
+      <li><a href="/errors/jurisdiction/general/"><b>General / Federal</b><span>169</span></a></li>
+      <li><a href="/errors/jurisdiction/alabama/"><b>Alabama (AL)</b><span>60</span></a></li>
+      <li><a href="/errors/jurisdiction/alaska/"><b>Alaska (AK)</b><span>3</span></a></li>
+      <li><a href="/errors/jurisdiction/arizona/"><b>Arizona (AZ)</b><span>23</span></a></li>
+      <li><a href="/errors/jurisdiction/arkansas/"><b>Arkansas (AR)</b><span>7</span></a></li>
+      <li><a href="/errors/jurisdiction/california/"><b>California (CA)</b><span>76</span></a></li>
+      <li><a href="/errors/jurisdiction/colorado/"><b>Colorado (CO)</b><span>12</span></a></li>
+      <li><a href="/errors/jurisdiction/connecticut/"><b>Connecticut (CT)</b><span>11</span></a></li>
+      <li><a href="/errors/jurisdiction/delaware/"><b>Delaware (DE)</b><span>6</span></a></li>
+      <li><a href="/errors/jurisdiction/district-of-columbia/"><b>District of Columbia (DC)</b><span>1</span></a></li>
+      <li><a href="/errors/jurisdiction/florida/"><b>Florida (FL)</b><span>10</span></a></li>
+      <li><a href="/errors/jurisdiction/georgia/"><b>Georgia (GA)</b><span>15</span></a></li>
+      <li><a href="/errors/jurisdiction/hawaii/"><b>Hawaii (HI)</b><span>13</span></a></li>
+      <li><a href="/errors/jurisdiction/idaho/"><b>Idaho (ID)</b><span>9</span></a></li>
+      <li><a href="/errors/jurisdiction/illinois/" aria-current="page"><b>Illinois (IL)</b><span>70</span></a></li>
+      <li><a href="/errors/jurisdiction/indiana/"><b>Indiana (IN)</b><span>22</span></a></li>
+      <li><a href="/errors/jurisdiction/iowa/"><b>Iowa (IA)</b><span>21</span></a></li>
+      <li><a href="/errors/jurisdiction/kansas/"><b>Kansas (KS)</b><span>8</span></a></li>
+      <li><a href="/errors/jurisdiction/kentucky/"><b>Kentucky (KY)</b><span>14</span></a></li>
+      <li><a href="/errors/jurisdiction/louisiana/"><b>Louisiana (LA)</b><span>6</span></a></li>
+      <li><a href="/errors/jurisdiction/maine/"><b>Maine (ME)</b><span>6</span></a></li>
+      <li><a href="/errors/jurisdiction/maryland/"><b>Maryland (MD)</b><span>33</span></a></li>
+      <li><a href="/errors/jurisdiction/massachusetts/"><b>Massachusetts (MA)</b><span>26</span></a></li>
+      <li><a href="/errors/jurisdiction/michigan/"><b>Michigan (MI)</b><span>11</span></a></li>
+      <li><a href="/errors/jurisdiction/minnesota/"><b>Minnesota (MN)</b><span>18</span></a></li>
+      <li><a href="/errors/jurisdiction/mississippi/"><b>Mississippi (MS)</b><span>17</span></a></li>
+      <li><a href="/errors/jurisdiction/missouri/"><b>Missouri (MO)</b><span>5</span></a></li>
+      <li><a href="/errors/jurisdiction/montana/"><b>Montana (MT)</b><span>16</span></a></li>
+      <li><a href="/errors/jurisdiction/nebraska/"><b>Nebraska (NE)</b><span>20</span></a></li>
+      <li><a href="/errors/jurisdiction/nevada/"><b>Nevada (NV)</b><span>4</span></a></li>
+      <li><a href="/errors/jurisdiction/new-hampshire/"><b>New Hampshire (NH)</b><span>8</span></a></li>
+      <li><a href="/errors/jurisdiction/new-jersey/"><b>New Jersey (NJ)</b><span>29</span></a></li>
+      <li><a href="/errors/jurisdiction/new-mexico/"><b>New Mexico (NM)</b><span>10</span></a></li>
+      <li><a href="/errors/jurisdiction/new-york/"><b>New York (NY)</b><span>48</span></a></li>
+      <li><a href="/errors/jurisdiction/north-carolina/"><b>North Carolina (NC)</b><span>45</span></a></li>
+      <li><a href="/errors/jurisdiction/north-dakota/"><b>North Dakota (ND)</b><span>7</span></a></li>
+      <li><a href="/errors/jurisdiction/ohio/"><b>Ohio (OH)</b><span>18</span></a></li>
+      <li><a href="/errors/jurisdiction/oklahoma/"><b>Oklahoma (OK)</b><span>9</span></a></li>
+      <li><a href="/errors/jurisdiction/oregon/"><b>Oregon (OR)</b><span>18</span></a></li>
+      <li><a href="/errors/jurisdiction/pennsylvania/"><b>Pennsylvania (PA)</b><span>24</span></a></li>
+      <li><a href="/errors/jurisdiction/rhode-island/"><b>Rhode Island (RI)</b><span>5</span></a></li>
+      <li><a href="/errors/jurisdiction/south-carolina/"><b>South Carolina (SC)</b><span>14</span></a></li>
+      <li><a href="/errors/jurisdiction/tennessee/"><b>Tennessee (TN)</b><span>4</span></a></li>
+      <li><a href="/errors/jurisdiction/texas/"><b>Texas (TX)</b><span>39</span></a></li>
+      <li><a href="/errors/jurisdiction/utah/"><b>Utah (UT)</b><span>17</span></a></li>
+      <li><a href="/errors/jurisdiction/vermont/"><b>Vermont (VT)</b><span>7</span></a></li>
+      <li><a href="/errors/jurisdiction/virginia/"><b>Virginia (VA)</b><span>17</span></a></li>
+      <li><a href="/errors/jurisdiction/washington/"><b>Washington (WA)</b><span>5</span></a></li>
+      <li><a href="/errors/jurisdiction/west-virginia/"><b>West Virginia (WV)</b><span>10</span></a></li>
+      <li><a href="/errors/jurisdiction/wisconsin/"><b>Wisconsin (WI)</b><span>14</span></a></li>
+    </ul>
+  </section>
+</div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <section class="site-footer__about" aria-labelledby="footer-about">
+        <div class="footer-brand">
+          <img src="/assets/logo-mark.svg" width="32" height="32" alt="">
+          <div><strong id="footer-about">GS E-file Resolver</strong><span>Independent help for tax professionals</span></div>
+        </div>
+        <p>Find the most relevant GoSystem Tax RS guidance from a raw rejection, a reject code, a form detail, or a state name — or browse the whole indexed corpus.</p>
+      </section>
+      <section aria-labelledby="footer-nav">
+        <h2 id="footer-nav">Go to</h2>
+        <ul class="footer-links">
+          <li><a href="/">Resolver</a></li>
+          <li><a href="/errors/">Error catalog</a></li>
+          <li><a href="/errors/#browse-jurisdiction">Browse by jurisdiction</a></li>
+          <li><a href="/errors/#browse-return">Browse by return type</a></li>
+        </ul>
+      </section>
+      <section aria-labelledby="footer-note">
+        <h2 id="footer-note">Coverage &amp; source</h2>
+        <p>Search and browse cover Federal, all 50 states, and Washington, D.C.; results depend on available source guidance. Articles are attributed to Thomson Reuters.</p>
+        <p class="footer-note">Runs locally in your browser. No account required.</p>
+      </section>
+    </div>
+    <div class="wrap site-footer__bottom">
+      <span>Not affiliated with or endorsed by Thomson Reuters.</span>
+<a href="/errors/">Back to the error catalog</a>    </div>
+  </footer>
+
+  <dialog class="shortcuts-dialog" id="shortcuts-dialog" aria-labelledby="shortcuts-title">
+    <div class="shortcuts-dialog__head">
+      <div>
+        <h2 id="shortcuts-title">Keyboard shortcuts</h2>
+      </div>
+      <button class="shortcuts-dialog__close" type="button" data-shortcuts-close aria-label="Close keyboard shortcuts">×</button>
+    </div>
+    <dl class="shortcuts-list">
+      <div><dt><kbd>/</kbd><kbd>⌘ K</kbd><kbd>Ctrl K</kbd></dt><dd>Focus the search field on this page</dd></div>
+      <div><dt><kbd>⌘ Enter</kbd><kbd>Ctrl Enter</kbd></dt><dd>Open the best matching article</dd></div>
+      <div><dt><kbd>Esc</kbd></dt><dd>Clear the active search or close this guide</dd></div>
+      <div class="shortcuts-list__article"><dt><kbd>B</kbd></dt><dd>Return to results while reading an article</dd></div>
+      <div><dt><kbd>?</kbd></dt><dd>Show this shortcut guide</dd></div>
+    </dl>
+  </dialog>
+
+  <script>
+  (function () {
+    function isTyping() {
+      return /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName || "");
+    }
+    function sameOriginURL(value) {
+      if (!value) return null;
+      try {
+        var url = new URL(value, location.origin);
+        return url.origin === location.origin ? url : null;
+      } catch (e) { return null; }
+    }
+    addEventListener("DOMContentLoaded", function () {
+      var article = document.body.classList.contains("page-article");
+      var dialog = document.querySelector("#shortcuts-dialog");
+      var opener = document.querySelector("[data-shortcuts-trigger]");
+      var closer = document.querySelector("[data-shortcuts-close]");
+      var backLinks = Array.prototype.slice.call(document.querySelectorAll("[data-return-link]"));
+      var back = backLinks[0];
+      var returnTo = sameOriginURL(new URLSearchParams(location.search).get("return"));
+
+      /* Articles are reachable from the resolver and from the catalog, so the
+         back link follows whichever surface sent the reader here. The trailing
+         slash on /errors/ is optional: hosts differ on whether they normalise it
+         (Vercel's trailingSlash:false strips it), and the reader should get
+         "Back to catalog" either way. */
+      if (article && back && returnTo && /^\/(?:errors\/?)?$/.test(returnTo.pathname)) {
+        var isCatalog = /^\/errors\/?$/.test(returnTo.pathname);
+        backLinks.forEach(function (link) {
+          link.href = returnTo.pathname + returnTo.search + returnTo.hash;
+          var label = link.querySelector("[data-return-label]");
+          if (label) label.textContent = isCatalog ? "Back to catalog" : "Back to results";
+        });
+        backLinks.forEach(function (link) { link.addEventListener("click", function (event) {
+          var referrer = sameOriginURL(document.referrer);
+          if (referrer && referrer.pathname === returnTo.pathname && history.length > 1) {
+            event.preventDefault();
+            history.back();
+          }
+        }); });
+      }
+
+      function openShortcuts() {
+        if (dialog && !dialog.open) dialog.showModal();
+      }
+      opener && opener.addEventListener("click", openShortcuts);
+      closer && closer.addEventListener("click", function () { dialog && dialog.close(); });
+      document.querySelectorAll("[data-scroll-top]").forEach(function (button) {
+        button.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "?" && !isTyping() && !event.metaKey && !event.ctrlKey && !event.altKey) {
+          event.preventDefault();
+          openShortcuts();
+          return;
+        }
+        if (!article || isTyping() || event.altKey) return;
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+          return;
+        }
+        if (event.metaKey || event.ctrlKey) return;
+        if (event.key.toLowerCase() === "b" && back) {
+          event.preventDefault();
+          back.click();
+          return;
+        }
+        if (event.key === "/") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+        }
+      });
+    });
+  })();
+  </script>
+
+</body>
+</html>

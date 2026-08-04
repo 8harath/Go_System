@@ -1,0 +1,1581 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Any return · GoSystem Tax RS Help Search</title>
+  <meta name="description" content="Any return: 82 indexed GoSystem Tax RS e-file articles, with the Thomson Reuters fix for each.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="application-name" content="GS E-file Resolver">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GS E-file Resolver">
+  <meta property="og:title" content="Any return · GS E-file Resolver">
+  <meta property="og:description" content="82 indexed GoSystem Tax RS e-file articles for Any return.">
+  <meta property="og:image" content="/assets/share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="GS E-file Resolver, from rejection to resolution">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GS E-file Resolver: find the right fix">
+  <meta name="twitter:description" content="Resolve GoSystem Tax RS e-file errors with focused, jurisdiction-aware help.">
+  <meta name="twitter:image" content="/assets/share-card.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-icon-180.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <script>
+  /* Theme resolution, before first paint so there is no flash.
+     An explicit choice wins; otherwise follow the OS. We only write to storage
+     when the user actually toggles, so "follow the OS" stays sticky. */
+  (function () {
+    var d = document.documentElement;
+    var stored = null;
+    try { stored = localStorage.getItem("gs-theme"); } catch (e) {}
+    var mq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+    function systemTheme() { return mq && mq.matches ? "dark" : "light"; }
+    d.setAttribute("data-theme", stored === "light" || stored === "dark" ? stored : systemTheme());
+    function cur() { return d.getAttribute("data-theme") === "dark" ? "dark" : "light"; }
+    function sync() {
+      var b = document.querySelector("[data-theme-toggle]");
+      if (!b) return;
+      var c = cur();
+      b.setAttribute("aria-pressed", c === "dark");
+      b.setAttribute("aria-label", c === "dark" ? "Switch to the light theme" : "Switch to the dark theme");
+      var l = b.querySelector("[data-theme-label]");
+      if (l) l.textContent = c === "dark" ? "Dark" : "Light";
+    }
+    function set(t) {
+      d.setAttribute("data-theme", t);
+      try { localStorage.setItem("gs-theme", t); } catch (e) {}
+      sync();
+    }
+    if (mq && mq.addEventListener) {
+      mq.addEventListener("change", function () {
+        var s = null;
+        try { s = localStorage.getItem("gs-theme"); } catch (e) {}
+        if (s !== "light" && s !== "dark") { d.setAttribute("data-theme", systemTheme()); sync(); }
+      });
+    }
+    addEventListener("DOMContentLoaded", function () {
+      sync();
+      var b = document.querySelector("[data-theme-toggle]");
+      if (b) b.addEventListener("click", function () { set(cur() === "dark" ? "light" : "dark"); });
+    });
+  })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Public Sans is the USWDS text face: large x-height, unambiguous letterforms,
+       designed for accessible government interfaces. IBM Plex Mono is used only
+       for machine tokens; its 0/O and 1/l/I are clearly distinguishable, which
+       matters when someone is transcribing a reject code. -->
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400..800;1,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body class="page-catalog">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="/">
+        <img class="brand__mark" src="/assets/logo-mark.svg" width="34" height="34" alt="">
+        <span class="brand__copy">
+          <span class="brand__name">E-file Resolver</span>
+          <span class="brand__sub">GoSystem Tax RS knowledge desk</span>
+        </span>
+      </a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a class="topbar__link" data-focus-search href="/">Resolver</a>
+        <a class="topbar__link" aria-current="page" href="/errors/">Error catalog</a>
+        <button type="button" class="shortcuts-trigger" data-shortcuts-trigger aria-haspopup="dialog" aria-controls="shortcuts-dialog">
+          <span>Shortcuts</span><kbd class="kbd" aria-hidden="true">?</kbd>
+        </button>
+        <button type="button" class="themetoggle" data-theme-toggle aria-label="Switch between light and dark theme" aria-pressed="false">
+          <svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+          <span class="themetoggle__label" data-theme-label>Light</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+<div class="wrap catalog" data-pagefind-ignore>
+  <nav class="article-nav" aria-label="Catalog navigation">
+    <a class="article-nav__back" href="/errors/">
+      <span aria-hidden="true">←</span> Error catalog
+    </a>
+    <div class="article-nav__actions">
+      <a class="article-nav__search" href="/?focus=search"><span aria-hidden="true">⌕</span> Resolve an error</a>
+    </div>
+  </nav>
+
+  <header class="catalog__head">
+    <h1>Any return</h1>
+    <p>Every indexed e-file article filed under Any return, across all jurisdictions.</p>
+    <ul class="coverage">
+      <li><b>82</b> articles</li>
+      <li><b>3</b> with a reject code</li>
+    </ul>
+  </header>
+
+  <ul class="rows">
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">9983</span>            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/9983.html?return=%2Ferrors%2Freturn%2Fany%2F">9983 e-file error</a></h2>
+<p class="row__excerpt">This rejection happens when the state return is submitted before the federal return is accepted.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">R0000-062-01</span>            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/r0000-062-01.html?return=%2Ferrors%2Freturn%2Fany%2F">R0000-062-01 e-file error</a></h2>
+<p class="row__excerpt">Federal or state Federal Return</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+<span class="row__code">R0000-932-02</span>            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/r0000-932-02.html?return=%2Ferrors%2Freturn%2Fany%2F">R0000-932-02 or R0000-933-02 e-file error</a></h2>
+<p class="row__excerpt">If &#34;Amended Return&#34; or (Superseded for 1120/1120S/1120-F/1041/1042/1065) checkbox is not checked, then taxpayer TIN in the Return Header must not be the same as a TIN of a previously…</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/exclusions-from-e-file.html?return=%2Ferrors%2Freturn%2Fany%2F">5500 filings excluded from e-filing</a></h2>
+<p class="row__excerpt">Find out which employee benefit filings are not eligible for electronic filing.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/80004005.html?return=%2Ferrors%2Freturn%2Fany%2F">80004005 e-file error</a></h2>
+<p class="row__excerpt">There may be times where a return is rejected with error code 80004005.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/pdf/attach-pdf-to-an-efile.html?return=%2Ferrors%2Freturn%2Fany%2F">Attach a PDF to an e-file</a></h2>
+<p class="row__excerpt">Add and review PDF attachments for e-filed returns.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/xml/attach-third-party-xml-files.html?return=%2Ferrors%2Freturn%2Fany%2F">Attach third-party XML files to your international e-file</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/xml/attach-international-xit-files-efile.html?return=%2Ferrors%2Freturn%2Fany%2F">Attach XIT files to your international e-file</a></h2>
+<p class="row__excerpt">Attach Thomson Reuters XIT files from international returns to your e-file for submission.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/apply-to-e-file/become-an-authorized-e-file-provider.html?return=%2Ferrors%2Freturn%2Fany%2F">Become an authorized e-file provider</a></h2>
+<p class="row__excerpt">Apply for IRS e-file provider authorization by setting up an account, submitting an application, and passing a suitability check.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/signature-and-pin/choose-signature-options.html?return=%2Ferrors%2Freturn%2Fany%2F">Choose signature options for e-filed 1041 returns</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/clear-errors-after-you-create-efile.html?return=%2Ferrors%2Freturn%2Fany%2F">Clear XML errors before e-filing</a></h2>
+<p class="row__excerpt">Review and clear XML file errors before submitting the e-file.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/compare-fbar-mef.html?return=%2Ferrors%2Freturn%2Fany%2F">Compare FBAR and MeF e-file systems</a></h2>
+<p class="row__excerpt">Review the key differences between FBAR and MeF e-file systems for transmission, format, attachments, EFIN requirements, signatures, and error handling.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/conditional-acceptances.html?return=%2Ferrors%2Freturn%2Fany%2F">Conditionally accepted returns</a></h2>
+<p class="row__excerpt">A conditionally accepted status means the state requires additional information from you or needs more time to process your return.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/correct-validation-errors-with-goto.html?return=%2Ferrors%2Freturn%2Fany%2F">Correct validation errors with GoTo</a></h2>
+<p class="row__excerpt">Generate a validation file that uses GoTo functionality to go to the source of e-file errors and correct them efficiently.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/create-federal-e-file.html?return=%2Ferrors%2Freturn%2Fany%2F">Create a federal e-file</a></h2>
+<p class="row__excerpt">Create a federal e-file XML file in the Organizer and review the file status and formatting requirements.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/create-fbar.html?return=%2Ferrors%2Freturn%2Fany%2F">Create an FBAR e-file</a></h2>
+<p class="row__excerpt">Complete, validate, and create FBAR e-files for individual filers and review them before transmission to FinCEN.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/pdf/delete-trapped-pdf-attachments.html?return=%2Ferrors%2Freturn%2Fany%2F">Delete trapped PDF attachments</a></h2>
+<p class="row__excerpt">Clear PDF attachments that appear in the Organizer&#39;s summary but don&#39;t show when you try to attach them.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/e-file-5500-series-returns.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file 5500 series returns</a></h2>
+<p class="row__excerpt">Complete step-by-step instructions for enabling EFAST2 e-file, configuring signatures, and submitting Form 5500 returns to the Department of Labor (DOL).</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">AL</span>Alabama (AL)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/state-returns/1065-1120-state-e-file-requirement.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file Alabama and New York consolidated returns</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/apply-to-e-file/efile-application-summary-and-requirements.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file application summary and requirements</a></h2>
+<p class="row__excerpt">Submit your IRS e-file application summary to verify your eligibility for electronic tax filing.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/business-representative.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file diagnostic: Business Representative</a></h2>
+<p class="row__excerpt">Business Representative: Required First name, last name, title, phone number, and date signed are required fields.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/federal-filer-mandatory.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file diagnostic: Federal Filer (Mandatory)</a></h2>
+<p class="row__excerpt">Federal Filer (Mandatory): Federal Identification Number (FEIN), TTA Locator/Binder Number, and TTA Account Number of the Federal Return are required fields for [State] efile transmission.…</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/incomplete-signature-information.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file diagnostic: Incomplete signature information</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/federal-copy-requirements.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file error: Federal return copy requirements</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/state-requires-clean-fed-e-file.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file error: State requires federal e-file to be clean of validation errors</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/form-8955-ssa.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file Form 8955-SSA for separated participants with deferred vested benefits</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/form-990.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file Form 990</a></h2>
+<p class="row__excerpt">Set up, validate, and submit Form 990-series returns electronically to the IRS, then monitor their status.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/e-file-organizer.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file returns and extensions in the Organizer</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/e-file-rs-browser.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file returns using RS Browser</a></h2>
+<p class="row__excerpt">Select and submit federal, state, and city returns for e-filing through RS Browser and check their status.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/e-file-viewer-features.html?return=%2Ferrors%2Freturn%2Fany%2F">E-file viewer features and improvements</a></h2>
+<p class="row__excerpt">The e-file viewer displays XML files as searchable PDFs with schema-based data, navigation features, and improved performance.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/signature-and-pin/efast2-electronic-signatures.html?return=%2Ferrors%2Freturn%2Fany%2F">Electronic signature requirements for EFAST2 filings</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/pdf/fillable-form-error-pdf-output.html?return=%2Ferrors%2Freturn%2Fany%2F">Error: Document has fillable forms</a></h2>
+<p class="row__excerpt">Fix the “Unable to create PDF output” error that occurs when you attach PDFs with fillable forms or password protection to e-file returns.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/preparerfirmein-unexpected.html?return=%2Ferrors%2Freturn%2Fany%2F">Error: Field ‘PreparerFirmEIN’ is unexpected</a></h2>
+<p class="row__excerpt">This error occurs when the 1065 state e-file validation expects preparer identification fields like PTIN or SSN. You&#39;ll need to enter complete preparer details in the Paid Preparer…</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/field-pin-with-value-data-is-missing.html?return=%2Ferrors%2Freturn%2Fany%2F">Error: The field &#39;PIN&#39; with value &#39;0&#39;, data is missing</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/pdf/fillable-form-error-pdf-attachment.html?return=%2Ferrors%2Freturn%2Fany%2F">Error: The file you attempted to upload doesn’t meet minimum file requirements (fillable form)</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/federal-e-file-status-requested.html?return=%2Ferrors%2Freturn%2Fany%2F">Federal e-file status requested</a></h2>
+<p class="row__excerpt">Federal e-file status requested.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/general/file-form-8453.html?return=%2Ferrors%2Freturn%2Fany%2F">File Form 8453 to transmit required paper forms</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/general/efast2-attachments.html?return=%2Ferrors%2Freturn%2Fany%2F">File format requirements for EFAST2 attachments</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/find-submission-ids.html?return=%2Ferrors%2Freturn%2Fany%2F">Find submission IDs in e-file status reports</a></h2>
+<p class="row__excerpt">Use the acknowledgment information in e-file status reports to locate the submission ID for accepted returns.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/general/form-1040-federal-attachments.html?return=%2Ferrors%2Freturn%2Fany%2F">Form 1040 federal attachments required by state</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/general/form-1065-federal-attachments.html?return=%2Ferrors%2Freturn%2Fany%2F">Form 1065 federal attachments required by state</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/general/form-1120-federal-attachments.html?return=%2Ferrors%2Freturn%2Fany%2F">Form 1120 federal attachments required by state</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/error-form-8825-address-isnt-printing-incomplete.html?return=%2Ferrors%2Freturn%2Fany%2F">Form 8825 address displays incompletely in column A Line 2</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/general/general-dependency-schema.html?return=%2Ferrors%2Freturn%2Fany%2F">General dependency schema for e-filing</a></h2>
+<p class="row__excerpt">Learn about IRS-defined general dependency types and their required data elements when submitting information outside predefined schemas.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/general/guidelines-to-attach-files.html?return=%2Ferrors%2Freturn%2Fany%2F">Guidelines for attaching files to e-files</a></h2>
+<p class="row__excerpt">Follow IRS guidelines when attaching files with supporting documentation to e-filed tax returns.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/e-filing-deadlines-and-timestamps.html?return=%2Ferrors%2Freturn%2Fany%2F">How electronic postmarks determine filing time</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/import-a-filing-on-ifile.html?return=%2Ferrors%2Freturn%2Fany%2F">Import a 5500 filing into IFILE</a></h2>
+<p class="row__excerpt">Import filings prepared in EFAST2-approved third-party applications into IFILE and transmit them to the Department of Labor.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/validations.html?return=%2Ferrors%2Freturn%2Fany%2F">IRS e-file validation requirements</a></h2>
+<p class="row__excerpt">Understand the 2 types of IRS validations—business rule and schema—that e-filed tax returns must pass to avoid rejection.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/e-file-shutdown-period.html?return=%2Ferrors%2Freturn%2Fany%2F">IRS MeF system shutdown for tax year 2025 filing season</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/xml/merge-third-party-xml-files.html?return=%2Ferrors%2Freturn%2Fany%2F">Merge third-party XML files with your international e-file</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/apply-to-e-file/opt-out-of-e-filing-a-return-for-form-8948.html?return=%2Ferrors%2Freturn%2Fany%2F">Opt out of e-filing a return with Form 8948</a></h2>
+<p class="row__excerpt">Use Form 8948 to explain why you&#39;re filing a return on paper instead of electronically.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">OR</span>Oregon (OR)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/efile-guide/other-returns/or-cat-elf-info.html?return=%2Ferrors%2Freturn%2Fany%2F">Oregon Corporate Activity Tax electronic filing information</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">MI</span>Michigan (MI)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/efile-guide/other-returns/mi-ppt.html?return=%2Ferrors%2Freturn%2Fany%2F">PPT Michigan electronic filing information</a></h2>
+<p class="row__excerpt">If you have specific questions about what you can e-file or about rejections you received, contact the state for more information.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/qualified-mismatch.html?return=%2Ferrors%2Freturn%2Fany%2F">Qualified Mismatch e-file error</a></h2>
+<p class="row__excerpt">This happens when information in the return may have changed since the e-file was created.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Unexpected data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/resolve-efile-diagnostics.html?return=%2Ferrors%2Freturn%2Fany%2F">Resolve e-file diagnostics</a></h2>
+<p class="row__excerpt">Learn about the 3 types of e-file diagnostics and how to review and correct errors before transmitting returns to the IRS.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/resolve-efile-diagnostics.html?return=%2Ferrors%2Freturn%2Fany%2F">Resolve e-file diagnostics</a></h2>
+<p class="row__excerpt">Learn about the 3 types of e-file diagnostics and how to review and correct errors before transmitting returns to the IRS.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/retain-records.html?return=%2Ferrors%2Freturn%2Fany%2F">Retain e-file records and documents</a></h2>
+<p class="row__excerpt">Retain e-file records, acknowledgment files, and signature documents for the required time periods based on IRS requirements.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/review-resolve-mismatches.html?return=%2Ferrors%2Freturn%2Fany%2F">Review and resolve e-file mismatches</a></h2>
+<p class="row__excerpt">View the e-file summary to identify mismatches between locator amounts and e-file amounts, and resolve differences by recreating the e-file XML.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/review-cumulative-e-file-history.html?return=%2Ferrors%2Freturn%2Fany%2F">Review the cumulative e-file history</a></h2>
+<p class="row__excerpt">Access cumulative e-filing history and filing status summaries directly from the returns list for a specific jurisdiction.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/review-e-file-status-report.html?return=%2Ferrors%2Freturn%2Fany%2F">Review the e-file status report</a></h2>
+<p class="row__excerpt">Use the jurisdiction hyperlink on the e-file Batch Status list to view the Cumulative History report, which details current and past e-file histories.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/review-an-e-file.html?return=%2Ferrors%2Freturn%2Fany%2F">Review XML files before submitting e-files</a></h2>
+<p class="row__excerpt">Review the XML file using the EFile Reviewer or an internet browser to verify accuracy before you submit the e-file to the IRS.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/signature-and-pin/set-up-signature-authorization.html?return=%2Ferrors%2Freturn%2Fany%2F">Set up 1040 e-file signature authorization</a></h2>
+<p class="row__excerpt">Let taxpayers sign tax returns electronically by selecting a signature authorization method and entering PIN information in the Organizer.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--state">
+              <span class="jur__abbr">NY</span>New York (NY)
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/xml/aggregate-new-york-beneficiary-info.html?return=%2Ferrors%2Freturn%2Fany%2F">Set up and create an aggregated New York e-file</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--federal">
+              <span class="jur__abbr">FED</span>Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/signature-and-pin/sign-990-e-file.html?return=%2Ferrors%2Freturn%2Fany%2F">Sign a Form 990 e-file</a></h2>
+<p class="row__excerpt">Sign exempt organization federal tax returns electronically using a practitioner PIN or Form 8453-EO.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/signature-and-pin/signature-requirements.html?return=%2Ferrors%2Freturn%2Fany%2F">Signature requirements for 1065 partnership e-filed returns</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/state-returns/state-e-file-workflow.html?return=%2Ferrors%2Freturn%2Fany%2F">State e-file workflow</a></h2>
+<p class="row__excerpt">Track your state return through each step of the electronic filing process, from transmission to final acknowledgment.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/1040-return.html?return=%2Ferrors%2Freturn%2Fany%2F">Submit a 1040 return for e-filing</a></h2>
+<p class="row__excerpt">Submit a completed 1040 return electronically to the IRS for faster processing and confirmation of receipt.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/submit-an-fbar-fincen-114-e-file.html?return=%2Ferrors%2Freturn%2Fany%2F">Submit a qualified FBAR e-file</a></h2>
+<p class="row__excerpt">Select the return criteria and submit qualified FBAR e-files using the</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/submit-an-e-file.html?return=%2Ferrors%2Freturn%2Fany%2F">Submit an e-file</a></h2>
+<p class="row__excerpt">Select the return criteria and submit the e-file after you create it.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/state-returns/linked-vs-unlinked-submission-partnerships.html?return=%2Ferrors%2Freturn%2Fany%2F">Submit linked and unlinked state returns</a></h2>
+<p class="row__excerpt">Submit state returns as linked or unlinked filings, and resolve common reject codes for state e-file submissions.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/state-returns/common-states-linked-vs-unlinked-filing.html?return=%2Ferrors%2Freturn%2Fany%2F">Submit linked or unlinked state returns</a></h2>
+<p class="row__excerpt">Submit state returns as linked or unlinked to federal returns, with different validation and transmission processes for each type.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/submit-e-filed-returns.html?return=%2Ferrors%2Freturn%2Fany%2F">Submit returns for e-filing</a></h2>
+<p class="row__excerpt">Submit returns for e-filing after reviewing them in the e-file viewer by selecting your criteria and transmitting the returns.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/general/submit-forms-after-acceptance.html?return=%2Ferrors%2Freturn%2Fany%2F">Submit the required forms after e-file acceptance</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/attachments/xml/1065-e-file-aggregation.html?return=%2Ferrors%2Freturn%2Fany%2F">Supported forms and schedules for e-file aggregation</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/common-e-file-errors/tips-for-decoding-rejections.html?return=%2Ferrors%2Freturn%2Fany%2F">Tips for decoding e-file rejections</a></h2>
+<p class="row__excerpt">These tips explain the rejection text, what it means, and generally how to fix it.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Missing required data</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/enable-e-file.html?return=%2Ferrors%2Freturn%2Fany%2F">Turn on e-filing for returns</a></h2>
+<p class="row__excerpt">Turn on e-filing in the Organizer before you create an e-file for a tax return.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/create-transmit/about-efast2.html?return=%2Ferrors%2Freturn%2Fany%2F">Understand EFAST2 for 550 return e-filing</a></h2>
+<p class="row__excerpt">Learn about the Department of Labor&#39;s EFAST2 system, including user roles, credentials, and acknowledgment identifiers for filing Form 5500 returns.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/signature-and-pin/pin-method/use-self-select-pin.html?return=%2Ferrors%2Freturn%2Fany%2F">Use a self-selected PIN for e-file authorization</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/use-batch-status-to-track-e-file-processing.html?return=%2Ferrors%2Freturn%2Fany%2F">Use batch status to track e-file processing</a></h2>
+<p class="row__excerpt">Use the Batch Status tab to review the processing status of your e-filed returns by batch ID.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/signature-and-pin/pin-method/use-practitioner-pin.html?return=%2Ferrors%2Freturn%2Fany%2F">Use practitioner PIN for 1040 e-file authorization</a></h2>
+          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/use-the-e-file-spreadsheets.html?return=%2Ferrors%2Freturn%2Fany%2F">Use the e-file spreadsheet in the Organizer</a></h2>
+<p class="row__excerpt">Access the e-file spreadsheet to create e-files, turn on e-file for jurisdictions, check status, review errors, and manage payment options.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">General rejection</span>
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="row__main">
+          <div class="row__topline">
+            <span class="jur jur--general">
+              <span class="jur__abbr">GEN</span>General / Federal
+            </span>
+          </div>
+          <h2 class="row__title"><a href="/e-file/review-track/open-the-e-file-viewer-pdf-file.html?return=%2Ferrors%2Freturn%2Fany%2F">View e-file PDFs</a></h2>
+<p class="row__excerpt">Open the e-file viewer to view XML data with detailed line numbers and schema elements, and use the toolbar and bookmark features to review the PDF.</p>          <p class="row__meta">
+            <span class="row__tag">Any return</span>
+            <span class="row__tag">Not classified</span>
+          </p>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <section class="browse" aria-labelledby="siblings-h">
+    <h2 id="siblings-h">Every return type</h2>
+    <ul class="browse__grid">
+      <li><a href="/errors/return/1040/"><b>Form 1040 — Individual</b><span>221</span></a></li>
+      <li><a href="/errors/return/1041/"><b>Form 1041 — Estates &amp; trusts</b><span>68</span></a></li>
+      <li><a href="/errors/return/1065/"><b>Form 1065 — Partnership</b><span>479</span></a></li>
+      <li><a href="/errors/return/1120/"><b>Form 1120 — Corporation</b><span>406</span></a></li>
+      <li><a href="/errors/return/990/"><b>Form 990 — Exempt organization</b><span>21</span></a></li>
+      <li><a href="/errors/return/1042/"><b>Form 1042 — Withholding</b><span>9</span></a></li>
+      <li><a href="/errors/return/709/"><b>Form 709 — Gift tax</b><span>2</span></a></li>
+      <li><a href="/errors/return/any/" aria-current="page"><b>Any return</b><span>82</span></a></li>
+    </ul>
+  </section>
+</div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <section class="site-footer__about" aria-labelledby="footer-about">
+        <div class="footer-brand">
+          <img src="/assets/logo-mark.svg" width="32" height="32" alt="">
+          <div><strong id="footer-about">GS E-file Resolver</strong><span>Independent help for tax professionals</span></div>
+        </div>
+        <p>Find the most relevant GoSystem Tax RS guidance from a raw rejection, a reject code, a form detail, or a state name — or browse the whole indexed corpus.</p>
+      </section>
+      <section aria-labelledby="footer-nav">
+        <h2 id="footer-nav">Go to</h2>
+        <ul class="footer-links">
+          <li><a href="/">Resolver</a></li>
+          <li><a href="/errors/">Error catalog</a></li>
+          <li><a href="/errors/#browse-jurisdiction">Browse by jurisdiction</a></li>
+          <li><a href="/errors/#browse-return">Browse by return type</a></li>
+        </ul>
+      </section>
+      <section aria-labelledby="footer-note">
+        <h2 id="footer-note">Coverage &amp; source</h2>
+        <p>Search and browse cover Federal, all 50 states, and Washington, D.C.; results depend on available source guidance. Articles are attributed to Thomson Reuters.</p>
+        <p class="footer-note">Runs locally in your browser. No account required.</p>
+      </section>
+    </div>
+    <div class="wrap site-footer__bottom">
+      <span>Not affiliated with or endorsed by Thomson Reuters.</span>
+<a href="/errors/">Back to the error catalog</a>    </div>
+  </footer>
+
+  <dialog class="shortcuts-dialog" id="shortcuts-dialog" aria-labelledby="shortcuts-title">
+    <div class="shortcuts-dialog__head">
+      <div>
+        <h2 id="shortcuts-title">Keyboard shortcuts</h2>
+      </div>
+      <button class="shortcuts-dialog__close" type="button" data-shortcuts-close aria-label="Close keyboard shortcuts">×</button>
+    </div>
+    <dl class="shortcuts-list">
+      <div><dt><kbd>/</kbd><kbd>⌘ K</kbd><kbd>Ctrl K</kbd></dt><dd>Focus the search field on this page</dd></div>
+      <div><dt><kbd>⌘ Enter</kbd><kbd>Ctrl Enter</kbd></dt><dd>Open the best matching article</dd></div>
+      <div><dt><kbd>Esc</kbd></dt><dd>Clear the active search or close this guide</dd></div>
+      <div class="shortcuts-list__article"><dt><kbd>B</kbd></dt><dd>Return to results while reading an article</dd></div>
+      <div><dt><kbd>?</kbd></dt><dd>Show this shortcut guide</dd></div>
+    </dl>
+  </dialog>
+
+  <script>
+  (function () {
+    function isTyping() {
+      return /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName || "");
+    }
+    function sameOriginURL(value) {
+      if (!value) return null;
+      try {
+        var url = new URL(value, location.origin);
+        return url.origin === location.origin ? url : null;
+      } catch (e) { return null; }
+    }
+    addEventListener("DOMContentLoaded", function () {
+      var article = document.body.classList.contains("page-article");
+      var dialog = document.querySelector("#shortcuts-dialog");
+      var opener = document.querySelector("[data-shortcuts-trigger]");
+      var closer = document.querySelector("[data-shortcuts-close]");
+      var backLinks = Array.prototype.slice.call(document.querySelectorAll("[data-return-link]"));
+      var back = backLinks[0];
+      var returnTo = sameOriginURL(new URLSearchParams(location.search).get("return"));
+
+      /* Articles are reachable from the resolver and from the catalog, so the
+         back link follows whichever surface sent the reader here. The trailing
+         slash on /errors/ is optional: hosts differ on whether they normalise it
+         (Vercel's trailingSlash:false strips it), and the reader should get
+         "Back to catalog" either way. */
+      if (article && back && returnTo && /^\/(?:errors\/?)?$/.test(returnTo.pathname)) {
+        var isCatalog = /^\/errors\/?$/.test(returnTo.pathname);
+        backLinks.forEach(function (link) {
+          link.href = returnTo.pathname + returnTo.search + returnTo.hash;
+          var label = link.querySelector("[data-return-label]");
+          if (label) label.textContent = isCatalog ? "Back to catalog" : "Back to results";
+        });
+        backLinks.forEach(function (link) { link.addEventListener("click", function (event) {
+          var referrer = sameOriginURL(document.referrer);
+          if (referrer && referrer.pathname === returnTo.pathname && history.length > 1) {
+            event.preventDefault();
+            history.back();
+          }
+        }); });
+      }
+
+      function openShortcuts() {
+        if (dialog && !dialog.open) dialog.showModal();
+      }
+      opener && opener.addEventListener("click", openShortcuts);
+      closer && closer.addEventListener("click", function () { dialog && dialog.close(); });
+      document.querySelectorAll("[data-scroll-top]").forEach(function (button) {
+        button.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "?" && !isTyping() && !event.metaKey && !event.ctrlKey && !event.altKey) {
+          event.preventDefault();
+          openShortcuts();
+          return;
+        }
+        if (!article || isTyping() || event.altKey) return;
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+          return;
+        }
+        if (event.metaKey || event.ctrlKey) return;
+        if (event.key.toLowerCase() === "b" && back) {
+          event.preventDefault();
+          back.click();
+          return;
+        }
+        if (event.key === "/") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+        }
+      });
+    });
+  })();
+  </script>
+
+</body>
+</html>

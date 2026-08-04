@@ -1,14 +1,23 @@
 {
   "name": "GS E-file Resolver",
   "short_name": "GS Resolver",
-  "description": "Jurisdiction-aware GoSystem Tax RS e-file error resolution.",
+  "description": "Resolve a GoSystem Tax RS e-file rejection, or browse every indexed error by jurisdiction and return type.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ede9e1",
-  "theme_color": "#315e47",
+  "background_color": "#f6f7f9",
+  "theme_color": "#ffffff",
   "icons": [
-    { "src": "/assets/logo-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" },
-    { "src": "/assets/app-icon-180.png", "sizes": "180x180", "type": "image/png" },
-    { "src": "/assets/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "/assets/logo-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/assets/app-icon-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Error catalog",
+      "short_name": "Catalog",
+      "url": "/errors/",
+      "description": "Browse every indexed e-file error by jurisdiction and return type"
+    }
   ]
 }
