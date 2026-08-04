@@ -55,6 +55,42 @@ SITE_NAME = "GoSystem Tax RS Help Search"
 MD = markdown.Markdown(extensions=["extra", "sane_lists"], output_format="html5")
 
 _H1_LEADING = re.compile(r"^\s*#\s.*(?:\r?\n|$)")
+_ADJACENT_BOLD = re.compile(r"\*\*\s*\*\*")
+_MISSING_BEFORE_BOLD = re.compile(r"(?<=\S)(\*\*[A-Za-z0-9][^*\n]*?\*\*)")
+_MISSING_AFTER_BOLD = re.compile(r"(\*\*[A-Za-z0-9][^*\n]*?\*\*)(?=[A-Za-z])")
+_SPLIT_MENU_LIST_ITEM = re.compile(
+    r"(?m)^([ \t]*[-*] [^\n]+?)\s*\n\s*\n[ \t]+(\*\*[^\n]+?\*\*)\s*\n\s*\n[ \t]*(?!(?:note|tip|important)(?:\s|$)|!\[|```)([^\n]*)"
+)
+_SPLIT_MENU_LIST_ITEM_NO_TAIL = re.compile(
+    r"(?m)^([ \t]*[-*] [^\n]+?)\s*\n\s*\n[ \t]+(\*\*[^\n]+?\*\*)(?=\n[ \t]*[-*] )"
+)
+_SPLIT_PLAIN_MENU_LIST_ITEM = re.compile(
+    r"(?m)^([ \t]*[-*] (?:Go to|Select)[^\n]+?)\s*\n\s*\n[ \t]+([A-Za-z][^\n]*?)\s*\n\s*\n[ \t]*(?!(?:note|tip|important)(?:\s|$)|!\[|```)([^\n]*)"
+)
+
+
+def normalize_navigation_markdown(text: str) -> str:
+    """Restore separators that are lost between adjacent scraped UI controls."""
+    # A DITA menu cascade is often serialized as adjacent <b> tags.  Preserve
+    # that hierarchy in both full articles and inline result previews.
+    text = _ADJACENT_BOLD.sub("** → **", text)
+    # markdownify sometimes puts a menu path on its own indented paragraph
+    # between a list item's verb and its period. Keep the instruction together
+    # so later steps remain in the same list.
+    def join_split_menu_item(match: re.Match[str]) -> str:
+        tail = match.group(3).strip()
+        separator = "" if not tail or tail[0] in ".,;:)" else " "
+        return f"{match.group(1).rstrip()} {match.group(2).strip()}{separator}{tail}"
+
+    text = _SPLIT_MENU_LIST_ITEM.sub(join_split_menu_item, text)
+    text = _SPLIT_MENU_LIST_ITEM_NO_TAIL.sub(
+        lambda match: f"{match.group(1).rstrip()} {match.group(2).strip()}",
+        text,
+    )
+    text = _SPLIT_PLAIN_MENU_LIST_ITEM.sub(join_split_menu_item, text)
+    # Some controls are attached directly to the preceding verb (e.g. select**X).
+    text = _MISSING_BEFORE_BOLD.sub(r" \1", text)
+    return _MISSING_AFTER_BOLD.sub(r"\1 ", text)
 
 
 # --------------------------------------------------------------------------- #
@@ -84,6 +120,7 @@ def render_body(md_rel_path: str) -> str:
     if not text.strip():
         return ""
     text = _H1_LEADING.sub("", text, count=1)
+    text = normalize_navigation_markdown(text)
     if not text.strip():
         return ""
     MD.reset()
