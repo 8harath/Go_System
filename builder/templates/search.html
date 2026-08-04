@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ site_name }} — find the right e-file fix{% endblock %}
+{% block title %}{{ site_name }}: find the right e-file fix{% endblock %}
 {% block description %}Resolve a GoSystem Tax RS e-file error automatically from the full diagnostic, or search manually by jurisdiction, reject code, form, field, and error type.{% endblock %}
 {% block body_class %}page-resolver{% endblock %}
 {% block footer_action %}{% endblock %}
@@ -12,19 +12,13 @@
 {% block content %}
 <section class="hero wrap">
   <div class="hero__intro">
-    <div class="hero__copy">
-      <p class="hero__eyebrow"><span aria-hidden="true"></span> E-file rejection resolver</p>
-      <h1 class="hero__title">From rejection to <em>resolution.</em></h1>
-    </div>
-    <p class="hero__lede">
-      Paste the full diagnostic for the fastest answer, or narrow the search yourself using the details you already know.
-    </p>
+    <h1 class="hero__title">From rejection to <em>resolution.</em></h1>
+    <p class="hero__lede">Paste the diagnostic, or search by the details you already know.</p>
   </div>
 
   <form class="paste" id="gs-form" role="search" autocomplete="off" novalidate>
     <div class="paste__heading">
       <div>
-        <span class="paste__kicker">Resolution workspace</span>
         <h2>How would you like to search?</h2>
       </div>
       <span class="paste__privacy">Processed in your browser</span>
@@ -38,8 +32,7 @@
               aria-selected="true"
               aria-controls="gs-auto-panel"
               data-mode="auto">
-        <span class="mode-tab__index" aria-hidden="true">01</span>
-        <span class="mode-tab__copy"><strong>Auto mode</strong><small>Paste the complete diagnostic</small></span>
+        <span class="mode-tab__copy"><strong>Paste a diagnostic</strong><small>Fastest. We read the details for you</small></span>
         <span class="mode-tab__check" aria-hidden="true">✓</span>
       </button>
       <button type="button"
@@ -50,8 +43,7 @@
               aria-controls="gs-manual-panel"
               data-mode="manual"
               tabindex="-1">
-        <span class="mode-tab__index" aria-hidden="true">02</span>
-        <span class="mode-tab__copy"><strong>Manual mode</strong><small>Enter the details you know</small></span>
+        <span class="mode-tab__copy"><strong>Enter what you know</strong><small>Filter by state, code, form, or field</small></span>
         <span class="mode-tab__check" aria-hidden="true">✓</span>
       </button>
     </div>
@@ -61,14 +53,6 @@
              role="tabpanel"
              aria-labelledby="gs-mode-auto"
              data-mode-panel="auto">
-      <div class="mode-panel__intro">
-        <div>
-          <span class="mode-panel__label">Recommended</span>
-          <h3>Paste the error exactly as shown</h3>
-        </div>
-        <p>We’ll detect the jurisdiction, form, field, and reject code for you.</p>
-      </div>
-
       <fieldset class="auto-scope" id="gs-auto-scope">
         <legend>Search jurisdiction</legend>
         <div class="auto-scope__options" role="group" aria-label="Automatic search jurisdiction">
@@ -76,7 +60,7 @@
           <button type="button" class="auto-scope__option" data-auto-scope="Federal" aria-pressed="false">Federal</button>
           <button type="button" class="auto-scope__option" data-auto-scope="States" aria-pressed="false">States &amp; D.C.</button>
         </div>
-        <p class="auto-scope__hint" id="gs-auto-scope-status" aria-live="polite">Showing the best available matches across federal and state guidance.</p>
+        <p class="auto-scope__hint" id="gs-auto-scope-status" aria-live="polite">Best matches across federal and state guidance.</p>
       </fieldset>
 
       <div class="paste__frame">
@@ -94,7 +78,7 @@
                   enterkeyhint="search"
                   aria-label="Paste an e-file error, reject code, or search by state"
                   aria-describedby="search-coverage"
-                  placeholder="Paste an error, enter a reject code, or search a state — e.g. New York, TX, Alabama…"></textarea>
+                  placeholder="Paste an error, enter a reject code, or search a state, e.g. New York, TX, Alabama"></textarea>
         <button type="button" class="paste__clear" id="gs-clear" aria-label="Clear automatic search" hidden>Clear</button>
       </div>
 
@@ -102,7 +86,7 @@
         <span class="sig__label">signature</span>
         <div class="sig__chips" id="gs-sigchips"></div>
       </div>
-      <p class="search-coverage" id="search-coverage"><span aria-hidden="true">●</span> Recognizes Federal, all 50 states, and Washington, D.C.</p>
+      <p class="search-coverage" id="search-coverage">Recognizes Federal, all 50 states, and Washington, D.C.</p>
       <div class="samples" id="gs-samples" aria-label="Example errors to try">
         <span class="samples__label">Try an example</span>
         <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnerInformation\EntityType&#10;The http://www.ftb.ca.gov/efile:EntityType element is invalid. The value CHECK is invalid according to its datatype http://www.ftb.ca.gov/efile:CA-PartnerMemberEntityType. The Enumeration constraint failed.">CA 565 · EntityType</button>
@@ -119,10 +103,7 @@
              data-mode-panel="manual"
              hidden>
       <div class="mode-panel__intro">
-        <div>
-          <span class="mode-panel__label">Guided search</span>
-          <h3>Build the error signature yourself</h3>
-        </div>
+        <h3>Build the error signature yourself</h3>
         <p>Start with any detail. Adding more fields improves the ranking.</p>
       </div>
 
