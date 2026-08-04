@@ -54,19 +54,30 @@
         </span>
       </a>
       <nav class="topbar__nav" aria-label="Primary">
-        <a class="topbar__link" href="/">Resolver</a>
+        <a class="topbar__link" data-focus-search href="/">Resolver</a>
+        <button type="button" class="shortcuts-trigger" data-shortcuts-trigger aria-haspopup="dialog" aria-controls="shortcuts-dialog">
+          <span>Shortcuts</span><kbd class="kbd" aria-hidden="true">?</kbd>
+        </button>
         <button type="button" class="themetoggle" data-theme-toggle aria-label="Switch between light and dark theme" aria-pressed="false">
           <svg class="i-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
           <svg class="i-moon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
           <span class="themetoggle__label" data-theme-label>Light</span>
         </button>
-        <kbd class="kbd kbd--hint" data-focus-search title="Press / to search">/</kbd>
       </nav>
     </div>
   </header>
 
   <main id="main">
 <div class="wrap article-wrap">
+  <nav class="article-nav" aria-label="Article navigation">
+    <a class="article-nav__back" data-return-link href="/">
+      <span aria-hidden="true">←</span><span data-return-label>Back to resolver</span>
+    </a>
+    <div class="article-nav__actions">
+      <a class="article-nav__search" href="/?focus=search"><span aria-hidden="true">⌕</span> Search again <kbd>/</kbd></a>
+      <button type="button" class="article-nav__top" data-scroll-top>Top <span aria-hidden="true">↑</span></button>
+    </div>
+  </nav>
   <nav class="crumbs" aria-label="Breadcrumb">
     <ol>
       <li>
@@ -104,14 +115,14 @@
 <p>This happens because MD 510, Page 1 Line 2, must match the Schedule B Distributive Income totals.</p>
 <h2>Solution 1</h2>
 <ul>
-<li>Go to the </li>
-</ul>
-<p><strong>Tax Forms</strong><strong>States</strong><strong>Maryland</strong></p>
-<p>folder.
-- Select <strong>MD 510</strong>, then go to <strong>MD 510, Page 1</strong>.
-- Line 2 amount must match with the <strong>TOTAL</strong> amounts in the <strong>Distributive Income</strong> column on MD 510:</p>
-<ul>
-<li><strong>Sch B, Part I, IND</strong>,</li>
+<li>Go to the <strong>Tax Forms</strong> → <strong>States</strong> → <strong>Maryland</strong> folder.</li>
+<li>Select <strong>MD 510</strong>, then go to <strong>MD 510, Page 1</strong>.</li>
+<li>
+<p>Line 2 amount must match with the <strong>TOTAL</strong> amounts in the <strong>Distributive Income</strong> column on MD 510:</p>
+</li>
+<li>
+<p><strong>Sch B, Part I, IND</strong>,</p>
+</li>
 <li><strong>Sch B, Part II, FID</strong>,</li>
 <li><strong>Sch B, Part III, PTE</strong>, and</li>
 <li><strong>Sch B, Part IV, COR</strong></li>
@@ -122,32 +133,26 @@
 <h2>Solution 2</h2>
 <p>Check for an aggregated Schedule K-1.</p>
 <ul>
-<li>Go to </li>
+<li>Go to <strong>Organizer</strong> → <strong>States</strong> → <strong>Maryland</strong></li>
+<li>Select <strong>E-file</strong> → <strong>Attachments</strong> → <strong>K-1 Aggregation</strong> → <strong>Summary</strong></li>
+<li>If the System generated Schedule K-1s are disabled and an aggregated xml file is present, select <strong>Attach K-1 Aggregation XML File</strong> .</li>
+<li>Select the aggregated xml file and then select <strong>Retrieve</strong>.</li>
+<li>Update the aggregated xml file to have the correct amounts so they’ll add up to the grand total.</li>
+<li>Delete the existing aggregated xml file from the electronic filing attachments screen.</li>
+<li>Select <strong>Add</strong>.</li>
+<li>Select attachment jurisdiction for <strong>Maryland K-1 Aggregation</strong></li>
+<li>Select Browse for file and attach the updated XML Aggregation.</li>
+<li>Select <strong>Upload</strong> and then select <strong>Done</strong>.</li>
 </ul>
-<p><strong>Organizer</strong><strong>States</strong><strong>Maryland</strong>
-- Select </p>
-<p><strong>E-file</strong><strong>Attachments</strong><strong>K-1 Aggregation</strong><strong>Summary</strong>
-- If the System generated Schedule K-1s are disabled and an aggregated xml file is present, select <strong>Attach K-1 Aggregation XML File</strong> .
-- Select the aggregated xml file and then select <strong>Retrieve</strong>.
-- Update the aggregated xml file to have the correct amounts so they’ll add up to the grand total.
-- Delete the existing aggregated xml file from the electronic filing attachments screen.
-- Select <strong>Add</strong>.
-- Select attachment jurisdiction for <strong>Maryland K-1 Aggregation</strong>
-- Select Browse for file and attach the updated XML Aggregation.
-- Select <strong>Upload</strong> and then select <strong>Done</strong>.</p>
 <h2>Solution 3</h2>
 <p>Check if you're using Direct K-1 Import.</p>
 <ul>
-<li>Go to </li>
+<li>Go to <strong>Organizer</strong> → <strong>Partner Information</strong> → <strong>Common Partner Data</strong>.</li>
+<li>Check if the <strong>Direct K-1 Import</strong> tab is the available. If the tab isn't there, then Direct K-1 Import isn't enabled and these steps aren't applicable to you.</li>
+<li>If the <strong>Direct K-1 Import tab</strong> is available, select it.</li>
+<li>If the option to <strong>Enable Direct K-1 Import to replace the computed Schedule K-1s</strong> is not selected, then you aren't using it.</li>
+<li>If it's selected, update the import file and reimport the direct k1 import file, or go to <strong>Tax Forms</strong> → <strong>States</strong> → <strong>Maryland</strong> → <strong>Sch K-1</strong> and change the amounts directly on the tax form.</li>
 </ul>
-<p><strong>Organizer</strong><strong>Partner Information</strong><strong>Common Partner Data</strong></p>
-<p>.
-- Check if the <strong>Direct K-1 Import</strong> tab is the available. If the tab isn't there, then Direct K-1 Import isn't enabled and these steps aren't applicable to you.
-- If the <strong>Direct K-1 Import tab</strong> is available, select it.
-- If the option to <strong>Enable Direct K-1 Import to replace the computed Schedule K-1s</strong> is not selected, then you aren't using it.
-- If it's selected, update the import file and reimport the direct k1 import file, or go to </p>
-<p><strong>Tax Forms</strong><strong>States</strong><strong>Maryland</strong><strong>Sch K-1</strong></p>
-<p>and change the amounts directly on the tax form.</p>
     </div>
 
 
@@ -157,6 +162,10 @@
         Source: Thomson Reuters <span aria-hidden="true">↗</span>
       </a>
     </aside>
+    <nav class="article-end-nav" aria-label="Continue navigation">
+      <a data-return-link href="/"><span aria-hidden="true">←</span> <span data-return-label>Back to resolver</span></a>
+      <a href="/?focus=search">Search another error <span aria-hidden="true">→</span></a>
+    </nav>
   </article>
 </div>
   </main>
@@ -188,6 +197,95 @@
       <span>Not affiliated with or endorsed by Thomson Reuters.</span>
 <a href="/">Return to resolver</a>    </div>
   </footer>
+
+  <dialog class="shortcuts-dialog" id="shortcuts-dialog" aria-labelledby="shortcuts-title">
+    <div class="shortcuts-dialog__head">
+      <div>
+        <span class="shortcuts-dialog__eyebrow">Keyboard navigation</span>
+        <h2 id="shortcuts-title">Move through the resolver faster</h2>
+      </div>
+      <button class="shortcuts-dialog__close" type="button" data-shortcuts-close aria-label="Close keyboard shortcuts">×</button>
+    </div>
+    <dl class="shortcuts-list">
+      <div><dt><kbd>/</kbd><kbd>⌘ K</kbd><kbd>Ctrl K</kbd></dt><dd>Focus the resolver search</dd></div>
+      <div><dt><kbd>⌘ Enter</kbd><kbd>Ctrl Enter</kbd></dt><dd>Open the best matching article</dd></div>
+      <div><dt><kbd>Esc</kbd></dt><dd>Clear the active automatic search or close this guide</dd></div>
+      <div class="shortcuts-list__article"><dt><kbd>B</kbd></dt><dd>Return to results while reading an article</dd></div>
+      <div><dt><kbd>?</kbd></dt><dd>Show this shortcut guide</dd></div>
+    </dl>
+  </dialog>
+
+  <script>
+  (function () {
+    function isTyping() {
+      return /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName || "");
+    }
+    function sameOriginURL(value) {
+      if (!value) return null;
+      try {
+        var url = new URL(value, location.origin);
+        return url.origin === location.origin ? url : null;
+      } catch (e) { return null; }
+    }
+    addEventListener("DOMContentLoaded", function () {
+      var article = document.body.classList.contains("page-article");
+      var dialog = document.querySelector("#shortcuts-dialog");
+      var opener = document.querySelector("[data-shortcuts-trigger]");
+      var closer = document.querySelector("[data-shortcuts-close]");
+      var backLinks = Array.prototype.slice.call(document.querySelectorAll("[data-return-link]"));
+      var back = backLinks[0];
+      var returnTo = sameOriginURL(new URLSearchParams(location.search).get("return"));
+
+      if (article && back && returnTo && returnTo.pathname === "/") {
+        backLinks.forEach(function (link) {
+          link.href = returnTo.pathname + returnTo.search + returnTo.hash;
+          var label = link.querySelector("[data-return-label]");
+          if (label) label.textContent = "Back to results";
+        });
+        backLinks.forEach(function (link) { link.addEventListener("click", function (event) {
+          var referrer = sameOriginURL(document.referrer);
+          if (referrer && referrer.pathname === "/" && history.length > 1) {
+            event.preventDefault();
+            history.back();
+          }
+        }); });
+      }
+
+      function openShortcuts() {
+        if (dialog && !dialog.open) dialog.showModal();
+      }
+      opener && opener.addEventListener("click", openShortcuts);
+      closer && closer.addEventListener("click", function () { dialog && dialog.close(); });
+      document.querySelectorAll("[data-scroll-top]").forEach(function (button) {
+        button.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "?" && !isTyping() && !event.metaKey && !event.ctrlKey && !event.altKey) {
+          event.preventDefault();
+          openShortcuts();
+          return;
+        }
+        if (!article || isTyping() || event.altKey) return;
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+          return;
+        }
+        if (event.metaKey || event.ctrlKey) return;
+        if (event.key.toLowerCase() === "b" && back) {
+          event.preventDefault();
+          back.click();
+          return;
+        }
+        if (event.key === "/") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+        }
+      });
+    });
+  })();
+  </script>
 
 </body>
 </html>

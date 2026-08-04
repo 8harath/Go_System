@@ -29,6 +29,8 @@ const manualSubmitLabel = $("[data-manual-submit-label]");
 const manualReset = $("#gs-manual-reset");
 const manualError = $("#gs-manual-error");
 const manualStatus = $("#gs-manual-status");
+const autoScopeControls = Array.from(document.querySelectorAll("[data-auto-scope]"));
+const autoScopeStatus = $("#gs-auto-scope-status");
 const manualFields = {
   jurisdiction: $("#gs-jurisdiction"),
   code: $("#gs-error-code"),
@@ -43,6 +45,7 @@ let pagefind = null;
 let codes = null;
 let seq = 0;                         // stale-response guard
 let activeMode = "auto";
+let activeAutoScope = "all";
 
 /* ---- lazy loaders --------------------------------------------------------- */
 async function loadPagefind() {
@@ -80,9 +83,48 @@ function setResultsBusy(busy) {
   }
 }
 
+function autoScopeDescription(scope) {
+  if (scope === "Federal") return "Showing federal and general guidance only.";
+  if (scope === "States") return "Showing state and District of Columbia guidance only.";
+  return "Showing the best available matches across federal and state guidance.";
+}
+
+function setAutoScope(scope, { rerun = true, persist = true } = {}) {
+  activeAutoScope = ["Federal", "States"].includes(scope) ? scope : "all";
+  autoScopeControls.forEach(control => {
+    const selected = control.dataset.autoScope === activeAutoScope;
+    control.classList.toggle("auto-scope__option--active", selected);
+    control.setAttribute("aria-pressed", String(selected));
+  });
+  if (autoScopeStatus) autoScopeStatus.textContent = autoScopeDescription(activeAutoScope);
+  if (persist) {
+    try { localStorage.setItem("gs-auto-jurisdiction-scope", activeAutoScope); } catch {}
+  }
+  if (rerun && activeMode === "auto" && input?.value.trim()) run();
+}
+
 function esc(s) {
   return String(s ?? "").replace(/[&<>"']/g, c =>
     ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
+function resolverReturnURL() {
+  const current = new URL(location.href);
+  if (activeMode === "manual" && current.searchParams.get("mode") === "manual") {
+    current.searchParams.delete("focus");
+    return current.pathname + current.search + current.hash;
+  }
+  const query = input?.value.trim() || "";
+  // Keep a useful, shareable return path without putting a full diagnostic in
+  // the address bar. Browser history still restores long diagnostics.
+  if (query && query.length <= 1200) return `/?q=${encodeURIComponent(query)}`;
+  return "/";
+}
+
+function articleURL(url) {
+  const destination = new URL(url, location.origin);
+  destination.searchParams.set("return", resolverReturnURL());
+  return destination.pathname + destination.search + destination.hash;
 }
 
 /* ---- search modes + manual criteria ------------------------------------- */
@@ -251,9 +293,10 @@ function cardHTML(hit, rank, best) {
   const jIcon = jCode === "Federal" ? "🏛️" : (jCode === "General" ? "🌐" : "📍");
   const jClass = /^[A-Z]{2}$/.test(jCode) ? "state" : jCode.toLowerCase();
   const jBadge = `<span class="card__jurisdiction card__jurisdiction--${jClass}"><span aria-hidden="true">${jIcon}</span> ${esc(j)}</span>`;
+  const fullArticleURL = articleURL(hit.url);
 
   return `
-  <article class="card ${best ? "card--best" : ""}" data-url="${esc(hit.url)}" data-kind="${esc(kind)}" data-jurisdiction="${esc(j)}" data-jurisdiction-code="${esc(jCode)}" data-title="${esc(hit.title)}" data-rank="${rank}" data-open="false">
+  <article class="card ${best ? "card--best" : ""}" data-url="${esc(hit.url)}" data-article-url="${esc(fullArticleURL)}" data-kind="${esc(kind)}" data-jurisdiction="${esc(j)}" data-jurisdiction-code="${esc(jCode)}" data-title="${esc(hit.title)}" data-rank="${rank}" data-open="false">
     <div class="card__top">
       <span class="card__rank">${best ? "✓" : rank}</span>
       <div class="card__grow">
@@ -261,7 +304,7 @@ function cardHTML(hit, rank, best) {
           ${badge}
           ${jBadge}
         </div>
-        <h3 class="card__title"><a href="${esc(hit.url)}">${esc(hit.title)}</a></h3>
+        <h3 class="card__title"><a href="${esc(fullArticleURL)}">${esc(hit.title)}</a></h3>
         <p class="card__crumb">${kindTag}${crumbSpans}</p>
         ${why ? `<div class="why">${why}</div>` : excerpt}
       </div>
@@ -276,7 +319,7 @@ function cardHTML(hit, rank, best) {
         </button>
       </div>
       <div class="prose" data-fixbody>Loading…</div>
-      <p class="card__source"><a href="${esc(hit.url)}">Open full article →</a></p>
+      <p class="card__source"><a href="${esc(fullArticleURL)}">Open full article →</a></p>
     </div>
   </article>`;
 }
@@ -292,7 +335,7 @@ async function loadFix(card) {
       const el = doc.querySelector(".doc__body") || doc.querySelector(".prose");
       body.innerHTML = el ? el.innerHTML : "See the full article for details.";
     } catch {
-      body.innerHTML = `Couldn't load the fix inline. <a href="${card.dataset.url}">Open the article →</a>`;
+      body.innerHTML = `Couldn't load the fix inline. <a href="${card.dataset.articleUrl || card.dataset.url}">Open the article →</a>`;
     } finally {
       body.dataset.loaded = "1";
       delete body._loadPromise;
@@ -449,6 +492,12 @@ function prioritizeJurisdiction(hits, code) {
     .map(x => x.hit);
 }
 
+function matchesAutoScope(hit, scope) {
+  if (scope === "Federal") return ["Federal", "General"].includes(hit.jurisdictionCode);
+  if (scope === "States") return /^[A-Z]{2}$/.test(hit.jurisdictionCode || "");
+  return true;
+}
+
 /* ---- main run ------------------------------------------------------------- */
 let timer = null;
 function schedule() {
@@ -537,11 +586,12 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
   hits = prioritizeJurisdiction(hits, detectedCode);
   const unscopedCount = hits.length;
   if (scopeCode) hits = hits.filter(hit => hit.jurisdictionCode === scopeCode);
+  else if (mode === "auto") hits = hits.filter(hit => matchesAutoScope(hit, activeAutoScope));
   const filteredOut = unscopedCount - hits.length;
 
   if (!hits.length) {
     setState("reading", "no match");
-    const scope = manualSearch?.jurisdictionLabel;
+    const scope = manualSearch?.jurisdictionLabel || (activeAutoScope === "all" ? "" : activeAutoScope === "States" ? "states and D.C." : "federal guidance");
     const manualSummary = manualSearch ? manualSummaryHTML(manualSearch, filteredOut) : "";
     results.innerHTML = `${manualSummary}<div class="note">
       <strong>No matching guidance found${scope ? ` in ${esc(scope)}` : ""}.</strong>
@@ -581,7 +631,7 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
     </section>`);
   }
   results.innerHTML = html.join("");
-  if (hits.length > 1) wireToolbar(hits.slice(1));
+  if (hits.length > 1) wireToolbar(hits.slice(1), detectedCode);
   wireCards();
   wireAlternatives();
   wireManualSummary();
@@ -802,6 +852,10 @@ modeTabs.forEach((tab, index) => {
   });
 });
 
+autoScopeControls.forEach(control => {
+  control.addEventListener("click", () => setAutoScope(control.dataset.autoScope));
+});
+
 Object.values(manualFields).forEach(field => {
   field?.addEventListener("input", updateManualStatus);
   field?.addEventListener("change", updateManualStatus);
@@ -862,6 +916,10 @@ document.querySelectorAll("[data-focus-search]").forEach(el =>
 const initialParams = new URLSearchParams(location.search);
 const q0 = initialParams.get("q");
 let initialMode = initialParams.get("mode");
+try {
+  const savedAutoScope = localStorage.getItem("gs-auto-jurisdiction-scope");
+  if (savedAutoScope) setAutoScope(savedAutoScope, { rerun: false, persist: false });
+} catch {}
 if (initialMode !== "manual" && !q0) {
   try { initialMode = localStorage.getItem("gs-search-mode"); } catch {}
 }
@@ -877,3 +935,11 @@ if (initialParams.get("mode") === "manual") {
   setMode(initialMode === "manual" ? "manual" : "auto", { focus: false, clearResults: false, persist: false });
 }
 updateManualStatus();
+
+if (initialParams.get("focus") === "search") {
+  setTimeout(() => {
+    setMode("auto", { clearResults: false });
+    input?.focus();
+    input?.select?.();
+  }, 0);
+}

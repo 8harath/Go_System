@@ -7,6 +7,15 @@
 
 {% block content %}
 <div class="wrap article-wrap">
+  <nav class="article-nav" aria-label="Article navigation">
+    <a class="article-nav__back" data-return-link href="/">
+      <span aria-hidden="true">←</span><span data-return-label>Back to resolver</span>
+    </a>
+    <div class="article-nav__actions">
+      <a class="article-nav__search" href="/?focus=search"><span aria-hidden="true">⌕</span> Search again <kbd>/</kbd></a>
+      <button type="button" class="article-nav__top" data-scroll-top>Top <span aria-hidden="true">↑</span></button>
+    </div>
+  </nav>
   <nav class="crumbs" aria-label="Breadcrumb">
     <ol>
       {% for c in crumbs %}
@@ -58,6 +67,10 @@
         Source: Thomson Reuters <span aria-hidden="true">↗</span>
       </a>
     </aside>
+    <nav class="article-end-nav" aria-label="Continue navigation">
+      <a data-return-link href="/"><span aria-hidden="true">←</span> <span data-return-label>Back to resolver</span></a>
+      <a href="/?focus=search">Search another error <span aria-hidden="true">→</span></a>
+    </nav>
   </article>
 </div>
 {% endblock %}
