@@ -84,9 +84,9 @@ function setResultsBusy(busy) {
 }
 
 function autoScopeDescription(scope) {
-  if (scope === "Federal") return "Showing federal and general guidance only.";
-  if (scope === "States") return "Showing state and District of Columbia guidance only.";
-  return "Showing the best available matches across federal and state guidance.";
+  if (scope === "Federal") return "Federal and general guidance only.";
+  if (scope === "States") return "State and District of Columbia guidance only.";
+  return "Best matches across federal and state guidance.";
 }
 
 function setAutoScope(scope, { rerun = true, persist = true } = {}) {
@@ -296,7 +296,7 @@ function cardHTML(hit, rank, best) {
   const fullArticleURL = articleURL(hit.url);
 
   return `
-  <article class="card ${best ? "card--best" : ""}" data-url="${esc(hit.url)}" data-article-url="${esc(fullArticleURL)}" data-kind="${esc(kind)}" data-jurisdiction="${esc(j)}" data-jurisdiction-code="${esc(jCode)}" data-title="${esc(hit.title)}" data-rank="${rank}" data-open="false">
+  <article class="card ${best ? "card--best" : ""}" style="--rank:${rank}" data-url="${esc(hit.url)}" data-article-url="${esc(fullArticleURL)}" data-kind="${esc(kind)}" data-jurisdiction="${esc(j)}" data-jurisdiction-code="${esc(jCode)}" data-title="${esc(hit.title)}" data-rank="${rank}" data-open="false">
     <div class="card__top">
       <span class="card__rank">${best ? "✓" : rank}</span>
       <div class="card__grow">
@@ -521,7 +521,7 @@ function manualSummaryHTML(search, filteredOut = 0) {
 
   return `<section class="search-summary" aria-label="Active manual search criteria">
     <div class="search-summary__top">
-      <div><span class="search-summary__eyebrow">Manual search</span>${scopeNote}</div>
+      <div><span class="search-summary__label">Manual search</span>${scopeNote}</div>
       <button type="button" class="search-summary__edit" data-edit-manual>Edit filters</button>
     </div>
     <div class="search-summary__criteria">
@@ -613,8 +613,7 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
     html.push(`<section class="alternatives" aria-labelledby="more-heading">
       <div class="alternatives__prompt">
         <div>
-          <p class="alternatives__eyebrow">Still not resolved?</p>
-          <h2 id="more-heading">Find more possible solutions</h2>
+          <h2 id="more-heading">Still not resolved?</h2>
           <p>Review ${alternatives.length} lower-confidence match${alternatives.length > 1 ? "es" : ""}. These may be less likely to solve this exact error, but can help when the first fix does not apply.</p>
         </div>
         <button type="button" class="alternatives__button" data-show-more aria-expanded="false" aria-controls="gs-more-results">
@@ -689,9 +688,9 @@ function toolbarHTML(hits, detectedJurisdiction = "") {
     <span class="filter-group__label">Sort</span>
     <div class="filterset">
       <button type="button" class="filter filter--on" data-sort="relevance" aria-pressed="true">Best match</button>
-      <button type="button" class="filter" data-sort="jurisdiction-asc" aria-pressed="false">Jurisdiction A–Z</button>
-      <button type="button" class="filter" data-sort="jurisdiction-desc" aria-pressed="false">Jurisdiction Z–A</button>
-      <button type="button" class="filter" data-sort="title-asc" aria-pressed="false">Title A–Z</button>
+      <button type="button" class="filter" data-sort="jurisdiction-asc" aria-pressed="false">Jurisdiction A-Z</button>
+      <button type="button" class="filter" data-sort="jurisdiction-desc" aria-pressed="false">Jurisdiction Z-A</button>
+      <button type="button" class="filter" data-sort="title-asc" aria-pressed="false">Title A-Z</button>
     </div>
   </div>`;
 
