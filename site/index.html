@@ -127,6 +127,16 @@
         <p>We’ll detect the jurisdiction, form, field, and reject code for you.</p>
       </div>
 
+      <fieldset class="auto-scope" id="gs-auto-scope">
+        <legend>Search jurisdiction</legend>
+        <div class="auto-scope__options" role="group" aria-label="Automatic search jurisdiction">
+          <button type="button" class="auto-scope__option auto-scope__option--active" data-auto-scope="all" aria-pressed="true">All matches</button>
+          <button type="button" class="auto-scope__option" data-auto-scope="Federal" aria-pressed="false">Federal</button>
+          <button type="button" class="auto-scope__option" data-auto-scope="States" aria-pressed="false">States &amp; D.C.</button>
+        </div>
+        <p class="auto-scope__hint" id="gs-auto-scope-status" aria-live="polite">Showing the best available matches across federal and state guidance.</p>
+      </fieldset>
+
       <div class="paste__frame">
         <div class="paste__rail" aria-hidden="true">
           <span class="paste__tick" data-state-dot></span>

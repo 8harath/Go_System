@@ -111,7 +111,7 @@ Error: Field 'SchINIT65Recap' is unexpected
 
 Element Name: SchINIT65Recap
 XPath: /ReturnState[1]/ReturnDataState[1]/SchINIT65Recap[1]
-XML Fragment: ******
+XML Fragment: ** → ****
 Error Code: c00ce014
 Error Reason: Element '{http://www.irs.gov/efile}SchINIT65Recap' is unexpected according to content model of parent element '{http://www.irs.gov/efile}ReturnDataState'.
 Expecting: {http://www.irs.gov/efile}SchINK1.
@@ -119,31 +119,21 @@ Expecting: {http://www.irs.gov/efile}SchINK1.
 <h2>Solution 1: Schedule K-1 entered in the return or Direct K-1</h2>
 <p>The Indiana return must have at least two partners included to e-file.</p>
 <ul>
-<li>Go to </li>
+<li>Go to <strong>Organizer</strong> → <strong>General Information</strong> → <strong>Return and Print Options</strong>.</li>
+<li>Select the <strong>Sch K, K-1 and Activity Schedules</strong> tab.</li>
+<li>Under <strong>Print or Suppress</strong>, set <strong>Schedule K-1 and partner activity schedules</strong> to <strong>Print</strong>.</li>
+<li>Verify the IN K-1s aren't suppressed in <strong>Organizer</strong> → <strong>States</strong> → <strong>Indiana</strong> → <strong>Return Options</strong>.</li>
+<li>Also verify they aren't suppressed in <strong>Organizer</strong> → <strong>States</strong> → <strong>Indiana</strong> → <strong>E-file</strong> → <strong>Attachments</strong> → <strong>K-1 Aggregation</strong> → <strong>Summary</strong>.</li>
+<li>To include partners in the composite return, go to <strong>Organizer</strong> → <strong>Partner Information</strong> → <strong>Partner by Partner Data</strong> → <strong>Columnar Partner Entry</strong> → <strong>Partners State Composites</strong>. Mark <strong>X</strong> in the IN column.</li>
+<li>Do a full recompute and recreate the e-file.</li>
 </ul>
-<p><strong>Organizer</strong><strong>General Information</strong><strong>Return and Print Options</strong></p>
-<p>.
-- Select the <strong>Sch K, K-1 and Activity Schedules</strong> tab.
-- Under <strong>Print or Suppress</strong>, set <strong>Schedule K-1 and partner activity schedules</strong> to <strong>Print</strong>.
-- Verify the IN K-1s aren't suppressed in </p>
-<p><strong>Organizer</strong><strong>States</strong><strong>Indiana</strong><strong>Return Options</strong></p>
-<p>.
-- Also verify they aren't suppressed in </p>
-<p><strong>Organizer</strong><strong>States</strong><strong>Indiana</strong><strong>E-file</strong><strong>Attachments</strong><strong>K-1 Aggregation</strong><strong>Summary</strong></p>
-<p>.
-- To include partners in the composite return, go to </p>
-<p><strong>Organizer</strong><strong>Partner Information</strong><strong>Partner by Partner Data</strong><strong>Columnar Partner Entry</strong><strong>Partners State Composites</strong></p>
-<p>. Mark <strong>X</strong> in the IN column.
-- Do a full recompute and recreate the e-file.</p>
 <h2>Solution 2: Schedule K-1 Aggregation</h2>
 <ul>
-<li>Go to </li>
+<li>Go to <strong>Organizer</strong> → <strong>States</strong> → <strong>Indiana</strong> → <strong>E-file</strong> → <strong>Attachments</strong> → <strong>K-1 Aggregation</strong> → <strong>Summary</strong>.</li>
+<li>Suppress the system generated IN K-1 and attach the K-1 aggregation file.</li>
+<li>The aggregation file must have at least two partners.</li>
+<li>Do a full recompute and recreate the e-file.</li>
 </ul>
-<p><strong>Organizer</strong><strong>States</strong><strong>Indiana</strong><strong>E-file</strong><strong>Attachments</strong><strong>K-1 Aggregation</strong><strong>Summary</strong></p>
-<p>.
-- Suppress the system generated IN K-1 and attach the K-1 aggregation file.
-- The aggregation file must have at least two partners.
-- Do a full recompute and recreate the e-file.</p>
     </div>
 
 

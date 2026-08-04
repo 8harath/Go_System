@@ -104,35 +104,23 @@
 <p>This happens when a mismatch in the information reported on your tax forms. It happens when the “nonresident shareholders' taxable percentage of pro rata share items” on Form PTE K1 doesn’t correctly align with the corresponding figure on Schedule A, Section I.</p>
 <h2>Solution 1</h2>
 <ul>
-<li>Go to </li>
+<li>Go to <strong>Organizer</strong> → <strong>Partner Information</strong> → <strong>Partner by Partner Data</strong> folder.</li>
+<li>Select the <strong>Partner Name</strong> → <strong>Partner Information</strong> → <strong>Partner Information</strong> tab.</li>
+<li>Check if <strong>State Residency</strong> is marked as anything other than <strong>Kentucky</strong> or <strong>All States (Default)</strong>.</li>
 </ul>
-<p><strong>Organizer</strong><strong>Partner Information</strong><strong>Partner by Partner Data</strong></p>
-<p>folder.
-- Select the </p>
-<p><strong>Partner Name</strong><strong>Partner Information</strong><strong>Partner Information</strong></p>
-<p>tab.
-- Check if <strong>State Residency</strong> is marked as anything other than <strong>Kentucky</strong> or <strong>All States (Default)</strong>.</p>
 <p>note</p>
 <p>Kentucky doesn't currently recognize the concept of a State of Residency for a partner. This means, for example, that if a client marks a partner with a State Residency of Kentucky, but the State Address as Oklahoma, then the State of Kentucky will think based on the XML that the Partner is a Nonresident and the reject will be thrown because Line B2, which isn't currently populating, doesn't match Sch A, Section I, Line 3 or 12.
-- Go to </p>
-<p><strong>Organizer</strong><strong>Partner Information</strong><strong>Partner by Partner Data</strong></p>
-<p>folder.
-- Select the </p>
-<p><strong>Partner Name</strong><strong>Partner Information</strong><strong>Partner Information</strong></p>
-<p>tab.
+- Go to <strong>Organizer</strong> → <strong>Partner Information</strong> → <strong>Partner by Partner Data</strong> folder.
+- Select the <strong>Partner Name</strong> → <strong>Partner Information</strong> → <strong>Partner Information</strong> tab.
 - Check <strong>State Address</strong> to determine if a partner is a resident or not, and if not change the address.
 - Do a full recompute and recreate the e-file.</p>
 <h2>Solution 2</h2>
 <ul>
-<li>Go to </li>
+<li>Go to <strong>Organizer</strong> → <strong>States</strong> → <strong>Kentucky</strong> folder.</li>
+<li>Select <strong>E-file</strong> → <strong>Attachments</strong> → <strong>K-1 Aggregation</strong> → <strong>Summary</strong>.</li>
+<li>For line <strong>Attach K-1 Aggregation</strong>, clear the checkbox.</li>
+<li>Do a full recompute and recreate the e-file.</li>
 </ul>
-<p><strong>Organizer</strong><strong>States</strong><strong>Kentucky</strong></p>
-<p>folder.
-- Select </p>
-<p><strong>E-file</strong><strong>Attachments</strong><strong>K-1 Aggregation</strong><strong>Summary</strong></p>
-<p>.
-- For line <strong>Attach K-1 Aggregation</strong>, clear the checkbox.
-- Do a full recompute and recreate the e-file.</p>
 <p>note</p>
 <p>For every partner, this is triggered for the client that needs to have a <strong>EntityTypePartnershipInd</strong> or a <strong>EntityTypeGeneralPartnershipInd</strong> field populated in compliance with the State XML Schema.</p>
     </div>

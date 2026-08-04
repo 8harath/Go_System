@@ -29,6 +29,8 @@ const manualSubmitLabel = $("[data-manual-submit-label]");
 const manualReset = $("#gs-manual-reset");
 const manualError = $("#gs-manual-error");
 const manualStatus = $("#gs-manual-status");
+const autoScopeControls = Array.from(document.querySelectorAll("[data-auto-scope]"));
+const autoScopeStatus = $("#gs-auto-scope-status");
 const manualFields = {
   jurisdiction: $("#gs-jurisdiction"),
   code: $("#gs-error-code"),
@@ -43,6 +45,7 @@ let pagefind = null;
 let codes = null;
 let seq = 0;                         // stale-response guard
 let activeMode = "auto";
+let activeAutoScope = "all";
 
 /* ---- lazy loaders --------------------------------------------------------- */
 async function loadPagefind() {
@@ -78,6 +81,26 @@ function setResultsBusy(busy) {
     manualSubmit.disabled = manualBusy;
     if (manualSubmitLabel) manualSubmitLabel.textContent = manualBusy ? "Searching…" : "Find matching fixes";
   }
+}
+
+function autoScopeDescription(scope) {
+  if (scope === "Federal") return "Showing federal and general guidance only.";
+  if (scope === "States") return "Showing state and District of Columbia guidance only.";
+  return "Showing the best available matches across federal and state guidance.";
+}
+
+function setAutoScope(scope, { rerun = true, persist = true } = {}) {
+  activeAutoScope = ["Federal", "States"].includes(scope) ? scope : "all";
+  autoScopeControls.forEach(control => {
+    const selected = control.dataset.autoScope === activeAutoScope;
+    control.classList.toggle("auto-scope__option--active", selected);
+    control.setAttribute("aria-pressed", String(selected));
+  });
+  if (autoScopeStatus) autoScopeStatus.textContent = autoScopeDescription(activeAutoScope);
+  if (persist) {
+    try { localStorage.setItem("gs-auto-jurisdiction-scope", activeAutoScope); } catch {}
+  }
+  if (rerun && activeMode === "auto" && input?.value.trim()) run();
 }
 
 function esc(s) {
@@ -449,6 +472,12 @@ function prioritizeJurisdiction(hits, code) {
     .map(x => x.hit);
 }
 
+function matchesAutoScope(hit, scope) {
+  if (scope === "Federal") return ["Federal", "General"].includes(hit.jurisdictionCode);
+  if (scope === "States") return /^[A-Z]{2}$/.test(hit.jurisdictionCode || "");
+  return true;
+}
+
 /* ---- main run ------------------------------------------------------------- */
 let timer = null;
 function schedule() {
@@ -537,11 +566,12 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
   hits = prioritizeJurisdiction(hits, detectedCode);
   const unscopedCount = hits.length;
   if (scopeCode) hits = hits.filter(hit => hit.jurisdictionCode === scopeCode);
+  else if (mode === "auto") hits = hits.filter(hit => matchesAutoScope(hit, activeAutoScope));
   const filteredOut = unscopedCount - hits.length;
 
   if (!hits.length) {
     setState("reading", "no match");
-    const scope = manualSearch?.jurisdictionLabel;
+    const scope = manualSearch?.jurisdictionLabel || (activeAutoScope === "all" ? "" : activeAutoScope === "States" ? "states and D.C." : "federal guidance");
     const manualSummary = manualSearch ? manualSummaryHTML(manualSearch, filteredOut) : "";
     results.innerHTML = `${manualSummary}<div class="note">
       <strong>No matching guidance found${scope ? ` in ${esc(scope)}` : ""}.</strong>
@@ -581,7 +611,7 @@ async function executeSearch(query, { mode = "auto", scopeCode = "", manualSearc
     </section>`);
   }
   results.innerHTML = html.join("");
-  if (hits.length > 1) wireToolbar(hits.slice(1));
+  if (hits.length > 1) wireToolbar(hits.slice(1), detectedCode);
   wireCards();
   wireAlternatives();
   wireManualSummary();
@@ -802,6 +832,10 @@ modeTabs.forEach((tab, index) => {
   });
 });
 
+autoScopeControls.forEach(control => {
+  control.addEventListener("click", () => setAutoScope(control.dataset.autoScope));
+});
+
 Object.values(manualFields).forEach(field => {
   field?.addEventListener("input", updateManualStatus);
   field?.addEventListener("change", updateManualStatus);
@@ -862,6 +896,10 @@ document.querySelectorAll("[data-focus-search]").forEach(el =>
 const initialParams = new URLSearchParams(location.search);
 const q0 = initialParams.get("q");
 let initialMode = initialParams.get("mode");
+try {
+  const savedAutoScope = localStorage.getItem("gs-auto-jurisdiction-scope");
+  if (savedAutoScope) setAutoScope(savedAutoScope, { rerun: false, persist: false });
+} catch {}
 if (initialMode !== "manual" && !q0) {
   try { initialMode = localStorage.getItem("gs-search-mode"); } catch {}
 }
