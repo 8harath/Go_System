@@ -57,8 +57,12 @@ log() { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
 log "Pipeline start — SECTIONS=$SECTIONS"
 
 # 1. Scrape --------------------------------------------------------------------
-log "[1/7] Scraping GoSystem Tax RS help (sections: $SECTIONS)"
-"$PY" scraper/scrape.py --sections "$SECTIONS"
+if [ "${SKIP_SCRAPE:-0}" = "1" ] || [ "${FORCE_SCRAPE:-0}" != "1" -a -f "data/manifest.json" ]; then
+  log "[1/7] Skipping live scraping (data/manifest.json exists). Set FORCE_SCRAPE=1 to rescrape."
+else
+  log "[1/7] Scraping GoSystem Tax RS help (sections: $SECTIONS)"
+  "$PY" scraper/scrape.py --sections "$SECTIONS"
+fi
 
 # 2. Build catalog facet index -------------------------------------------------
 log "[2/7] Building catalog facet index → data/catalog.json"
