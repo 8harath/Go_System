@@ -28,6 +28,20 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 
 PY="$ROOT/.venv/bin/python"
+if [ ! -x "$PY" ]; then
+  if command -v python3 >/dev/null 2>&1; then
+    PY="python3"
+  elif command -v python >/dev/null 2>&1; then
+    PY="python"
+  else
+    echo "ERROR: Python not found." >&2
+    exit 1
+  fi
+fi
+if ! command -v npx >/dev/null 2>&1; then
+  echo "ERROR: 'npx' (Node.js) not found on PATH. Install Node 18+ then run: npm install" >&2
+  exit 1
+fi
 
 # Canonical full section list (from CONTRACT.md). Used when SECTIONS=all.
 FULL_SECTIONS="e-file,import-export,1065,1120,1040,1041,990,5500,706,709"
@@ -39,18 +53,6 @@ if [ "$SECTIONS" = "all" ]; then
 fi
 
 log() { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
-
-# --- Preflight checks (fail fast) ---------------------------------------------
-if [ ! -x "$PY" ]; then
-  echo "ERROR: Python venv not found at: $PY" >&2
-  echo "  Create it and install deps:" >&2
-  echo "    python3 -m venv .venv && .venv/bin/pip install -r requirements.txt" >&2
-  exit 1
-fi
-if ! command -v npx >/dev/null 2>&1; then
-  echo "ERROR: 'npx' (Node.js) not found on PATH. Install Node 18+ then run: npm install" >&2
-  exit 1
-fi
 
 log "Pipeline start — SECTIONS=$SECTIONS"
 
