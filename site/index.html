@@ -3,137 +3,486 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Notice - Page Taken Down</title>
-  <meta name="robots" content="noindex, nofollow">
+  <title>GoSystem Tax RS Help Search: find the right e-file fix</title>
+  <meta name="description" content="Resolve a GoSystem Tax RS e-file error automatically from the full diagnostic, or search manually by jurisdiction, reject code, form, field, and error type.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="application-name" content="GS E-file Resolver">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GS E-file Resolver">
+  <meta property="og:title" content="GS E-file Resolver: find the right fix">
+  <meta property="og:description" content="Paste a GoSystem Tax RS rejection, or browse every indexed e-file error by jurisdiction, return type, and error type.">
+  <meta property="og:image" content="/assets/share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="GS E-file Resolver, from rejection to resolution">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GS E-file Resolver: find the right fix">
+  <meta name="twitter:description" content="Resolve GoSystem Tax RS e-file errors with focused, jurisdiction-aware help.">
+  <meta name="twitter:image" content="/assets/share-card.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-icon-180.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <script>
+  /* Theme resolution, before first paint so there is no flash.
+     An explicit choice wins; otherwise follow the OS. We only write to storage
+     when the user actually toggles, so "follow the OS" stays sticky. */
+  (function () {
+    var d = document.documentElement;
+    var stored = null;
+    try { stored = localStorage.getItem("gs-theme"); } catch (e) {}
+    var mq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+    function systemTheme() { return mq && mq.matches ? "dark" : "light"; }
+    d.setAttribute("data-theme", stored === "light" || stored === "dark" ? stored : systemTheme());
+    function cur() { return d.getAttribute("data-theme") === "dark" ? "dark" : "light"; }
+    function sync() {
+      var b = document.querySelector("[data-theme-toggle]");
+      if (!b) return;
+      var c = cur();
+      b.setAttribute("aria-pressed", c === "dark");
+      b.setAttribute("aria-label", c === "dark" ? "Switch to the light theme" : "Switch to the dark theme");
+      var l = b.querySelector("[data-theme-label]");
+      if (l) l.textContent = c === "dark" ? "Dark" : "Light";
+    }
+    function set(t) {
+      d.setAttribute("data-theme", t);
+      try { localStorage.setItem("gs-theme", t); } catch (e) {}
+      sync();
+    }
+    if (mq && mq.addEventListener) {
+      mq.addEventListener("change", function () {
+        var s = null;
+        try { s = localStorage.getItem("gs-theme"); } catch (e) {}
+        if (s !== "light" && s !== "dark") { d.setAttribute("data-theme", systemTheme()); sync(); }
+      });
+    }
+    addEventListener("DOMContentLoaded", function () {
+      sync();
+      var b = document.querySelector("[data-theme-toggle]");
+      if (b) b.addEventListener("click", function () { set(cur() === "dark" ? "light" : "dark"); });
+    });
+  })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #090d16;
-      --card-bg: rgba(18, 26, 43, 0.75);
-      --border: rgba(255, 255, 255, 0.1);
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --accent-red: #ef4444;
-      --accent-glow: rgba(239, 68, 68, 0.25);
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: var(--bg);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      background-image: 
-        radial-gradient(circle at 50% 20%, rgba(239, 68, 68, 0.12) 0%, transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
-      overflow: hidden;
-    }
-    .container {
-      max-width: 540px;
-      width: 100%;
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 3rem 2.5rem;
-      text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                  0 0 0 1px rgba(255, 255, 255, 0.05);
-      animation: fadeIn 0.6s ease-out;
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .icon-box {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 2rem;
-      background: var(--accent-glow);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--accent-red);
-      box-shadow: 0 0 30px var(--accent-glow);
-    }
-    .icon-box svg {
-      width: 36px;
-      height: 36px;
-    }
-    h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      line-height: 1.25;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #ffffff 0%, #d1d5db 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    p {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.6;
-      font-weight: 400;
-    }
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 2rem 0;
-    }
-    .status-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 1rem;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #f87171;
-    }
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      background-color: var(--accent-red);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-red);
-    }
-  </style>
+  <!-- Public Sans is the USWDS text face: large x-height, unambiguous letterforms,
+       designed for accessible government interfaces. IBM Plex Mono is used only
+       for machine tokens; its 0/O and 1/l/I are clearly distinguishable, which
+       matters when someone is transcribing a reject code. -->
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400..800;1,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="prefetch" href="/codes.json" as="fetch" crossorigin="anonymous">
+  <link rel="prefetch" href="/signatures.json" as="fetch" crossorigin="anonymous">
+  <link rel="stylesheet" href="/assets/styles.css">
 </head>
-<body>
-  <div class="container">
-    <div class="icon-box">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-      </svg>
+<body class="page-resolver">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="/">
+        <img class="brand__mark" src="/assets/logo-mark.svg" width="34" height="34" alt="">
+        <span class="brand__copy">
+          <span class="brand__name">E-file Resolver</span>
+          <span class="brand__sub">GoSystem Tax RS knowledge desk</span>
+        </span>
+      </a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a class="topbar__link" aria-current="page" data-focus-search href="/">Resolver</a>
+        <a class="topbar__link" href="/errors/">Error catalog</a>
+        <button type="button" class="shortcuts-trigger" data-shortcuts-trigger aria-haspopup="dialog" aria-controls="shortcuts-dialog">
+          <span>Shortcuts</span><kbd class="kbd" aria-hidden="true">?</kbd>
+        </button>
+        <button type="button" class="themetoggle" data-theme-toggle aria-label="Switch between light and dark theme" aria-pressed="false">
+          <svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+          <span class="themetoggle__label" data-theme-label>Light</span>
+        </button>
+      </nav>
     </div>
-    <div class="status-tag">
-      <span class="status-dot"></span>
-      Status: Offline
+  </header>
+
+  <main id="main">
+<section class="hero wrap">
+  <div class="hero__intro">
+    <h1 class="hero__title">From rejection to <em>resolution.</em></h1>
+    <p class="hero__lede">Paste the diagnostic, search by the details you already know, or browse
+      every indexed error by jurisdiction and return type.</p>
+    <ul class="coverage">
+      <li><b>1,288</b> articles indexed</li>
+      <li><b>508</b> reject codes</li>
+      <li><b>51</b> jurisdictions</li>
+      <li>Federal, 50 states &amp; D.C.</li>
+    </ul>
+    <div class="hero__actions">
+      <a class="btn btn--quiet" href="/errors/">Browse the error catalog <span aria-hidden="true">→</span></a>
     </div>
-    <div class="divider"></div>
-    <h1>The page is taken down by Bharath K</h1>
-    <p>This site and its resources are currently unavailable.</p>
   </div>
+
+  <form class="paste" id="gs-form" role="search" autocomplete="off" novalidate>
+    <div class="paste__heading">
+      <h2>How would you like to search?</h2>
+    </div>
+
+    <div class="mode-tabs" role="tablist" aria-label="Error search mode">
+      <button type="button"
+              class="mode-tab mode-tab--active"
+              id="gs-mode-auto"
+              role="tab"
+              aria-selected="true"
+              aria-controls="gs-auto-panel"
+              data-mode="auto">
+        <span class="mode-tab__copy"><strong>Paste a diagnostic</strong><small>Fastest. We read the details for you</small></span>
+        <span class="mode-tab__check" aria-hidden="true">✓</span>
+      </button>
+      <button type="button"
+              class="mode-tab"
+              id="gs-mode-manual"
+              role="tab"
+              aria-selected="false"
+              aria-controls="gs-manual-panel"
+              data-mode="manual"
+              tabindex="-1">
+        <span class="mode-tab__copy"><strong>Enter what you know</strong><small>Filter by state, code, form, or field</small></span>
+        <span class="mode-tab__check" aria-hidden="true">✓</span>
+      </button>
+    </div>
+
+    <section class="mode-panel"
+             id="gs-auto-panel"
+             role="tabpanel"
+             aria-labelledby="gs-mode-auto"
+             data-mode-panel="auto">
+      <fieldset class="auto-scope" id="gs-auto-scope">
+        <legend>Search jurisdiction</legend>
+        <div class="auto-scope__options" role="group" aria-label="Automatic search jurisdiction">
+          <button type="button" class="auto-scope__option auto-scope__option--active" data-auto-scope="all" aria-pressed="true">All matches</button>
+          <button type="button" class="auto-scope__option" data-auto-scope="Federal" aria-pressed="false">Federal</button>
+          <button type="button" class="auto-scope__option" data-auto-scope="States" aria-pressed="false">States &amp; D.C.</button>
+        </div>
+        <p class="auto-scope__hint" id="gs-auto-scope-status" aria-live="polite">Best matches across federal and state guidance.</p>
+      </fieldset>
+
+      <div class="paste__frame">
+        <div class="paste__bar">
+          <label class="paste__label" for="gs-search">Paste the diagnostic</label>
+          <div class="paste__tools">
+            <button type="button" class="paste__tool" id="gs-paste" aria-label="Paste from the clipboard" hidden>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="4" width="12" height="16" rx="2"/><path d="M16 4V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1"/><path d="M8 8H5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h3"/></svg>
+              Paste
+            </button>
+            <button type="button" class="paste__clear" id="gs-clear" aria-label="Clear the pasted diagnostic" hidden>Clear</button>
+          </div>
+        </div>
+        <textarea id="gs-search"
+                  class="paste__input"
+                  rows="6"
+                  autofocus
+                  spellcheck="false"
+                  autocapitalize="off"
+                  autocorrect="off"
+                  enterkeyhint="search"
+                  aria-describedby="search-coverage paste-hint"
+                  placeholder="CAForm565ScheduleK-1\PartnerInformation\EntityType&#10;The …:EntityType element is invalid. The Enumeration constraint failed.&#10;&#10;— or just a reject code, e.g. F1065-037-02"></textarea>
+        <p class="paste__foot" id="paste-hint">
+          <span>Whole rejections welcome — the element path, message and code all sharpen the match.</span>
+          <span class="paste__privacy">Nothing you paste leaves your browser</span>
+        </p>
+      </div>
+
+      <div class="sig" id="gs-signature" hidden aria-live="polite">
+        <span class="sig__label">signature</span>
+        <div class="sig__chips" id="gs-sigchips"></div>
+      </div>
+      <p class="search-coverage" id="search-coverage">Recognizes Federal, all 50 states, and Washington, D.C.</p>
+      <div class="samples" id="gs-samples" aria-label="Example errors to try">
+        <span class="samples__label">Try an example</span>
+        <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnerInformation\EntityType&#10;The http://www.ftb.ca.gov/efile:EntityType element is invalid. The value CHECK is invalid according to its datatype http://www.ftb.ca.gov/efile:CA-PartnerMemberEntityType. The Enumeration constraint failed.">CA 565 · EntityType</button>
+        <button type="button" class="sample" data-sample="CAForm565ScheduleK-1\PartnershipInformation\IsInvestmentPartnership&#10;The element PartnershipInformation in namespace http://www.ftb.ca.gov/efile has incomplete content. List of possible elements expected: IsInvestmentPartnership.">CA 565 · Missing field</button>
+        <button type="button" class="sample" data-sample="F1065-037-02 e-file error">F1065-037-02</button>
+        <button type="button" class="sample" data-sample="New York">New York state help</button>
+      </div>
+    </section>
+
+    <section class="mode-panel manual"
+             id="gs-manual-panel"
+             role="tabpanel"
+             aria-labelledby="gs-mode-manual"
+             data-mode-panel="manual"
+             hidden>
+      <div class="mode-panel__intro">
+        <h3>Build the error signature yourself</h3>
+        <p>Start with any detail. Adding more fields improves the ranking.</p>
+      </div>
+
+      <div class="manual__grid">
+        <label class="manual-field manual-field--jurisdiction" for="gs-jurisdiction">
+          <span>Jurisdiction <small>Best first filter</small></span>
+          <select id="gs-jurisdiction" name="jurisdiction">
+            <option value="">All jurisdictions</option>
+            <option value="Federal">Federal / IRS</option>
+            <optgroup label="States and districts">
+              <option value="AL">Alabama (AL)</option>
+              <option value="AK">Alaska (AK)</option>
+              <option value="AZ">Arizona (AZ)</option>
+              <option value="AR">Arkansas (AR)</option>
+              <option value="CA">California (CA)</option>
+              <option value="CO">Colorado (CO)</option>
+              <option value="CT">Connecticut (CT)</option>
+              <option value="DE">Delaware (DE)</option>
+              <option value="DC">District of Columbia (DC)</option>
+              <option value="FL">Florida (FL)</option>
+              <option value="GA">Georgia (GA)</option>
+              <option value="HI">Hawaii (HI)</option>
+              <option value="ID">Idaho (ID)</option>
+              <option value="IL">Illinois (IL)</option>
+              <option value="IN">Indiana (IN)</option>
+              <option value="IA">Iowa (IA)</option>
+              <option value="KS">Kansas (KS)</option>
+              <option value="KY">Kentucky (KY)</option>
+              <option value="LA">Louisiana (LA)</option>
+              <option value="ME">Maine (ME)</option>
+              <option value="MD">Maryland (MD)</option>
+              <option value="MA">Massachusetts (MA)</option>
+              <option value="MI">Michigan (MI)</option>
+              <option value="MN">Minnesota (MN)</option>
+              <option value="MS">Mississippi (MS)</option>
+              <option value="MO">Missouri (MO)</option>
+              <option value="MT">Montana (MT)</option>
+              <option value="NE">Nebraska (NE)</option>
+              <option value="NV">Nevada (NV)</option>
+              <option value="NH">New Hampshire (NH)</option>
+              <option value="NJ">New Jersey (NJ)</option>
+              <option value="NM">New Mexico (NM)</option>
+              <option value="NY">New York (NY)</option>
+              <option value="NC">North Carolina (NC)</option>
+              <option value="ND">North Dakota (ND)</option>
+              <option value="OH">Ohio (OH)</option>
+              <option value="OK">Oklahoma (OK)</option>
+              <option value="OR">Oregon (OR)</option>
+              <option value="PA">Pennsylvania (PA)</option>
+              <option value="RI">Rhode Island (RI)</option>
+              <option value="SC">South Carolina (SC)</option>
+              <option value="SD">South Dakota (SD)</option>
+              <option value="TN">Tennessee (TN)</option>
+              <option value="TX">Texas (TX)</option>
+              <option value="UT">Utah (UT)</option>
+              <option value="VT">Vermont (VT)</option>
+              <option value="VA">Virginia (VA)</option>
+              <option value="WA">Washington (WA)</option>
+              <option value="WV">West Virginia (WV)</option>
+              <option value="WI">Wisconsin (WI)</option>
+              <option value="WY">Wyoming (WY)</option>
+            </optgroup>
+          </select>
+        </label>
+
+        <label class="manual-field" for="gs-error-code">
+          <span>Error or reject code <small>Exact match</small></span>
+          <input id="gs-error-code" name="code" type="text" inputmode="text" spellcheck="false" autocapitalize="characters" placeholder="e.g. F1065-037-02">
+        </label>
+
+        <label class="manual-field" for="gs-form-number">
+          <span>Return / form</span>
+          <input id="gs-form-number" name="form" type="text" spellcheck="false" placeholder="e.g. 1040, 1065, IT-201">
+        </label>
+
+        <label class="manual-field" for="gs-schedule">
+          <span>Schedule <small>Optional</small></span>
+          <input id="gs-schedule" name="schedule" type="text" spellcheck="false" placeholder="e.g. K-1, A, 8812">
+        </label>
+
+        <label class="manual-field" for="gs-field-name">
+          <span>Field or element</span>
+          <input id="gs-field-name" name="field" type="text" spellcheck="false" autocapitalize="off" placeholder="e.g. EntityType">
+        </label>
+
+        <label class="manual-field" for="gs-error-type">
+          <span>Error type</span>
+          <select id="gs-error-type" name="kind">
+            <option value="">Any error type</option>
+            <option value="schema validation failed">Schema validation</option>
+            <option value="data is missing">Missing required data</option>
+            <option value="is unexpected">Unexpected data</option>
+            <option value="enumeration constraint failed">Invalid allowed value</option>
+            <option value="pattern constraint failed">Invalid format / pattern</option>
+            <option value="invalid datatype">Invalid data type</option>
+            <option value="duplicate filing">Duplicate filing</option>
+          </select>
+        </label>
+
+        <label class="manual-field manual-field--wide" for="gs-keywords">
+          <span>Message keywords <small>Optional</small></span>
+          <input id="gs-keywords" name="keywords" type="text" placeholder="A short phrase from the error message">
+        </label>
+      </div>
+
+      <p class="manual__error" id="gs-manual-error" role="alert" hidden>Enter at least one detail before searching.</p>
+      <div class="manual__actions">
+        <button type="submit" class="manual__submit" id="gs-manual-submit">
+          <span data-manual-submit-label>Find matching fixes</span>
+          <span aria-hidden="true">→</span>
+        </button>
+        <button type="button" class="manual__reset" id="gs-manual-reset">Reset fields</button>
+        <p id="gs-manual-status" aria-live="polite">No required fields · Use whatever information you have</p>
+      </div>
+    </section>
+  </form>
+</section>
+
+<section class="results wrap" aria-label="Matches">
+  <div id="gs-results" class="results__list" aria-live="polite" aria-busy="false"></div>
+</section>
+
+<section class="wrap browse" aria-labelledby="resolver-browse-h">
+  <h2 id="resolver-browse-h">Don't have the exact error to hand?</h2>
+  <p>Browse the whole corpus instead. Every jurisdiction has a complete index page, and the
+     catalog filters by return type and by what actually went wrong.</p>
+  <ul class="browse__grid">
+    <li><a href="/errors/jurisdiction/federal/"><b>Federal</b><span>228</span></a></li>
+    <li><a href="/errors/jurisdiction/general/"><b>General / Federal</b><span>169</span></a></li>
+    <li><a href="/errors/jurisdiction/alabama/"><b>Alabama (AL)</b><span>60</span></a></li>
+    <li><a href="/errors/jurisdiction/alaska/"><b>Alaska (AK)</b><span>3</span></a></li>
+    <li><a href="/errors/jurisdiction/arizona/"><b>Arizona (AZ)</b><span>23</span></a></li>
+    <li><a href="/errors/jurisdiction/arkansas/"><b>Arkansas (AR)</b><span>7</span></a></li>
+    <li><a href="/errors/jurisdiction/california/"><b>California (CA)</b><span>76</span></a></li>
+    <li><a href="/errors/jurisdiction/colorado/"><b>Colorado (CO)</b><span>12</span></a></li>
+    <li><a href="/errors/jurisdiction/connecticut/"><b>Connecticut (CT)</b><span>11</span></a></li>
+    <li><a href="/errors/jurisdiction/delaware/"><b>Delaware (DE)</b><span>6</span></a></li>
+    <li><a href="/errors/jurisdiction/district-of-columbia/"><b>District of Columbia (DC)</b><span>1</span></a></li>
+    <li><a href="/errors/"><b>All 51 jurisdictions</b><span>→</span></a></li>
+  </ul>
+</section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <section class="site-footer__about" aria-labelledby="footer-about">
+        <div class="footer-brand">
+          <img src="/assets/logo-mark.svg" width="32" height="32" alt="">
+          <div><strong id="footer-about">GS E-file Resolver</strong><span>Independent help for tax professionals</span></div>
+        </div>
+        <p>Find the most relevant GoSystem Tax RS guidance from a raw rejection, a reject code, a form detail, or a state name — or browse the whole indexed corpus.</p>
+      </section>
+      <section aria-labelledby="footer-nav">
+        <h2 id="footer-nav">Go to</h2>
+        <ul class="footer-links">
+          <li><a href="/">Resolver</a></li>
+          <li><a href="/errors/">Error catalog</a></li>
+          <li><a href="/errors/#browse-jurisdiction">Browse by jurisdiction</a></li>
+          <li><a href="/errors/#browse-return">Browse by return type</a></li>
+        </ul>
+      </section>
+      <section aria-labelledby="footer-note">
+        <h2 id="footer-note">Coverage &amp; source</h2>
+        <p>Search and browse cover Federal, all 50 states, and Washington, D.C.; results depend on available source guidance. Articles are attributed to Thomson Reuters.</p>
+        <p class="footer-note">Runs locally in your browser. No account required.</p>
+      </section>
+    </div>
+    <div class="wrap site-footer__bottom">
+      <span>Not affiliated with or endorsed by Thomson Reuters.</span>
+    </div>
+  </footer>
+
+  <dialog class="shortcuts-dialog" id="shortcuts-dialog" aria-labelledby="shortcuts-title">
+    <div class="shortcuts-dialog__head">
+      <div>
+        <h2 id="shortcuts-title">Keyboard shortcuts</h2>
+      </div>
+      <button class="shortcuts-dialog__close" type="button" data-shortcuts-close aria-label="Close keyboard shortcuts">×</button>
+    </div>
+    <dl class="shortcuts-list">
+      <div><dt><kbd>/</kbd><kbd>⌘ K</kbd><kbd>Ctrl K</kbd></dt><dd>Focus the search field on this page</dd></div>
+      <div><dt><kbd>⌘ Enter</kbd><kbd>Ctrl Enter</kbd></dt><dd>Open the best matching article</dd></div>
+      <div><dt><kbd>Esc</kbd></dt><dd>Clear the active search or close this guide</dd></div>
+      <div class="shortcuts-list__article"><dt><kbd>B</kbd></dt><dd>Return to results while reading an article</dd></div>
+      <div><dt><kbd>?</kbd></dt><dd>Show this shortcut guide</dd></div>
+    </dl>
+  </dialog>
+
+  <script>
+  (function () {
+    function isTyping() {
+      return /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName || "");
+    }
+    function sameOriginURL(value) {
+      if (!value) return null;
+      try {
+        var url = new URL(value, location.origin);
+        return url.origin === location.origin ? url : null;
+      } catch (e) { return null; }
+    }
+    addEventListener("DOMContentLoaded", function () {
+      var article = document.body.classList.contains("page-article");
+      var dialog = document.querySelector("#shortcuts-dialog");
+      var opener = document.querySelector("[data-shortcuts-trigger]");
+      var closer = document.querySelector("[data-shortcuts-close]");
+      var backLinks = Array.prototype.slice.call(document.querySelectorAll("[data-return-link]"));
+      var back = backLinks[0];
+      var returnTo = sameOriginURL(new URLSearchParams(location.search).get("return"));
+
+      /* Articles are reachable from the resolver and from the catalog, so the
+         back link follows whichever surface sent the reader here. The trailing
+         slash on /errors/ is optional: hosts differ on whether they normalise it
+         (Vercel's trailingSlash:false strips it), and the reader should get
+         "Back to catalog" either way. */
+      if (article && back && returnTo && /^\/(?:errors\/?)?$/.test(returnTo.pathname)) {
+        var isCatalog = /^\/errors\/?$/.test(returnTo.pathname);
+        backLinks.forEach(function (link) {
+          link.href = returnTo.pathname + returnTo.search + returnTo.hash;
+          var label = link.querySelector("[data-return-label]");
+          if (label) label.textContent = isCatalog ? "Back to catalog" : "Back to results";
+        });
+        backLinks.forEach(function (link) { link.addEventListener("click", function (event) {
+          var referrer = sameOriginURL(document.referrer);
+          if (referrer && referrer.pathname === returnTo.pathname && history.length > 1) {
+            event.preventDefault();
+            history.back();
+          }
+        }); });
+      }
+
+      function openShortcuts() {
+        if (dialog && !dialog.open) dialog.showModal();
+      }
+      opener && opener.addEventListener("click", openShortcuts);
+      closer && closer.addEventListener("click", function () { dialog && dialog.close(); });
+      document.querySelectorAll("[data-scroll-top]").forEach(function (button) {
+        button.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "?" && !isTyping() && !event.metaKey && !event.ctrlKey && !event.altKey) {
+          event.preventDefault();
+          openShortcuts();
+          return;
+        }
+        if (!article || isTyping() || event.altKey) return;
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+          return;
+        }
+        if (event.metaKey || event.ctrlKey) return;
+        if (event.key.toLowerCase() === "b" && back) {
+          event.preventDefault();
+          back.click();
+          return;
+        }
+        if (event.key === "/") {
+          event.preventDefault();
+          location.href = "/?focus=search";
+        }
+      });
+    });
+  })();
+  </script>
+
+  <script type="module" src="/pagefind/pagefind.js"></script>
+  <script type="module" src="/assets/error_matcher.js"></script>
+  <script type="module" src="/assets/search.js"></script>
 </body>
 </html>
